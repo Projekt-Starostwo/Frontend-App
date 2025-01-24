@@ -1,12 +1,14 @@
-import Link from 'next/link'
+"use client";
 
-export default async function ListOfSchools() {
+import SchoolListItem from "./SchoolListItem";
+
+export default function ListOfSchools({ map, listOfSchools }) {
   return (
-    <div className='bg-blue-400 h-full w-1/3'>
+    <div className="bg-blue-400 h-full w-1/3">
       lista szkol kilka info o nich
-      <div>
-        <Link href='/321'>321</Link>
-      </div>
+      {listOfSchools.map((school) => {
+        return <SchoolListItem map={map} key={school.id} school={school} />;
+      })}
     </div>
-  )
+  );
 }
