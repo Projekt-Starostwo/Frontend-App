@@ -16,11 +16,13 @@ export default function SchoolBrowser() {
       id: "94u24032",
       nazwa: "budowlanka",
       cords: { lat: "52.185734", long: "21.571111" },
+      logo: "https://lh3.googleusercontent.com/proxy/CLcdSGoxZJPWqi4sxovQxxW8IXdNKO4f8aPftCy6hdzR3YA9lzGSNngcV5Mnx1W97pVWwpfumcN9phHG1moHatkieo6JUIoc74GPcH7btWgdHYTi7zjH6DsGp9v67-0F",
     },
     {
       id: "94u2333333334032",
       nazwa: "chemik",
       cords: { lat: "52.175697", long: "21.570852" },
+      logo: "https://zsmsc.edu.pl/wp-content/uploads/5-300x169.png",
     },
   ];
   return (

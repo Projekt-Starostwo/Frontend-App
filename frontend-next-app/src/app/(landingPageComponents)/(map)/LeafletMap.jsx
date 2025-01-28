@@ -8,8 +8,13 @@ const MAP_CENTER = [52.179, 21.57211];
 
 const LeafletMap = ({ map, listOfSchools }) => {
   return (
-    <div className="bg-pink-600 h-full w-2/3 p-10">
-      <Button onClick={() => map.map.setView(MAP_CENTER, 10)}>RESET MAP</Button>
+    <div className="bg-gray-700 h-full w-2/3 p-10">
+      <Button
+        className="bg-black text-slate-300"
+        onClick={() => map.map.setView(MAP_CENTER, 10)}
+      >
+        RESET MAP
+      </Button>
       <MapContainer
         center={MAP_CENTER}
         zoom={10}
