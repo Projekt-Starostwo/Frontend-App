@@ -58,7 +58,7 @@ export default function Menubar() {
   return (
     <div className="w-full flex justify-center items-center h-[7vh] bg-gray-900">
       <div className="absolute left-4">
-        <img className="h-[60px] w-[60px]" src="Herb miasta.jpg" />
+        <img className="h-[60px] w-[60px]" src="herb_powiatu_minskiego.png" />
       </div>
       <NavigationMenu>
         <NavigationMenuList>

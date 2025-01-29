@@ -1,6 +1,6 @@
 export default async function Footer() {
   return (
-    <div className="h-50 bg-gray-900">
+    <div className="h-45 bg-gray-900">
       <h1 className="font-bold">Starostwo Powiatowe w Mińsku Mazowieckim</h1> 
       <br/>ul. T.Kościuszki 3 05-300 Mińsk Mazowiecki,
       <br/> Tel. 25/ 759 87 00  ||  Fax. 25/ 759 87 02 

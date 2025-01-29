@@ -13,7 +13,7 @@ import {
 export default function SchoolListItem({ map, school }) {
   return (
     <div className="flex flex-col p-2">
-      <Card className="bg-gray-600">
+      <Card className="bg-gray-900 ">
         <CardHeader>
           <CardTitle>{school.nazwa}</CardTitle>
           <CardDescription>
