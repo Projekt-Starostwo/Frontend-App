@@ -20,7 +20,7 @@ const LeafletMap = ({ map, listOfSchools }) => {
         zoom={10}
         style={{ height: "100%", width: "100%" }}
         maxZoom={17}
-        minZoom={4}
+        minZoom={10}
         maxBounds={[
           [51.8, 20.6],
           [52.5, 22.4113],

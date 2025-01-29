@@ -12,7 +12,7 @@ export async function getDistrcts() {
 }
 const token = process.env.TOKEN;
 
-export async function getSchoolInfo(documentId) {z
+export async function getSchoolInfo(documentId) {
   try {
     const url = `http://localhost:1337/api/lista-szkols/${documentId}`;
 
