@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 
 export default function SchoolListItem({ map, school }) {
+  console.log(map);
   return (
     <div className="flex flex-col p-2">
       <Card className="bg-gray-600">
