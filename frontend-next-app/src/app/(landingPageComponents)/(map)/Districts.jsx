@@ -18,7 +18,8 @@ export default function Districts() {
               key={district.properties.id}
               data={district}
               style={{
-                fillColor: district.properties.nazwa !== 'powiat miński' ? '#cc0000' : '#FFFFFF',
+                fillColor: district.properties.nazwa !== 'powiat miński' ? '#000000' : '#FFFFFF',
+                color: "#000000"
               }}
             />
           )
