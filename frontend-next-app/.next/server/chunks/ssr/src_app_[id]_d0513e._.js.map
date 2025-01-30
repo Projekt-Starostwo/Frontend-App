@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Users/antoni-ostrowski/coding/webdev/starostwo/Frontend-App/frontend-next-app/src/app/%5Bid%5D/SingleSchoolMap.jsx"],"sourcesContent":["'use client'\nexport default function SingleSchoolMap({ school }) {\n  return <div>mapa skzoly z jednym marekerm na skole</div>\n}\n"],"names":[],"mappings":";;;;AAAA;;AACe,SAAS,gBAAgB,EAAE,MAAM,EAAE;IAChD,qBAAO,8OAAC;kBAAI;;;;;;AACd"}},
-    {"offset": {"line": 22, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
-}

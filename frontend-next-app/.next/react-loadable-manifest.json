@@ -1,1 +1,26 @@
-{}
+{
+  "app/(landingPageComponents)/SchoolBrowser.jsx -> ./(map)/LeafletMap": {
+    "id": 4286,
+    "files": [
+      "static/css/857aa62baa17c894.css",
+      "static/chunks/d0deef33.5551c27c44e59cec.js",
+      "static/chunks/8cc6faea.1978df20c118d059.js",
+      "static/chunks/d648eb28.d612394b1c9c3357.js",
+      "static/chunks/274-2b2e075fbd31bfd8.js",
+      "static/chunks/905.4afc252fb93e7cf1.js"
+    ]
+  },
+  "app/[skrot_szkoly]/SingleSchoolMap.jsx -> ../(landingPageComponents)/(map)/LeafletMap": {
+    "id": 4286,
+    "files": [
+      "static/css/857aa62baa17c894.css",
+      "static/chunks/d0deef33.5551c27c44e59cec.js",
+      "static/chunks/8cc6faea.1978df20c118d059.js",
+      "static/chunks/d648eb28.d612394b1c9c3357.js",
+      "static/chunks/274-2b2e075fbd31bfd8.js",
+      "static/chunks/391-190d878dde3cf2e4.js",
+      "static/chunks/789-537708a6d47b492a.js",
+      "static/chunks/286.27f841fddf1a7f6d.js"
+    ]
+  }
+}
