@@ -6,6 +6,7 @@ export default function ListOfSchools({ map, listOfSchools }) {
   return (
     <div className="bg-white h-full w-1/3 overflow-y-auto">
       {listOfSchools.map((school) => {
+        console.log(school);
         return <SchoolListItem map={map} key={school.id} school={school} />;
       })}
     </div>

@@ -1,4 +1,5 @@
 export default async function Footer() {
+
   return (
     <div className="h-45 bg-gray-900">
       <h1 className="font-bold">Starostwo Powiatowe w Mińsku Mazowieckim</h1> 
