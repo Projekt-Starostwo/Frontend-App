@@ -1,9 +1,9 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Check, Link2, X } from 'lucide-react'
-import DowiedzSieWiecej from '@/components/DowiedzSieWiecej'
+import LinkButton from '@/components/LinkButton'
 
 export default function SchoolListItem({ map, school }) {
   console.log(school.rodzaje_szkoly)
@@ -33,7 +33,14 @@ export default function SchoolListItem({ map, school }) {
           >
             pokaz na mapie
           </Button>
-          <DowiedzSieWiecej school={school} />
+
+          <LinkButton
+            linkHref={`/${school.skrot_szkoly}`}
+            handleOnClick={() => sessionStorage.setItem('school', JSON.stringify(school))}
+            buttonStyle={'p-0'}
+          >
+            Dowiedz się więcej
+          </LinkButton>
         </CardFooter>
       </Card>
     </div>

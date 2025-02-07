@@ -1,4 +1,4 @@
-import Menubar from '@/components/Menubar'
+import Menubar from '@/components/Navbar'
 import './globals.css'
 
 import { ThemeProvider } from '@/components/theme-provider'
@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { Inter } from 'next/font/google'
 import Footer from '@/app/(landingPageComponents)/Footer'
 import ReactQueryProvider from '@/lib/ReactQueryProvider'
+import Navbar from '@/components/Navbar'
 
 const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
@@ -20,7 +21,7 @@ export default function RootLayout({ children }) {
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
           <ReactQueryProvider>
             <div className='overflow-y-auto'>
-              <Menubar />
+              <Navbar />
               {children}
               <Footer />
             </div>

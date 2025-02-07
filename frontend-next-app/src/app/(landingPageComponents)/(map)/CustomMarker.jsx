@@ -5,7 +5,7 @@ import ReactDOMServer from 'react-dom/server'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { appedDomain } from '@/lib/utils'
-import DowiedzSieWiecej from '@/components/DowiedzSieWiecej'
+import DowiedzSieWiecej from '@/components/LinkButton'
 import { CheckSchoolSupportedTypes, RodzajSzkolyStatus } from '../(sidebarList)/SchoolListItem'
 
 export default function CustomMarker({ school }) {
