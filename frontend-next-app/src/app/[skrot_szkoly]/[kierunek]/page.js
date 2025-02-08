@@ -1,23 +1,21 @@
-'use client'
-
+import getKierunekInfo from '@/lib/queries'
 import { deslugify, slugify } from '@/lib/utils'
-import { useParams, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import KierunekNieIstnieje from './KierunekNieIstnieje'
 
-export default function Page() {
-  const router = useRouter()
-  const params = useParams()
-  const [kierunek, setKierunek] = useState(null)
+export default async function Page({ params }) {
+  const param = await params
 
-  useEffect(() => {
-    const slug = slugify(params.kierunek)
-    if (slug !== params.kierunek) {
-      router.push(`/${params.skrot_szkoly}`)
-    } else {
-      const kierunek = getKierunekInfo(deslugify(params.kierunek))
-      setKierunek(kierunek)
-    }
-  }, [])
+  const slug = slugify(param.kierunek)
+
+  if (slug !== param.kierunek) {
+    return <KierunekNieIstnieje skrot_szkoly={param.skrot_szkoly} />
+  }
+
+  const kierunek = await getKierunekInfo(param.skrot_szkoly, deslugify(param.kierunek))
+
+  if (kierunek === null) {
+    return <KierunekNieIstnieje skrot_szkoly={param.skrot_szkoly} />
+  }
 
   return (
     <div className='w-full flex justify-center items-center flex-col p-10'>
@@ -32,18 +30,4 @@ export default function Page() {
       </div>
     </div>
   )
-}
-
-function getKierunekInfo(nazwa_kierunku) {
-  const school = JSON.parse(sessionStorage.getItem('school'))
-  console.log(school)
-  const kierunek = school.lista_kierunkow.filter((kierunek) => {
-    console.log(kierunek.kierunek.nazwa_kierunku)
-    console.log(nazwa_kierunku)
-    return kierunek.kierunek.nazwa_kierunku.toLowerCase() === nazwa_kierunku.toLowerCase()
-  })
-  if (kierunek.length === 0) {
-    return null
-  }
-  return kierunek[0].kierunek
 }

@@ -89,3 +89,48 @@ export async function getSchoolDetails(skrot_szkoly) {
     return null
   }
 }
+export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
+  const queryParams = qs.stringify({
+    filters: {
+      skrot_szkoly: {
+        $eq: skrot_szkoly,
+      },
+    },
+    populate: {
+      lista_kierunkow: {
+        filters: {
+          kierunek: {
+            nazwa_kierunku: {
+              $eq: nazwa_kierunku,
+            },
+          },
+        },
+        populate: {
+          kierunek: {
+            fields: ['nazwa_kierunku', 'opis_kierunku', 'typ_kierunku'],
+          },
+        },
+      },
+    },
+  })
+
+  try {
+    const url = `http://localhost:1337/api/lista-szkols?${queryParams}`
+
+    const headers = {
+      method: 'GET', // or "POST", "PUT", etc., depending on the API method
+      headers: {
+        Authorization: `Bearer ${token}`, // Include the Bearer token
+        'Content-Type': 'application/json', // Set the content type to JSON (optional)
+      },
+    }
+
+    const res = await fetch(url, headers)
+    const jsonResponse = await res.json()
+
+    return jsonResponse.data[0].lista_kierunkow[0].kierunek
+  } catch (error) {
+    console.log(error)
+    return null
+  }
+}
