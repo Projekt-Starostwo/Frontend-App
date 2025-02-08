@@ -530,6 +530,30 @@ body {
   height: 1px;
 }
 
+.h-\[30vh\] {
+  height: 30vh;
+}
+
+.h-\[100vh\] {
+  height: 100vh;
+}
+
+.h-\[90vh\] {
+  height: 90vh;
+}
+
+.h-\[40vh\] {
+  height: 40vh;
+}
+
+.h-\[20vh\] {
+  height: 20vh;
+}
+
+.h-\[70vh\] {
+  height: 70vh;
+}
+
 .w-1\/3 {
   width: 33.3333%;
 }

@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export default function SchoolType({ school }) {
   const { listaLiceum, listaTechnikum, listaSzkolaZawodowa } = extractListForSchoolType(school)
-  console.log(school)
+  // console.log(school)
   return (
     <Accordion type='single' collapsible className='w-full '>
       {school.rodzaje_szkoly?.liceum !== null && (
