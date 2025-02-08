@@ -18,6 +18,7 @@ import { GraduationCap, Link2, MapPin, Moon, School, Scroll, Sun } from 'lucide-
 import { Badge } from './ui/badge'
 import { useTheme } from 'next-themes'
 import { CommandSeparator } from 'cmdk'
+import { getListOfSchool } from '@/lib/queries'
 
 export default function GlobalSearch() {
   const { setTheme } = useTheme()
@@ -48,6 +49,7 @@ export default function GlobalSearch() {
     isError,
   } = useQuery({
     queryKey: ['listOfschools'],
+    queryFn: async () => getListOfSchool(),
   })
   console.log(listOfSchools)
 

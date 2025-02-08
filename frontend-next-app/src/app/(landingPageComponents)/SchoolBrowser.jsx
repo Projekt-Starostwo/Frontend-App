@@ -16,6 +16,7 @@ export default function SchoolBrowser() {
     data: listOfSchools,
     isLoading,
     isError,
+    error,
   } = useQuery({
     queryKey: ['listOfschools'],
     queryFn: async () => getListOfSchool(),
@@ -28,7 +29,7 @@ export default function SchoolBrowser() {
           <SpinnerLoading />
         </div>
       )}
-      {isError && <div>Error(</div>}
+      {isError && <div>Error</div>}
       {!isLoading && !isError && (
         <>
           <ListOfSchools map={mapObj} listOfSchools={listOfSchools} />
