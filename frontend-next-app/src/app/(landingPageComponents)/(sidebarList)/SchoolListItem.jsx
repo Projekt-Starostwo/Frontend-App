@@ -38,12 +38,7 @@ export default function SchoolListItem({ map, school }) {
             Pokaż na mapie
           </Button>
 
-          <LinkButton
-            linkHref={`/${school.skrot_szkoly}`}
-            handleOnClick={() => sessionStorage.setItem('school', JSON.stringify(school))}
-            buttonStyle={'p-0'}
-            linkIcon={<Link2 />}
-          >
+          <LinkButton linkHref={`/${school.skrot_szkoly}`} buttonStyle={'p-0'} linkIcon={<Link2 />}>
             Dowiedz się więcej
           </LinkButton>
         </CardFooter>

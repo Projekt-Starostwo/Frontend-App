@@ -385,10 +385,6 @@ body {
   left: .5rem;
 }
 
-.left-4 {
-  left: 1rem;
-}
-
 .right-4 {
   right: 1rem;
 }
@@ -462,10 +458,6 @@ body {
   display: inline-flex;
 }
 
-.grid {
-  display: grid;
-}
-
 .hidden {
   display: none;
 }
@@ -508,10 +500,6 @@ body {
 
 .h-\[50vh\] {
   height: 50vh;
-}
-
-.h-\[60px\] {
-  height: 60px;
 }
 
 .h-\[7vh\] {
@@ -572,14 +560,6 @@ body {
 
 .w-9 {
   width: 2.25rem;
-}
-
-.w-\[400px\] {
-  width: 400px;
-}
-
-.w-\[60px\] {
-  width: 60px;
 }
 
 .w-full {
@@ -679,10 +659,6 @@ body {
 
 .gap-2 {
   gap: .5rem;
-}
-
-.gap-3 {
-  gap: .75rem;
 }
 
 .gap-4 {
@@ -847,6 +823,11 @@ body {
   padding-right: 1rem;
 }
 
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
 .px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
@@ -877,11 +858,6 @@ body {
   padding-bottom: 1rem;
 }
 
-.px-6 {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
@@ -893,6 +869,10 @@ body {
 
 .pb-4 {
   padding-bottom: 1rem;
+}
+
+.pl-4 {
+  padding-left: 1rem;
 }
 
 .pl-8 {
@@ -913,10 +893,6 @@ body {
 
 .pt-6 {
   padding-top: 1.5rem;
-}
-
-.pl-4 {
-  padding-left: 1rem;
 }
 
 .text-left {
@@ -958,14 +934,14 @@ body {
   line-height: 1.25rem;
 }
 
-.text-xs {
-  font-size: .75rem;
-  line-height: 1rem;
-}
-
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
+}
+
+.text-xs {
+  font-size: .75rem;
+  line-height: 1rem;
 }
 
 .font-bold {
@@ -1008,11 +984,6 @@ body {
   color: hsl(var(--foreground));
 }
 
-.text-green-500 {
-  --tw-text-opacity: 1;
-  color: rgb(34 197 94 / var(--tw-text-opacity, 1));
-}
-
 .text-muted-foreground {
   color: hsl(var(--muted-foreground));
 }
@@ -1027,11 +998,6 @@ body {
 
 .text-primary-foreground {
   color: hsl(var(--primary-foreground));
-}
-
-.text-red-500 {
-  --tw-text-opacity: 1;
-  color: rgb(239 68 68 / var(--tw-text-opacity, 1));
 }
 
 .text-secondary-foreground {
@@ -1455,10 +1421,6 @@ body {
     position: absolute;
   }
 
-  .md\:w-\[500px\] {
-    width: 500px;
-  }
-
   .md\:w-\[var\(--radix-navigation-menu-viewport-width\)\] {
     width: var(--radix-navigation-menu-viewport-width);
   }
@@ -1467,19 +1429,9 @@ body {
     width: auto;
   }
 
-  .md\:grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .md\:text-sm {
     font-size: .875rem;
     line-height: 1.25rem;
-  }
-}
-
-@media (width >= 1024px) {
-  .lg\:w-\[600px\] {
-    width: 600px;
   }
 }
 

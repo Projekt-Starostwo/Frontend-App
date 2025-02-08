@@ -1,14 +1,13 @@
-'use client'
-
 import SingleSchoolMap from './SingleSchoolMap'
 import SchoolType from './SchoolType'
 import Link from 'next/link'
 import { Link2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { getSchoolDetails } from '@/lib/queries'
 
-export default function Page() {
-  const school = JSON.parse(sessionStorage.getItem('school'))
-  // console.log(school)
+export default async function Page({ params }) {
+  const param = await params
+  const school = await getSchoolDetails(param.skrot_szkoly)
 
   return (
     <div className='h-auto w-full  flex flex-col justify-start items-center p-10'>
