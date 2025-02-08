@@ -56,43 +56,25 @@ const components = [
 export default function Navbar() {
   const router = useRouter()
   return (
-    <div className='w-full flex justify-center items-center h-[7vh] border-b'>
-      <div className='absolute left-4'>
-        <Image
-          width={60}
-          height={60}
-          src={'/herb_powiatu_minskiego.png'}
-          alt='logo szkoly'
-          onClick={() => router.push('/')}
-          className='h-[60px] w-[60px] cursor-pointer'
-        />
-      </div>
+    <div className='w-full flex justify-start items-center h-[7vh] border-b pl-4'>
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
             <Link href='/' legacyBehavior passHref>
               <div className='cursor-pointer'>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>Nasze szkoły</NavigationMenuLink>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <h1 className='text-2xl font-bold'>Nasze szkoły</h1>
+                </NavigationMenuLink>
               </div>
             </Link>
           </NavigationMenuItem>
 
-          {/* <NavigationMenuItem>
-            <NavigationMenuTrigger>Informacje</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] '>
-                {components.map((component) => (
-                  <ListItem key={component.title} title={component.title} href={component.href}>
-                    {component.description}
-                  </ListItem>
-                ))}
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem> */}
           <div>
             <Link href='/rekrutacja-vulcan' legacyBehavior passHref>
               <div className='cursor-pointer'>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>Rekrutacja Vulcan</NavigationMenuLink>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <h1 className='text-2xl font-bold'>Rekrutacja Vulcan</h1>
+                </NavigationMenuLink>
               </div>
             </Link>
           </div>

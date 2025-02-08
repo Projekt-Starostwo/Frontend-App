@@ -1,9 +1,16 @@
 'use client'
 import Link from 'next/link'
 import { Button } from './ui/button'
-import { Link2 } from 'lucide-react'
 
-export default function LinkButton({ linkHref, linkTarget, children, handleOnClick, buttonStyle, linkStyle }) {
+export default function LinkButton({
+  linkHref,
+  linkTarget,
+  children,
+  handleOnClick,
+  buttonStyle,
+  linkStyle,
+  linkIcon,
+}) {
   return (
     <Link className={linkStyle} href={`${linkHref}`} target={linkTarget}>
       <Button
@@ -13,7 +20,7 @@ export default function LinkButton({ linkHref, linkTarget, children, handleOnCli
         }}
         className={buttonStyle}
       >
-        <Link2 />
+        {linkIcon}
         {children}
       </Button>
     </Link>

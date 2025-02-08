@@ -1,9 +1,10 @@
 'use client'
-import { Button } from '@/components/ui/button'
 
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Check, Link2, X } from 'lucide-react'
 import LinkButton from '@/components/LinkButton'
+import { Badge } from '@/components/ui/badge'
 
 export default function SchoolListItem({ map, school }) {
   console.log(school.rodzaje_szkoly)
@@ -12,15 +13,18 @@ export default function SchoolListItem({ map, school }) {
     <div className='flex flex-col '>
       <Card className=''>
         <CardHeader>
-          <CardTitle>{school.nazwa_szkoly}</CardTitle>
-          <CardDescription>
+          <CardTitle>
+            <LinkButton linkHref={`/${school.skrot_szkoly}`} buttonStyle={'p-0'}>
+              <h1 className='text-xl font-bold'>{school.nazwa_szkoly}</h1>
+            </LinkButton>
+          </CardTitle>
+          <CardDescription className='flex flex-row gap-2 py-4'>
             <CheckSchoolSupportedTypes school={school} />
           </CardDescription>
         </CardHeader>
         <CardContent></CardContent>
         <CardFooter className='flex flex-row justify-end items-center gap-4'>
           <Button
-            variant='secondary'
             onClick={() => {
               map.map.setView(
                 [
@@ -31,13 +35,14 @@ export default function SchoolListItem({ map, school }) {
               )
             }}
           >
-            pokaz na mapie
+            Pokaż na mapie
           </Button>
 
           <LinkButton
             linkHref={`/${school.skrot_szkoly}`}
             handleOnClick={() => sessionStorage.setItem('school', JSON.stringify(school))}
             buttonStyle={'p-0'}
+            linkIcon={<Link2 />}
           >
             Dowiedz się więcej
           </LinkButton>
@@ -49,37 +54,19 @@ export default function SchoolListItem({ map, school }) {
 export function CheckSchoolSupportedTypes({ school }) {
   return (
     <>
-      {school.rodzaje_szkoly.liceum !== null ? (
+      {school.rodzaje_szkoly.liceum !== null && (
         <div className='flex flex-row gap-2 justify-start items-center'>
-          <Check size={16} className='text-green-500' />
-          <h1 className='text-green-500'>Liceum</h1>
-        </div>
-      ) : (
-        <div className='flex flex-row gap-2 justify-start items-center'>
-          <X size={16} className='text-red-500' />
-          <h1 className='text-red-500'>Liceum</h1>
+          <Badge variant='secondary'>Liceum</Badge>
         </div>
       )}
-      {school.rodzaje_szkoly.technikum !== null ? (
+      {school.rodzaje_szkoly.technikum !== null && (
         <div className='flex flex-row gap-2 justify-start items-center'>
-          <Check size={16} className='text-green-500' />
-          <h1 className='text-green-500'>Technikum</h1>
-        </div>
-      ) : (
-        <div className='flex flex-row gap-2 justify-start items-center'>
-          <X size={16} className='text-red-500' />
-          <h1 className='text-red-500'>Technikum</h1>
+          <Badge variant='secondary'>Technikum</Badge>
         </div>
       )}
-      {school.rodzaje_szkoly.szkola_zawodowa !== null ? (
+      {school.rodzaje_szkoly.szkola_zawodowa !== null && (
         <div className='flex flex-row gap-2 justify-start items-center'>
-          <Check size={16} className='text-green-500' />
-          <h1 className='text-green-500'>Szkoła Zawodowa</h1>
-        </div>
-      ) : (
-        <div className='flex flex-row gap-2 justify-start items-center'>
-          <X size={16} className='text-red-500' />
-          <h1 className='text-red-500'>Szkoła Zawodowa</h1>
+          <Badge variant='secondary'>Szkoła Zawodowa</Badge>
         </div>
       )}
     </>
