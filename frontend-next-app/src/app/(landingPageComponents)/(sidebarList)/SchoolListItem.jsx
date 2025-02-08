@@ -5,14 +5,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Check, Link2, X } from 'lucide-react'
 import LinkButton from '@/components/LinkButton'
 import { Badge } from '@/components/ui/badge'
-import { ShineBorder } from '@/components/magicui/shine-border'
 
 export default function SchoolListItem({ map, school }) {
   console.log(school.rodzaje_szkoly)
 
   return (
     <div className='flex flex-col w-full '>
-      <ShineBorder className='md:shadow-xl w-full' color={['#009AEE', '#FFFF00']} borderWidth={2.5}>
+      <Card>
         <CardHeader>
           <CardTitle>
             <LinkButton linkHref={`/${school.skrot_szkoly}`} buttonStyle={'p-0'}>
@@ -43,7 +42,7 @@ export default function SchoolListItem({ map, school }) {
             Dowiedz się więcej
           </LinkButton>
         </CardFooter>
-      </ShineBorder>
+      </Card>
     </div>
   )
 }

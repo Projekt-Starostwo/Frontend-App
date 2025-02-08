@@ -59,9 +59,9 @@ export default function GlobalSearch() {
         variant='outline'
         size='sm'
         onClick={handleInputClick}
-        className='relative w-40 justify-between overflow-visible'
+        className='relative w-40 h-9 justify-between overflow-visible'
       >
-        Szukaj...
+        <h1 className='font-bold'>Szukaj...</h1>
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
@@ -120,7 +120,7 @@ export default function GlobalSearch() {
                   <div className='w-full flex flex-row justify-start items-center gap-2'>
                     <School />
                     {school.nazwa_szkoly}
-                    <p className='absolute right-4 text-muted-foreground'>Szkoła</p>
+                    <p className='text-muted-foreground'>Szkoła</p>
                   </div>
                 </CommandItem>
               )
@@ -137,7 +137,7 @@ export default function GlobalSearch() {
                       <GraduationCap />
 
                       {kierunek.kierunek.nazwa_kierunku}
-                      <p className='absolute right-4 text-muted-foreground'>Kierunek - {school.skrot_szkoly}</p>
+                      <p className='text-muted-foreground'>Kierunek - {school.skrot_szkoly}</p>
                     </div>
                   </CommandItem>
                 )

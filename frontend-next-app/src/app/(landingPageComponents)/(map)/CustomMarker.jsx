@@ -4,8 +4,9 @@ import { Marker, Popup } from 'react-leaflet'
 import ReactDOMServer from 'react-dom/server'
 import Image from 'next/image'
 import { appedDomain } from '@/lib/utils'
-import DowiedzSieWiecej from '@/components/LinkButton'
 import { CheckSchoolSupportedTypes } from '../(sidebarList)/SchoolListItem'
+import LinkButton from '@/components/LinkButton'
+import { Link2 } from 'lucide-react'
 
 export default function CustomMarker({ school, onClick, userPosition, showPopup }) {
   var myIcon = L.divIcon({
@@ -44,7 +45,9 @@ export default function CustomMarker({ school, onClick, userPosition, showPopup 
             {distance && <p className='text-sm'>Odległość od Ciebie: {distance}</p>}
 
             <div className='w-full flex flex-row justify-end items-center'>
-              <DowiedzSieWiecej school={school} />
+              <LinkButton linkHref={`/${school.skrot_szkoly}`} linkIcon={<Link2 color='black' />}>
+                <h1 className='text-black'>Dowiedz się więcej</h1>
+              </LinkButton>
             </div>
           </div>
         </Popup>
