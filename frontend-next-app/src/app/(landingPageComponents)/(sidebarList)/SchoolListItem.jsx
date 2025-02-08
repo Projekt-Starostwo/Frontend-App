@@ -12,7 +12,7 @@ export default function SchoolListItem({ map, school }) {
 
   return (
     <div className='flex flex-col w-full '>
-      <ShineBorder className='bg-background md:shadow-xl w-full' color={['#009AEE', '#FFFF00']}>
+      <ShineBorder className='md:shadow-xl w-full' color={['#009AEE', '#FFFF00']} borderWidth={2.5}>
         <CardHeader>
           <CardTitle>
             <LinkButton linkHref={`/${school.skrot_szkoly}`} buttonStyle={'p-0'}>

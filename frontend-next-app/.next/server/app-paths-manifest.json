@@ -1,7 +1,7 @@
 {
-  "/[skrot_szkoly]/[kierunek]/page": "app/[skrot_szkoly]/[kierunek]/page.js",
   "/page": "app/page.js",
-  "/[skrot_szkoly]/page": "app/[skrot_szkoly]/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/rekrutacja-vulcan/page": "app/rekrutacja-vulcan/page.js"
+  "/rekrutacja-vulcan/page": "app/rekrutacja-vulcan/page.js",
+  "/[skrot_szkoly]/page": "app/[skrot_szkoly]/page.js",
+  "/[skrot_szkoly]/[kierunek]/page": "app/[skrot_szkoly]/[kierunek]/page.js"
 }

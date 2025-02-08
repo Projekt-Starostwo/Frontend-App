@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/navigation-menu'
 import { ThemeToggle } from './ThemeToggle'
 import { ScrollProgress } from './magicui/scroll-progress'
+import GlobalSearch from './GlobalSearch'
 
 export default function Navbar() {
   return (
@@ -40,7 +41,10 @@ export default function Navbar() {
             </div>
           </NavigationMenuList>
         </NavigationMenu>
-        <ThemeToggle />
+        <div className='absolute right-4 flex flex-row gap-4'>
+          <GlobalSearch />
+          <ThemeToggle />
+        </div>
       </div>
       <ScrollProgress className='' />
     </div>

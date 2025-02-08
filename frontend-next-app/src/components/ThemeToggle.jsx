@@ -8,7 +8,7 @@ export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
 
   return (
-    <div className='absolute right-4'>
+    <div>
       {theme === 'dark' ? (
         <Button
           variant='outline'
