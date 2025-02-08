@@ -74,7 +74,7 @@ export default function LeafletMap({ map, listOfSchools, showSearch, showPopup }
                 school.lokalizacja_szkoly.szerokosc_geograficzna_szkoly,
               ])
             }
-            userPosition={userPosition} // Przekazujemy userPosition do CustomMarker
+            userPosition={userPosition}
             showPopup={showPopup}
           />
         ))}
@@ -85,7 +85,9 @@ export default function LeafletMap({ map, listOfSchools, showSearch, showPopup }
           </Marker>
         )}
 
+
         {selectedSchool && userPosition && <Polyline positions={[userPosition, selectedSchool]} color='blue' />}
+
       </MapContainer>
     </>
   )
