@@ -2,85 +2,47 @@
 
 import * as React from 'react'
 import Link from 'next/link'
-
 import { cn } from '@/lib/utils'
-// import { Icons } from "@/components/icons";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
 import { ThemeToggle } from './ThemeToggle'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-
-const components = [
-  {
-    title: 'Alert Dialog',
-    href: '/docs/primitives/alert-dialog',
-    description: 'A modal dialog that interrupts the user with important content and expects a response.',
-  },
-  {
-    title: 'Hover Card',
-    href: '/docs/primitives/hover-card',
-    description: 'For sighted users to preview content available behind a link.',
-  },
-  {
-    title: 'Progress',
-    href: '/docs/primitives/progress',
-    description:
-      'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
-  },
-  {
-    title: 'Scroll-area',
-    href: '/docs/primitives/scroll-area',
-    description: 'Visually or semantically separates content.',
-  },
-  {
-    title: 'Tabs',
-    href: '/docs/primitives/tabs',
-    description: 'A set of layered sections of content—known as tab panels—that are displayed one at a time.',
-  },
-  {
-    title: 'Tooltip',
-    href: '/docs/primitives/tooltip',
-    description:
-      'A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.',
-  },
-]
+import { ScrollProgress } from './magicui/scroll-progress'
 
 export default function Navbar() {
-  const router = useRouter()
   return (
-    <div className='w-full flex justify-start items-center h-[7vh] border-b pl-4'>
-      <NavigationMenu>
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <Link href='/' legacyBehavior passHref>
-              <div className='cursor-pointer'>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  <h1 className='text-2xl font-bold'>Nasze szkoły</h1>
-                </NavigationMenuLink>
-              </div>
-            </Link>
-          </NavigationMenuItem>
+    <div className='sticky top-0 z-50'>
+      <div className='w-full flex justify-start items-center h-[7vh] border-b bg-background pl-4'>
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <Link href='/' legacyBehavior passHref>
+                <div className='cursor-pointer'>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    <h1 className='text-2xl font-bold'>Nasze szkoły</h1>
+                  </NavigationMenuLink>
+                </div>
+              </Link>
+            </NavigationMenuItem>
 
-          <div>
-            <Link href='/rekrutacja-vulcan' legacyBehavior passHref>
-              <div className='cursor-pointer'>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  <h1 className='text-2xl font-bold'>Rekrutacja Vulcan</h1>
-                </NavigationMenuLink>
-              </div>
-            </Link>
-          </div>
-        </NavigationMenuList>
-      </NavigationMenu>
-      <ThemeToggle />
+            <div>
+              <Link href='/rekrutacja-vulcan' legacyBehavior passHref>
+                <div className='cursor-pointer'>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    <h1 className='text-2xl font-bold'>Rekrutacja Vulcan</h1>
+                  </NavigationMenuLink>
+                </div>
+              </Link>
+            </div>
+          </NavigationMenuList>
+        </NavigationMenu>
+        <ThemeToggle />
+      </div>
+      <ScrollProgress className='' />
     </div>
   )
   // return <div>fdjskl</div>;

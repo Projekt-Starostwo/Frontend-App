@@ -1,12 +1,10 @@
-import Menubar from '@/components/Navbar'
 import './globals.css'
-
 import { ThemeProvider } from '@/components/theme-provider'
-
 import { Inter } from 'next/font/google'
 import Footer from '@/app/(landingPageComponents)/Footer'
 import ReactQueryProvider from '@/lib/ReactQueryProvider'
 import Navbar from '@/components/Navbar'
+import { BlurFade } from '@/components/magicui/blur-fade'
 
 const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
@@ -20,11 +18,11 @@ export default function RootLayout({ children }) {
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
           <ReactQueryProvider>
-            <div className='overflow-y-auto'>
+            <BlurFade>
               <Navbar />
               {children}
               <Footer />
-            </div>
+            </BlurFade>
           </ReactQueryProvider>
         </ThemeProvider>
       </body>

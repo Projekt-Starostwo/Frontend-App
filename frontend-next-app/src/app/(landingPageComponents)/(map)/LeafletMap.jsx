@@ -42,7 +42,7 @@ export default function LeafletMap({ map, listOfSchools, showSearch, showPopup }
       <MapContainer
         center={MAP_CENTER}
         zoom={10}
-        style={{ height: '100%', width: '100%', borderRadius: '10px' }}
+        style={{ height: '100%', width: '100%', borderRadius: '10px', zIndex: 10 }} // Add zIndex here
         maxZoom={17}
         minZoom={13}
         maxBounds={[
