@@ -84,7 +84,7 @@ const LeafletMap = ({ map, listOfSchools, search }) => {
                 school.lokalizacja_szkoly.szerokosc_geograficzna_szkoly,
               ])
             }
-            userPosition={userPosition} // Przekazujemy userPosition do CustomMarker
+            userPosition={userPosition}
           />
         ))}
 
@@ -93,11 +93,6 @@ const LeafletMap = ({ map, listOfSchools, search }) => {
             <Popup>Twoja lokalizacja</Popup>
           </Marker>
         )}
-
-        {selectedSchool && userPosition && (
-          <Polyline positions={[userPosition, selectedSchool]} color="blue" />
-        )}
-
         <Districts />
       </MapContainer>
     </>

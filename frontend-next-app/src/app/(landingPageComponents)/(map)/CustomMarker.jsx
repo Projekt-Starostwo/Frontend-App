@@ -6,23 +6,15 @@ import Image from "next/image";
 import { appedDomain } from "@/lib/utils";
 import DowiedzSieWiecej from "@/components/LinkButton";
 import { CheckSchoolSupportedTypes } from "../(sidebarList)/SchoolListItem";
+import Link from "next/link";
+import { MapPin } from "lucide-react";
 
-export default function CustomMarker({ school, onClick, userPosition }) {
+export default function CustomMarker({ school, userPosition }) {
   var myIcon = L.divIcon({
     html: ReactDOMServer.renderToStaticMarkup(<MarkerHtml school={school} />),
     className: "custom-marker",
     iconSize: [50, 50],
   });
-
-  // Obliczamy odległość od użytkownika, jeśli podana jest jego lokalizacja
-  const distance = userPosition
-    ? (
-        L.latLng(userPosition).distanceTo([
-          school.lokalizacja_szkoly.dlugosc_geograficzna_szkoly,
-          school.lokalizacja_szkoly.szerokosc_geograficzna_szkoly,
-        ]) / 1000
-      ).toFixed(2) + " km"
-    : null;
 
   return (
     <Marker
@@ -31,7 +23,6 @@ export default function CustomMarker({ school, onClick, userPosition }) {
         school.lokalizacja_szkoly.szerokosc_geograficzna_szkoly,
       ]}
       icon={myIcon}
-      eventHandlers={{ click: onClick }}
     >
       <Popup offset={[0, -20]} className="p-0">
         <div className="flex flex-col justify-center items-center gap-4">
@@ -42,12 +33,18 @@ export default function CustomMarker({ school, onClick, userPosition }) {
             </div>
           </div>
 
-          {distance && (
-            <p className="text-sm">Odległość od Ciebie: {distance}</p>
-          )}
-
           <div className="w-full flex flex-row justify-end items-center">
             <DowiedzSieWiecej school={school} />
+          </div>
+          <div className="w-[full] flex flex-row justify-end items-center">
+            <MapPin />
+            <Link
+              href={`https://www.google.com/maps/dir/${userPosition?.[0]},${userPosition?.[1]}/${school.lokalizacja_szkoly.dlugosc_geograficzna_szkoly},${school.lokalizacja_szkoly.szerokosc_geograficzna_szkoly}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Zobacz trasę w Google Maps
+            </Link>
           </div>
         </div>
       </Popup>
