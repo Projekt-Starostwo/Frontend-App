@@ -1,4 +1,5 @@
 import LinkButton from '@/components/LinkButton'
+import { ExternalLink } from 'lucide-react'
 
 export default async function Page() {
   return (
@@ -13,6 +14,7 @@ export default async function Page() {
           linkHref={'https://www.vulcan.edu.pl/samorzady/oprogramowanie/systemy-naborowe'}
           linkTarget={'_blank'}
           buttonStyle={'p-0'}
+          linkIcon={<ExternalLink />}
         >
           Strona Vulcan
         </LinkButton>

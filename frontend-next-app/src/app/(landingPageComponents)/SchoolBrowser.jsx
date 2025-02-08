@@ -1,13 +1,11 @@
 'use client'
 
-import dynamic from 'next/dynamic'
-const LeafletMap = dynamic(() => import('./(map)/LeafletMap'), { ssr: false })
-
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getListOfSchool } from '@/lib/queries'
 import ListOfSchools from './(sidebarList)/ListOfSchools'
 import SpinnerLoading from '@/components/SpinnerLoading'
+import LeafletMap from './(map)/LeafletMap'
 
 export default function SchoolBrowser() {
   // objekt mapa, na nim mozna wykonywac rozne operacje
@@ -18,6 +16,7 @@ export default function SchoolBrowser() {
     data: listOfSchools,
     isLoading,
     isError,
+    error,
   } = useQuery({
     queryKey: ['listOfschools'],
     queryFn: async () => getListOfSchool(),
@@ -30,12 +29,12 @@ export default function SchoolBrowser() {
           <SpinnerLoading />
         </div>
       )}
-      {isError && <div>Error(</div>}
+      {isError && <div>Error</div>}
       {!isLoading && !isError && (
         <>
           <ListOfSchools map={mapObj} listOfSchools={listOfSchools} />
           <div className='h-full w-2/3 p-5 flex flex-col justify-center items-center gap-5'>
-            <LeafletMap map={mapObj} listOfSchools={listOfSchools} search={true} />
+            <LeafletMap map={mapObj} listOfSchools={listOfSchools} showSearch showPopup />
           </div>
         </>
       )}

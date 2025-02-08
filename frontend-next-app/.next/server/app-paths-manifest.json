@@ -1,7 +1,0 @@
-{
-  "/page": "app/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/rekrutacja-vulcan/page": "app/rekrutacja-vulcan/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/[skrot_szkoly]/page": "app/[skrot_szkoly]/page.js"
-}
