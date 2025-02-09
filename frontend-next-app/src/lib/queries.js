@@ -141,17 +141,33 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
       },
     },
     populate: {
-      lista_kierunkow: {
-        filters: {
-          kierunek: {
-            nazwa_kierunku: {
-              $eq: nazwa_kierunku,
-            },
-          },
-        },
+      rodzaje_szkoly: {
         populate: {
-          kierunek: {
-            fields: ['nazwa_kierunku', 'opis_kierunku', 'typ_kierunku'],
+          liceum: {
+            populate: {
+              lista_kierunkow: {
+                filters: {
+                  kierunek: {
+                    nazwa_kierunku: {
+                      $eq: nazwa_kierunku,
+                    },
+                  },
+                },
+                populate: {
+                  kierunek: {
+                    fields: ['*'],
+                    populate: {
+                      glowne_zdjecie: {
+                        fields: ['*'],
+                      },
+                      galeria: {
+                        fields: ['*'],
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -171,8 +187,20 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
 
     const res = await fetch(url, headers)
     const jsonResponse = await res.json()
+    // console.log(jsonResponse.data[0].rodzaje_szkoly.liceum.lista_kierunkow[0].kierunek)
 
-    return jsonResponse.data[0].lista_kierunkow[0].kierunek
+    const possibleKeys = ['liceum', 'technikum', 'szkola_zawodowa']
+    let kierunek = null
+
+    for (const key of possibleKeys) {
+      if (jsonResponse.data[0].rodzaje_szkoly && jsonResponse.data[0].rodzaje_szkoly[key]) {
+        kierunek = jsonResponse.data[0].rodzaje_szkoly[key].lista_kierunkow[0].kierunek
+        break // Stop iterating once you find a valid key
+      }
+    }
+
+    console.log(kierunek) // Output: Liceum Kierunek (or the value from the found key)
+    return kierunek
   } catch (error) {
     console.log(error)
     return null
