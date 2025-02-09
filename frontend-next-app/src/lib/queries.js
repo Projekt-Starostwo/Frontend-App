@@ -3,8 +3,90 @@
 const token = process.env.NEXT_PUBLIC_TOKEN
 import qs from 'qs'
 export async function getListOfSchool() {
+  const queryParams = qs.stringify({
+    populate: {
+      glowne_zdjecie_szkoly: {
+        fields: ['*'],
+      },
+      glowna_galeria_zdjec_szkoly: {
+        fields: ['*'],
+      },
+      lokalizacja_szkoly: {
+        fields: ['dlugosc_geograficzna_szkoly', 'szerokosc_geograficzna_szkoly'],
+      },
+      lokalizacja_szkoly: {
+        fields: ['dlugosc_geograficzna_szkoly', 'szerokosc_geograficzna_szkoly'],
+      },
+
+      rodzaje_szkoly: {
+        populate: {
+          liceum: {
+            fields: ['*'],
+            populate: {
+              lista_kierunkow: {
+                populate: {
+                  kierunek: {
+                    fields: ['*'],
+                    populate: {
+                      glowne_zdjecie: {
+                        fields: ['*'],
+                      },
+                      galeria: {
+                        fields: ['*'],
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          technikum: {
+            fields: ['*'],
+            populate: {
+              lista_kierunkow: {
+                populate: {
+                  kierunek: {
+                    fields: ['*'],
+                    populate: {
+                      glowne_zdjecie: {
+                        fields: ['*'],
+                      },
+                      galeria: {
+                        fields: ['*'],
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          szkola_zawodowa: {
+            fields: ['*'],
+            populate: {
+              lista_kierunkow: {
+                populate: {
+                  kierunek: {
+                    fields: ['*'],
+                    populate: {
+                      glowne_zdjecie: {
+                        fields: ['*'],
+                      },
+                      galeria: {
+                        fields: ['*'],
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  })
+
   try {
-    const url = `http://localhost:1337/api/lista-szkols?populate[0]=lokalizacja_szkoly&populate[1]=lista_kierunkow&populate[2]=lista_kierunkow.kierunek&populate[3]=lista_kierunkow.kierunek.zdjecie&populate[4]=rodzaje_szkoly&populate[5]=rodzaje_szkoly.liceum&populate[6]=rodzaje_szkoly.liceum.zdjecia_rodzaju&populate[7]=rodzaje_szkoly.technikum&populate[8]=rodzaje_szkoly.technikum.zdjecia_rodzaju&populate[9]=rodzaje_szkoly.szkola_zawodowa&populate[10]=rodzaje_szkoly.szkola_zawodowa.zdjecia_rodzaju&populate[11]=glowne_zdjecie_szkoly&populate[12]=glowna_galeria_zdjec_szkoly`
+    const url = `http://localhost:1337/api/lista-szkols?${queryParams}`
 
     const headers = {
       method: 'GET', // or "POST", "PUT", etc., depending on the API method
@@ -18,7 +100,7 @@ export async function getListOfSchool() {
 
     const jsonResponse = await res.json()
 
-    // console.log(jsonResponse)
+    console.log(jsonResponse)
     return jsonResponse
   } catch (error) {
     console.log(error)

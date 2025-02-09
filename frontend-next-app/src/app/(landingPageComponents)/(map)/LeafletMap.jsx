@@ -64,7 +64,7 @@ export default function LeafletMap({ map, listOfSchools, showSearch, showPopup }
           }
         />
 
-        {listOfSchools.data.map((school) => (
+        {listOfSchools?.data?.map((school) => (
           <CustomMarker
             key={school.id}
             school={school}
@@ -85,9 +85,7 @@ export default function LeafletMap({ map, listOfSchools, showSearch, showPopup }
           </Marker>
         )}
 
-
         {selectedSchool && userPosition && <Polyline positions={[userPosition, selectedSchool]} color='blue' />}
-
       </MapContainer>
     </>
   )

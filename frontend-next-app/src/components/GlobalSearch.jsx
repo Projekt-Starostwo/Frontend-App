@@ -53,6 +53,8 @@ export default function GlobalSearch() {
   })
   // console.log(listOfSchools)
 
+  const possibleKeys = ['liceum', 'technikum', 'szkola_zawodowa']
+
   return (
     <>
       <Button
@@ -107,10 +109,8 @@ export default function GlobalSearch() {
             </CommandItem>
           </CommandGroup>
           <CommandGroup heading='Wyszukiwanie'>
-            {listOfSchools?.data?.map((school) => {
-              const results = []
-
-              results.push(
+            {listOfSchools?.data?.map((school) => (
+              <React.Fragment key={school.skrot_szkoly}>
                 <CommandItem
                   onSelect={() => {
                     router.push(`/${school.skrot_szkoly}`)
@@ -123,28 +123,28 @@ export default function GlobalSearch() {
                     <p className='text-muted-foreground'>Szkoła</p>
                   </div>
                 </CommandItem>
-              )
-
-              school.lista_kierunkow.map((kierunek) => {
-                results.push(
-                  <CommandItem
-                    onSelect={() => {
-                      router.push(`/${school.skrot_szkoly}/${slugify(kierunek.kierunek.nazwa_kierunku)}`)
-                      handleCommandSelect()
-                    }}
-                  >
-                    <div className='w-full flex flex-row justify-start items-center gap-2'>
-                      <GraduationCap />
-
-                      {kierunek.kierunek.nazwa_kierunku}
-                      <p className='text-muted-foreground'>Kierunek - {school.skrot_szkoly}</p>
-                    </div>
-                  </CommandItem>
-                )
-              })
-              // console.log(results)
-              return results
-            })}
+                {possibleKeys.map((key) => {
+                  if (school.rodzaje_szkoly[key] && school.rodzaje_szkoly[key].lista_kierunkow) {
+                    return school.rodzaje_szkoly[key].lista_kierunkow.map((kierunek) => (
+                      <CommandItem
+                        key={`${school.skrot_szkoly}-${slugify(kierunek.kierunek.nazwa_kierunku)}`} // Unique key
+                        onSelect={() => {
+                          router.push(`/${school.skrot_szkoly}/${slugify(kierunek.kierunek.nazwa_kierunku)}`)
+                          handleCommandSelect()
+                        }}
+                      >
+                        <div className='w-full flex flex-row justify-start items-center gap-2'>
+                          <GraduationCap />
+                          {kierunek.kierunek.nazwa_kierunku}
+                          <p className='text-muted-foreground'>Kierunek - {school.skrot_szkoly}</p>
+                        </div>
+                      </CommandItem>
+                    ))
+                  }
+                  return null
+                })}
+              </React.Fragment>
+            ))}
           </CommandGroup>
         </CommandList>
       </CommandDialog>
