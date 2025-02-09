@@ -100,7 +100,7 @@ export async function getListOfSchool() {
 
     const jsonResponse = await res.json()
 
-    console.log(jsonResponse)
+    // console.log(jsonResponse)
     return jsonResponse
   } catch (error) {
     console.log(error)
@@ -228,13 +228,44 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
           liceum: {
             populate: {
               lista_kierunkow: {
-                filters: {
+                populate: {
                   kierunek: {
-                    nazwa_kierunku: {
-                      $eq: nazwa_kierunku,
+                    fields: ['*'],
+                    populate: {
+                      glowne_zdjecie: {
+                        fields: ['*'],
+                      },
+                      galeria: {
+                        fields: ['*'],
+                      },
                     },
                   },
                 },
+              },
+            },
+          },
+          technikum: {
+            populate: {
+              lista_kierunkow: {
+                populate: {
+                  kierunek: {
+                    fields: ['*'],
+                    populate: {
+                      glowne_zdjecie: {
+                        fields: ['*'],
+                      },
+                      galeria: {
+                        fields: ['*'],
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          szkola_zawodowa: {
+            populate: {
+              lista_kierunkow: {
                 populate: {
                   kierunek: {
                     fields: ['*'],
@@ -269,22 +300,36 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
 
     const res = await fetch(url, headers)
     const jsonResponse = await res.json()
-    // console.log(jsonResponse.data[0].rodzaje_szkoly.liceum.lista_kierunkow[0].kierunek)
+    const rodzajeSzkoly = jsonResponse.data[0].rodzaje_szkoly
 
-    const possibleKeys = ['liceum', 'technikum', 'szkola_zawodowa']
-    let kierunek = null
+    const foundKierunek = findKierunekByName(rodzajeSzkoly, nazwa_kierunku)
 
-    for (const key of possibleKeys) {
-      if (jsonResponse.data[0].rodzaje_szkoly && jsonResponse.data[0].rodzaje_szkoly[key]) {
-        kierunek = jsonResponse.data[0].rodzaje_szkoly[key].lista_kierunkow[0].kierunek
-        break // Stop iterating once you find a valid key
-      }
-    }
-
-    console.log(kierunek) // Output: Liceum Kierunek (or the value from the found key)
-    return kierunek
+    return foundKierunek.kierunek
   } catch (error) {
-    console.log(error)
+    console.error('Error fetching kierunek info:', error)
     return null
   }
+}
+
+function findKierunekByName(rodzajeSzkoly, nazwa_kierunku) {
+  const possibleKeys = ['liceum', 'technikum', 'szkola_zawodowa']
+
+  const lowerCaseNazwaKierunku = nazwa_kierunku.toLowerCase() // Convert search term to lowercase
+
+  for (const key of possibleKeys) {
+    if (rodzajeSzkoly[key] && rodzajeSzkoly[key].lista_kierunkow && rodzajeSzkoly[key].lista_kierunkow.length > 0) {
+      const kierunek = rodzajeSzkoly[key].lista_kierunkow.find((item) => {
+        const itemNazwaKierunku = item.kierunek?.nazwa_kierunku
+        return (
+          itemNazwaKierunku && // Check if itemNazwaKierunku exists
+          itemNazwaKierunku.toLowerCase() === lowerCaseNazwaKierunku
+        )
+      })
+      if (kierunek) {
+        return kierunek
+      }
+    }
+  }
+
+  return null
 }

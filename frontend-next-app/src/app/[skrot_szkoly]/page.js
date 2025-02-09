@@ -3,6 +3,7 @@ import { getSchoolDetails } from '@/lib/queries'
 import IconInfo from './iconInfo'
 import SchoolDescription from './SchoolDescription'
 import OfertaEdukacyjna from './OfertaEdukacyjna'
+import SchoolGallery from './SchoolGallery'
 
 export default async function Page({ params }) {
   const param = await params
@@ -19,6 +20,8 @@ export default async function Page({ params }) {
           <IconInfo school={school} />
 
           <OfertaEdukacyjna school={school} />
+
+          <SchoolGallery school={school} />
 
           <div className='h-[50vh] p-4'>
             <h1 className='text-2xl font-bold'>Tu nas znajdziesz</h1>
