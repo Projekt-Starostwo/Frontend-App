@@ -1,44 +1,42 @@
-'use client'
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { slugify } from '@/lib/utils'
 import { Link2 } from 'lucide-react'
 import Link from 'next/link'
+import KierunekCard from './KierunekCard'
 
-export default function SchoolType({ school }) {
-  const { listaLiceum, listaTechnikum, listaSzkolaZawodowa } = extractListForSchoolType(school)
+export default function SchoolType({ school, listaKierunkow, typ, schoolDescription }) {
   // console.log(school)
   return (
-    <Accordion type='single' collapsible className='w-full '>
-      {school.rodzaje_szkoly?.liceum !== null && (
-        <CustomAccordionItem title='Liceum' type='liceum' list={listaLiceum} school={school} />
-      )}
-      {school.rodzaje_szkoly?.technikum !== null && (
-        <CustomAccordionItem title='Technikum' type='technikum' list={listaTechnikum} school={school} />
-      )}
-      {school.rodzaje_szkoly?.szkola_zawodowa !== null && (
-        <CustomAccordionItem
-          title='Szkoła Zawodowa'
-          type='szkola_zawodowa'
-          list={listaSzkolaZawodowa}
-          school={school}
-        />
-      )}
-    </Accordion>
-  )
-}
-function CustomAccordionItem({ list, title, type, school }) {
-  return (
-    <>
-      {list?.length != 0 && (
-        <AccordionItem value={title}>
-          <AccordionTrigger>{title}</AccordionTrigger>
-          <AccordionContent className='flex flex-col gap-2'>
-            <div>
-              <p>{school.rodzaje_szkoly[type].opis}</p>
-            </div>
+    <div className='w-full flex flex-col gap-10'>
+      <div>
+        <h1 className='text-3xl font-bold'>{typ}</h1>
+        <p className='py-4'>{schoolDescription}</p>
+      </div>
 
-            {list?.map((kierunekValue, index) => {
+      <div className='h-52 w-full flex flex-col justify-center items-center'>
+        <Carousel className='w-1/2'>
+          <CarouselContent>
+            {listaKierunkow?.map((kierunekValue) => {
+              const { kierunek } = kierunekValue
+              return (
+                <CarouselItem key={kierunek.nazwa_kierunku}>
+                  <KierunekCard kierunek={kierunek} />
+                </CarouselItem>
+              )
+            })}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+
+      <Accordion type='single' collapsible className=''>
+        <AccordionItem value='item-1'>
+          <AccordionTrigger>Lista wszystkich dostepnych kierunków</AccordionTrigger>
+          <AccordionContent className='flex flex-col gap-2'>
+            {listaKierunkow?.map((kierunekValue, index) => {
               const { kierunek } = kierunekValue
               return (
                 <Link key={index} href={`/${school.skrot_szkoly}/${slugify(kierunek.nazwa_kierunku)}`}>
@@ -50,16 +48,7 @@ function CustomAccordionItem({ list, title, type, school }) {
             })}
           </AccordionContent>
         </AccordionItem>
-      )}
-    </>
+      </Accordion>
+    </div>
   )
-}
-function extractListForSchoolType(school) {
-  const listaLiceum = school.lista_kierunkow.filter((kierunek) => kierunek.kierunek?.typ_kierunku === 'liceum')
-  const listaTechnikum = school.lista_kierunkow.filter((kierunek) => kierunek.kierunek?.typ_kierunku === 'technikum')
-  const listaSzkolaZawodowa = school.lista_kierunkow.filter(
-    (kierunek) => kierunek.kierunek?.typ_kierunku === 'szkola_zawodowa'
-  )
-
-  return { listaLiceum, listaTechnikum, listaSzkolaZawodowa }
 }

@@ -27,7 +27,7 @@ export async function getListOfSchool() {
 }
 
 export async function getSchoolDetails(skrot_szkoly) {
-  const queryParams = {
+  const queryParams = qs.stringify({
     filters: {
       skrot_szkoly: {
         $eq: skrot_szkoly,
@@ -46,32 +46,76 @@ export async function getSchoolDetails(skrot_szkoly) {
       lokalizacja_szkoly: {
         fields: ['dlugosc_geograficzna_szkoly', 'szerokosc_geograficzna_szkoly'],
       },
-      lista_kierunkow: {
-        populate: {
-          kierunek: {
-            fields: ['nazwa_kierunku', 'opis_kierunku', 'typ_kierunku'],
-          },
-        },
-      },
+
       rodzaje_szkoly: {
         populate: {
           liceum: {
-            fields: ['opis'],
+            fields: ['*'],
+            populate: {
+              lista_kierunkow: {
+                populate: {
+                  kierunek: {
+                    fields: ['*'],
+                    populate: {
+                      glowne_zdjecie: {
+                        fields: ['*'],
+                      },
+                      galeria: {
+                        fields: ['*'],
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
           technikum: {
-            fields: ['opis'],
+            fields: ['*'],
+            populate: {
+              lista_kierunkow: {
+                populate: {
+                  kierunek: {
+                    fields: ['*'],
+                    populate: {
+                      glowne_zdjecie: {
+                        fields: ['*'],
+                      },
+                      galeria: {
+                        fields: ['*'],
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
           szkola_zawodowa: {
-            fields: ['opis'],
+            fields: ['*'],
+            populate: {
+              lista_kierunkow: {
+                populate: {
+                  kierunek: {
+                    fields: ['*'],
+                    populate: {
+                      glowne_zdjecie: {
+                        fields: ['*'],
+                      },
+                      galeria: {
+                        fields: ['*'],
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
         },
       },
     },
-  }
-  const queryParamsString = qs.stringify(queryParams)
+  })
 
   try {
-    const url = `http://localhost:1337/api/lista-szkols?${queryParamsString}`
+    const url = `http://localhost:1337/api/lista-szkols?${queryParams}`
     const headers = {
       method: 'GET', // or "POST", "PUT", etc., depending on the API method
       headers: {
