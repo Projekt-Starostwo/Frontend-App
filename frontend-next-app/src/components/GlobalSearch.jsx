@@ -51,7 +51,7 @@ export default function GlobalSearch() {
     queryKey: ['listOfschools'],
     queryFn: async () => getListOfSchool(),
   })
-  console.log(listOfSchools)
+  // console.log(listOfSchools)
 
   return (
     <>
@@ -142,7 +142,7 @@ export default function GlobalSearch() {
                   </CommandItem>
                 )
               })
-              console.log(results)
+              // console.log(results)
               return results
             })}
           </CommandGroup>
