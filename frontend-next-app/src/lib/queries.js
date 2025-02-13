@@ -207,12 +207,28 @@ export async function getSchoolDetails(skrot_szkoly) {
     }
 
     const res = await fetch(url, headers)
+
+    if (!res.ok) {
+      let error = new Error('Błąd połączenia z serwerem')
+      error.statusCode = res.status
+      throw error
+    }
+
     const jsonResponse = await res.json()
-    console.log(jsonResponse)
+    // console.log(jsonResponse)
+
+    // await sleep(2000)
+
+    if (jsonResponse.data.length === 0) {
+      let error = new Error('Nie znaleziono szkoły')
+      error.statusCode = 404
+      throw error
+    }
+
     return jsonResponse.data[0]
   } catch (error) {
     console.log(error)
-    return null
+    throw error
   }
 }
 export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
@@ -333,3 +349,4 @@ function findKierunekByName(rodzajeSzkoly, nazwa_kierunku) {
 
   return null
 }
+const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
