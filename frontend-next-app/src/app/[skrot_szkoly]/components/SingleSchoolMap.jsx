@@ -1,9 +1,7 @@
 'use client'
 
-import dynamic from 'next/dynamic'
+import LeafletMap from '@/app/(landingPageComponents)/(map)/LeafletMap'
 import { useState } from 'react'
-
-const LeafletMap = dynamic(() => import('../(landingPageComponents)/(map)/LeafletMap'), { ssr: false })
 export default function SingleSchoolMap({ school }) {
   const [map, setMap] = useState(null)
   const mapObj = { map: map, setMap: setMap }
