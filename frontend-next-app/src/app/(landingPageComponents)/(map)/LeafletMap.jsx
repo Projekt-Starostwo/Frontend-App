@@ -9,6 +9,7 @@ import { useTheme } from 'next-themes'
 import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import L from 'leaflet'
+
 import { User } from 'lucide-react'
 import ReactDOMServer from 'react-dom/server'
 
@@ -28,8 +29,11 @@ export default function LeafletMap({ map, listOfSchools, showSearch, showPopup }
 
   return (
     <>
-      <div className='w-full flex flex-row justify-between items-center'>
-        <Button onClick={() => map.map.setView(MAP_CENTER, 10)}>Zresetuj mapę</Button>
+      <div className='w-full flex flex-row justify-between items-center relative'>
+        {/* buttons is shown on the map via custom css class (globals.css) */}
+        <Button className='reset-map' onClick={() => map.map.setView(MAP_CENTER, 10)}>
+          Zresetuj mapę
+        </Button>
         {showSearch && (
           <div className='w-1/3'>
             <Input placeholder='Szukaj szkoły...' />
@@ -40,6 +44,7 @@ export default function LeafletMap({ map, listOfSchools, showSearch, showPopup }
       <RequestLocation onLocationGranted={setUserPosition} />
 
       <MapContainer
+        div
         center={MAP_CENTER}
         zoom={10}
         style={{ height: '100%', width: '100%', borderRadius: '10px', zIndex: 10 }} // Add zIndex here
