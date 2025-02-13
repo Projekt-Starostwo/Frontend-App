@@ -232,6 +232,7 @@ export async function getSchoolDetails(skrot_szkoly) {
   }
 }
 export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
+  sleep(2000)
   const queryParams = qs.stringify({
     filters: {
       skrot_szkoly: {
@@ -315,15 +316,28 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
     }
 
     const res = await fetch(url, headers)
+
+    if (!res.ok) {
+      let error = new Error('Błąd połączenia z serwerem')
+      error.statusCode = res.status
+      throw error
+    }
+
     const jsonResponse = await res.json()
     const rodzajeSzkoly = jsonResponse.data[0].rodzaje_szkoly
 
     const foundKierunek = findKierunekByName(rodzajeSzkoly, nazwa_kierunku)
 
+    if (!foundKierunek) {
+      let error = new Error('Nie znaleziono kierunku')
+      error.statusCode = 404
+      throw error
+    }
+
     return foundKierunek.kierunek
   } catch (error) {
     console.error('Error fetching kierunek info:', error)
-    return null
+    throw error
   }
 }
 
