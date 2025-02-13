@@ -21,7 +21,7 @@ export default function LeafletMap({ map, listOfSchools, showSearch, showPopup }
 
   const userIcon = L.divIcon({
     className: 'user-marker',
-    html: ReactDOMServer.renderToString(<User size={24} color='blue' />),
+    html: ReactDOMServer.renderToString(<User size={24} color='cyan' />),
     iconSize: [24, 24],
     iconAnchor: [12, 12],
   })
