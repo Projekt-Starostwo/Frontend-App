@@ -232,7 +232,51 @@ export async function getSchoolDetails(skrot_szkoly) {
   }
 }
 export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
-  sleep(2000)
+  const typySzkol = ['liceum', 'technikum', 'szkola_zawodowa']
+
+  const typySzkolParams = typySzkol.map((typ) => {
+    const populatedObject = {
+      populate: {
+        lista_kierunkow: {
+          populate: {
+            kierunek: {
+              fields: ['*'],
+              populate: {
+                glowne_zdjecie: {
+                  fields: ['*'],
+                },
+                galeria: {
+                  fields: ['*'],
+                },
+                lista_kwalifikacji: {
+                  populate: {
+                    kwalifikacja: {
+                      fields: ['*'],
+                    },
+                  },
+                },
+                lista_zawodow: {
+                  populate: {
+                    zawod: {
+                      fields: ['*'],
+                      populate: {
+                        zdjecie_zawodu: {
+                          fields: ['*'],
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+    return { [typ]: populatedObject }
+  })
+
+  // sleep(2000)
   const queryParams = qs.stringify({
     filters: {
       skrot_szkoly: {
@@ -243,61 +287,13 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
       rodzaje_szkoly: {
         populate: {
           liceum: {
-            populate: {
-              lista_kierunkow: {
-                populate: {
-                  kierunek: {
-                    fields: ['*'],
-                    populate: {
-                      glowne_zdjecie: {
-                        fields: ['*'],
-                      },
-                      galeria: {
-                        fields: ['*'],
-                      },
-                    },
-                  },
-                },
-              },
-            },
+            ...typySzkolParams[0].liceum,
           },
           technikum: {
-            populate: {
-              lista_kierunkow: {
-                populate: {
-                  kierunek: {
-                    fields: ['*'],
-                    populate: {
-                      glowne_zdjecie: {
-                        fields: ['*'],
-                      },
-                      galeria: {
-                        fields: ['*'],
-                      },
-                    },
-                  },
-                },
-              },
-            },
+            ...typySzkolParams[1].technikum,
           },
           szkola_zawodowa: {
-            populate: {
-              lista_kierunkow: {
-                populate: {
-                  kierunek: {
-                    fields: ['*'],
-                    populate: {
-                      glowne_zdjecie: {
-                        fields: ['*'],
-                      },
-                      galeria: {
-                        fields: ['*'],
-                      },
-                    },
-                  },
-                },
-              },
-            },
+            ...typySzkolParams[2].szkola_zawodowa,
           },
         },
       },
