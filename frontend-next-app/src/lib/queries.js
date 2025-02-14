@@ -232,6 +232,51 @@ export async function getSchoolDetails(skrot_szkoly) {
   }
 }
 export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
+  const typySzkol = ['liceum', 'technikum', 'szkola_zawodowa']
+
+  const typySzkolParams = typySzkol.map((typ) => {
+    const populatedObject = {
+      populate: {
+        lista_kierunkow: {
+          populate: {
+            kierunek: {
+              fields: ['*'],
+              populate: {
+                glowne_zdjecie: {
+                  fields: ['*'],
+                },
+                galeria: {
+                  fields: ['*'],
+                },
+                lista_kwalifikacji: {
+                  populate: {
+                    kwalifikacja: {
+                      fields: ['*'],
+                    },
+                  },
+                },
+                lista_zawodow: {
+                  populate: {
+                    zawod: {
+                      fields: ['*'],
+                      populate: {
+                        zdjecie_zawodu: {
+                          fields: ['*'],
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+    return { [typ]: populatedObject }
+  })
+
+  // sleep(2000)
   const queryParams = qs.stringify({
     filters: {
       skrot_szkoly: {
@@ -242,61 +287,13 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
       rodzaje_szkoly: {
         populate: {
           liceum: {
-            populate: {
-              lista_kierunkow: {
-                populate: {
-                  kierunek: {
-                    fields: ['*'],
-                    populate: {
-                      glowne_zdjecie: {
-                        fields: ['*'],
-                      },
-                      galeria: {
-                        fields: ['*'],
-                      },
-                    },
-                  },
-                },
-              },
-            },
+            ...typySzkolParams[0].liceum,
           },
           technikum: {
-            populate: {
-              lista_kierunkow: {
-                populate: {
-                  kierunek: {
-                    fields: ['*'],
-                    populate: {
-                      glowne_zdjecie: {
-                        fields: ['*'],
-                      },
-                      galeria: {
-                        fields: ['*'],
-                      },
-                    },
-                  },
-                },
-              },
-            },
+            ...typySzkolParams[1].technikum,
           },
           szkola_zawodowa: {
-            populate: {
-              lista_kierunkow: {
-                populate: {
-                  kierunek: {
-                    fields: ['*'],
-                    populate: {
-                      glowne_zdjecie: {
-                        fields: ['*'],
-                      },
-                      galeria: {
-                        fields: ['*'],
-                      },
-                    },
-                  },
-                },
-              },
-            },
+            ...typySzkolParams[2].szkola_zawodowa,
           },
         },
       },
@@ -315,15 +312,28 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
     }
 
     const res = await fetch(url, headers)
+
+    if (!res.ok) {
+      let error = new Error('Błąd połączenia z serwerem')
+      error.statusCode = res.status
+      throw error
+    }
+
     const jsonResponse = await res.json()
     const rodzajeSzkoly = jsonResponse.data[0].rodzaje_szkoly
 
     const foundKierunek = findKierunekByName(rodzajeSzkoly, nazwa_kierunku)
 
+    if (!foundKierunek) {
+      let error = new Error('Nie znaleziono kierunku')
+      error.statusCode = 404
+      throw error
+    }
+
     return foundKierunek.kierunek
   } catch (error) {
     console.error('Error fetching kierunek info:', error)
-    return null
+    throw error
   }
 }
 
