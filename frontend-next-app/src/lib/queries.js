@@ -98,13 +98,17 @@ export async function getListOfSchool() {
 
     const res = await fetch(url, headers)
 
+    if (!res.ok) {
+      throw new Error('Błąd połączenia z serwerem, spróbuj ponownie')
+    }
+
     const jsonResponse = await res.json()
 
     // console.log(jsonResponse)
     return jsonResponse
   } catch (error) {
     console.log(error)
-    return null
+    throw error
   }
 }
 
