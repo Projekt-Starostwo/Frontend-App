@@ -1,3 +1,10 @@
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { Button } from '@/components/ui/button'
+import { Link2 } from 'lucide-react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { appedDomain, slugify } from '@/lib/utils'
 export default async function OfertaEdukacyjna({ school }) {
   return (
     <div className='p-4 flex flex-col justify-center items-center gap-20'>
@@ -28,13 +35,6 @@ export default async function OfertaEdukacyjna({ school }) {
     </div>
   )
 }
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { Button } from '@/components/ui/button'
-import { slugify } from '@/lib/utils'
-import { Link2 } from 'lucide-react'
-import Link from 'next/link'
-import KierunekCard from './KierunekCard'
 
 function SchoolType({ school, listaKierunkow, typ, schoolDescription }) {
   // console.log(school)
@@ -86,5 +86,25 @@ function SchoolType({ school, listaKierunkow, typ, schoolDescription }) {
         </AccordionItem>
       </Accordion>
     </div>
+  )
+}
+
+function KierunekCard({ school, kierunek }) {
+  // console.log(kierunek)
+  return (
+    <Link href={`/${school.skrot_szkoly}/${slugify(kierunek.nazwa_kierunku)}`}>
+      <div className='w-full flex flex-col justify-center items-center gap-2'>
+        {kierunek.glowne_zdjecie !== null && (
+          <Image
+            src={appedDomain(kierunek.glowne_zdjecie.url)}
+            alt={kierunek.nazwa_kierunku}
+            width={100}
+            height={100}
+            className='rounded-lg w-[400px]'
+          />
+        )}
+        <h1 className='text-3xl'>{kierunek.nazwa_kierunku}</h1>
+      </div>
+    </Link>
   )
 }

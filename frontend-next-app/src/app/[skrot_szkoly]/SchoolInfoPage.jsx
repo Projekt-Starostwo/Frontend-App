@@ -1,12 +1,12 @@
-import SingleSchoolMap from './components/SingleSchoolMap'
+import SingleSchoolMap from './SingleSchoolMap'
 import { getSchoolDetails } from '@/lib/queries'
-import IconInfo from './components/iconInfo'
-import SchoolDescription from './components/SchoolDescription'
-import OfertaEdukacyjna from './components/OfertaEdukacyjna'
-import SchoolGallery from './components/SchoolGallery'
+import OfertaEdukacyjna from './OfertaEdukacyjna'
 import ErrorPage from '@/components/ErrorPage'
 import LinkButton from '@/components/LinkButton'
-import { Link2 } from 'lucide-react'
+import PhotoGallery from '@/components/PhotoGallery'
+import Link from 'next/link'
+import { Link2, ExternalLink, Facebook, Mail, PanelsTopLeft, Phone, School } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 export default async function SchoolPageInfo({ params }) {
   let school = null
@@ -39,7 +39,10 @@ export default async function SchoolPageInfo({ params }) {
 
           <OfertaEdukacyjna school={school} />
 
-          <SchoolGallery school={school} />
+          <PhotoGallery
+            photos={school.glowna_galeria_zdjec_szkoly}
+            containerDivStyles={'h-[50vh] w-full flex flex-col justify-center items-center'}
+          />
 
           <div className='h-[50vh] p-4'>
             <h1 className='text-2xl font-bold'>Tu nas znajdziesz</h1>
@@ -48,6 +51,45 @@ export default async function SchoolPageInfo({ params }) {
           </div>
         </div>
       )}
+    </div>
+  )
+}
+function SchoolDescription({ school }) {
+  return (
+    <div className='h-1/2 p-4'>
+      <h1 className='text-2xl font-bold'>O nas</h1>
+      <p className='py-4'>{school.opis_szkoly}</p>
+    </div>
+  )
+}
+
+function IconInfo({ school }) {
+  return (
+    <div className='flex flex-row justify-between items-center gap-8 p-8'>
+      <Link href={`${school.adres_strony_szkoly}`} target='_blank'>
+        <div className='flex flex-row justify-center items-center gap-4'>
+          <School size={40} />
+          <Button variant='link'>
+            <ExternalLink /> Strona Szkoły
+          </Button>
+        </div>
+      </Link>
+      <div className='flex flex-row justify-start items-center gap-4'>
+        <Phone size={40} />
+        <p>{school.numer_telefonu}</p>
+      </div>
+      <div className='flex flex-row justify-center items-center gap-4'>
+        <Mail size={40} />
+        <p>{school.email_szkoly}</p>
+      </div>
+      <Link href={`${school.adres_facebooka_szkoly}`} target='_blank'>
+        <div className='flex flex-row justify-center items-center gap-4'>
+          <Facebook size={40} />
+          <Button variant='link'>
+            <ExternalLink /> Facebook
+          </Button>
+        </div>
+      </Link>
     </div>
   )
 }
