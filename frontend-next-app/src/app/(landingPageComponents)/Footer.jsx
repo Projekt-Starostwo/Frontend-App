@@ -7,25 +7,25 @@ export default async function Footer() {
 
       <div className='flex flex-row justify-center items-center gap-8'>
         <div className='flex flex-row justify-center items-center gap-4'>
-          <MapPinned size={60} />
+          <MapPinned size={40} />
           <div className='flex flex-col'>
             <p>ul. T.Kościuszki 3 05-300</p>
             <p>Mińsk Mazowiecki</p>
           </div>
         </div>
         <div className='flex flex-row justify-start items-center gap-4'>
-          <Phone size={60} />
+          <Phone size={40} />
           <div className='flex flex-col justify-start items-start'>
             <p>Tel. 25/ 759 87 00 </p>
             <p>Fax. 25/ 759 87 0</p>
           </div>
         </div>
         <div className='flex flex-row justify-center items-center gap-4'>
-          <Mail size={60} />
+          <Mail size={40} />
           <p>boi@powiatminski.pl</p>
         </div>
         <div className='flex flex-row justify-center items-center gap-4'>
-          <Clock9 size={60} />
+          <Clock9 size={40} />
           <div>
             <div className='w-52 flex flex-row justify-between items-center'>
               <p>Pon, Wt, Czw</p>

@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --main-mmz-blue: #008cd8;
+  --main-mmz-yellow: #fcf403;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -69,4 +74,22 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+.reset-map {
+  z-index: 99999;
+  position: absolute;
+  top: 70;
+  right: 12;
+}
+.mmz-heading {
+  background: -webkit-linear-gradient(
+    45deg,
+    var(--main-mmz-blue),
+    var(--main-mmz-yellow)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.heading-pic {
+  filter: drop-shadow(var(--main-mmz-blue) 0 0 45px);
 }
