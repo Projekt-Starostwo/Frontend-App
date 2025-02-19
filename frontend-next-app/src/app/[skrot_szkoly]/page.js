@@ -4,6 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export default async function Page({ params }) {
   const param = await params
+
   return (
     <>
       <Suspense fallback={<SchoolPageInfoLoading />}>
