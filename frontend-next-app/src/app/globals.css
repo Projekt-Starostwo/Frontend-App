@@ -82,14 +82,21 @@ body {
   right: 12;
 }
 .mmz-heading {
-  background: -webkit-linear-gradient(
-    45deg,
-    var(--main-mmz-blue),
-    var(--main-mmz-yellow)
-  );
+  background: -webkit-linear-gradient(45deg, var(--main-mmz-blue), var(--main-mmz-yellow));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .heading-pic {
   filter: drop-shadow(var(--main-mmz-blue) 0 0 45px);
+}
+
+.przystanki-btn {
+  z-index: 99999;
+  position: absolute;
+  top: 70;
+  right: 160;
+  /* background-color: var(--destructive); */
+}
+.btn-active {
+  background-color: var(--main-mmz-blue);
 }

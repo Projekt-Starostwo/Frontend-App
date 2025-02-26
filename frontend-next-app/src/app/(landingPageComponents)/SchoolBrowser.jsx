@@ -30,13 +30,7 @@ export default function SchoolBrowser() {
           <SpinnerLoading />
         </div>
       )}
-      {isError && (
-        <ErrorPage
-          errorMessage={'Błąd połączenia z serwerem'}
-          statusCode={404}
-          children={<p>Przepraszamy za niedogodności</p>}
-        />
-      )}
+      {isError && <ErrorPage errorMessage={'Błąd połączenia z serwerem'} statusCode={404} children={<p>Przepraszamy za niedogodności</p>} />}
       {!isLoading && !isError && (
         <>
           <ListOfSchools map={mapObj} listOfSchools={listOfSchools} />

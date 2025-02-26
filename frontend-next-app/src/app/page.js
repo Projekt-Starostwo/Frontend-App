@@ -1,5 +1,5 @@
-import Hero from "@/app/(landingPageComponents)/Hero";
-import SchoolBrowser from "./(landingPageComponents)/SchoolBrowser";
+import Hero from '@/app/(landingPageComponents)/Hero'
+import SchoolBrowser from './(landingPageComponents)/SchoolBrowser'
 
 export default function Home() {
   return (
@@ -7,5 +7,5 @@ export default function Home() {
       <Hero />
       <SchoolBrowser />
     </>
-  );
+  )
 }

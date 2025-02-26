@@ -105,6 +105,7 @@ export async function getListOfSchool() {
     const jsonResponse = await res.json()
 
     // console.log(jsonResponse)
+
     return jsonResponse
   } catch (error) {
     console.log(error)
