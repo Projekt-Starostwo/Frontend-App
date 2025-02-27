@@ -1,7 +1,8 @@
 // tutaj wszystkie funkcje API
-
 const token = process.env.NEXT_PUBLIC_TOKEN
 import qs from 'qs'
+import { normalizeString } from './utils'
+
 export async function getListOfSchool() {
   const queryParams = qs.stringify({
     populate: {
@@ -17,7 +18,6 @@ export async function getListOfSchool() {
       lokalizacja_szkoly: {
         fields: ['dlugosc_geograficzna_szkoly', 'szerokosc_geograficzna_szkoly'],
       },
-
       rodzaje_szkoly: {
         populate: {
           liceum: {
@@ -84,7 +84,6 @@ export async function getListOfSchool() {
       },
     },
   })
-
   try {
     const url = `http://localhost:1337/api/lista-szkols?${queryParams}`
 
@@ -95,16 +94,12 @@ export async function getListOfSchool() {
         'Content-Type': 'application/json', // Set the content type to JSON (optional)
       },
     }
-
     const res = await fetch(url, headers)
-
+    console.log(res)
     if (!res.ok) {
       throw new Error('Błąd połączenia z serwerem, spróbuj ponownie')
     }
-
     const jsonResponse = await res.json()
-
-    // console.log(jsonResponse)
 
     return jsonResponse
   } catch (error) {
@@ -201,40 +196,35 @@ export async function getSchoolDetails(skrot_szkoly) {
     },
   })
 
-  try {
-    const url = `http://localhost:1337/api/lista-szkols?${queryParams}`
-    const headers = {
-      method: 'GET', // or "POST", "PUT", etc., depending on the API method
-      headers: {
-        Authorization: `Bearer ${token}`, // Include the Bearer token
-        'Content-Type': 'application/json', // Set the content type to JSON (optional)
-      },
-    }
+  const url = `http://localhost:1337/api/lista-szkols?${queryParams}`
+  const headers = {
+    method: 'GET', // or "POST", "PUT", etc., depending on the API method
+    headers: {
+      Authorization: `Bearer ${token}`, // Include the Bearer token
+      'Content-Type': 'application/json', // Set the content type to JSON (optional)
+    },
+  }
 
-    const res = await fetch(url, headers)
+  const res = await fetch(url, headers)
 
-    if (!res.ok) {
-      let error = new Error('Błąd połączenia z serwerem')
-      error.statusCode = res.status
-      throw error
-    }
-
-    const jsonResponse = await res.json()
-    // console.log(jsonResponse)
-
-    // await sleep(2000)
-
-    if (jsonResponse.data.length === 0) {
-      let error = new Error('Nie znaleziono szkoły')
-      error.statusCode = 404
-      throw error
-    }
-
-    return jsonResponse.data[0]
-  } catch (error) {
-    console.log(error)
+  if (!res.ok) {
+    let error = new Error('Błąd połączenia z serwerem')
+    error.statusCode = res.status
     throw error
   }
+
+  const jsonResponse = await res.json()
+  // console.log(jsonResponse)
+
+  // await sleep(2000)
+
+  if (jsonResponse.data.length === 0) {
+    let error = new Error('Nie znaleziono szkoły')
+    error.statusCode = 404
+    throw error
+  }
+
+  return jsonResponse.data[0]
 }
 export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
   const typySzkol = ['liceum', 'technikum', 'szkola_zawodowa']
@@ -253,24 +243,20 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
                 galeria: {
                   fields: ['*'],
                 },
-                lista_kwalifikacji: {
-                  populate: {
-                    kwalifikacja: {
-                      fields: ['*'],
-                    },
-                  },
+                umiejetnosci: {
+                  fields: ['*'],
                 },
-                lista_zawodow: {
-                  populate: {
-                    zawod: {
-                      fields: ['*'],
-                      populate: {
-                        zdjecie_zawodu: {
-                          fields: ['*'],
-                        },
-                      },
-                    },
-                  },
+                praca: {
+                  fields: ['*'],
+                },
+                warunki_pracy: {
+                  fields: ['*'],
+                },
+                cechy_ludzkie_dla_kierunku: {
+                  fields: ['*'],
+                },
+                mozliwosci_rozwoju: {
+                  fields: ['*'],
                 },
               },
             },
@@ -305,56 +291,52 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
     },
   })
 
-  try {
-    const url = `http://localhost:1337/api/lista-szkols?${queryParams}`
+  const url = `http://localhost:1337/api/lista-szkols?${queryParams}`
 
-    const headers = {
-      method: 'GET', // or "POST", "PUT", etc., depending on the API method
-      headers: {
-        Authorization: `Bearer ${token}`, // Include the Bearer token
-        'Content-Type': 'application/json', // Set the content type to JSON (optional)
-      },
-    }
+  const headers = {
+    method: 'GET', // or "POST", "PUT", etc., depending on the API method
+    headers: {
+      Authorization: `Bearer ${token}`, // Include the Bearer token
+      'Content-Type': 'application/json', // Set the content type to JSON (optional)
+    },
+  }
 
-    const res = await fetch(url, headers)
+  const res = await fetch(url, headers)
+  const jsonResponse = await res.json()
 
-    if (!res.ok) {
-      let error = new Error('Błąd połączenia z serwerem')
-      error.statusCode = res.status
-      throw error
-    }
-
-    const jsonResponse = await res.json()
-    const rodzajeSzkoly = jsonResponse.data[0].rodzaje_szkoly
-
-    const foundKierunek = findKierunekByName(rodzajeSzkoly, nazwa_kierunku)
-
-    if (!foundKierunek) {
-      let error = new Error('Nie znaleziono kierunku')
-      error.statusCode = 404
-      throw error
-    }
-
-    return foundKierunek.kierunek
-  } catch (error) {
-    console.error('Error fetching kierunek info:', error)
+  // Ensure data structure is as expected
+  if (!jsonResponse?.data?.length || !jsonResponse.data[0]?.rodzaje_szkoly) {
+    let error = new Error('Nieprawidłowa odpowiedź z serwera')
+    error.statusCode = 500
     throw error
   }
+
+  const rodzajeSzkoly = jsonResponse.data[0].rodzaje_szkoly
+  console.log(jsonResponse.data)
+
+  const foundKierunek = findKierunekByName(rodzajeSzkoly, nazwa_kierunku)
+  console.log(foundKierunek)
+
+  if (!foundKierunek) {
+    let error = new Error('Nie znaleziono kierunku')
+    error.statusCode = 404
+    throw error
+  }
+
+  return foundKierunek.kierunek
 }
 
 function findKierunekByName(rodzajeSzkoly, nazwa_kierunku) {
   const possibleKeys = ['liceum', 'technikum', 'szkola_zawodowa']
 
-  const lowerCaseNazwaKierunku = nazwa_kierunku.toLowerCase() // Convert search term to lowercase
+  // Normalize the search term
+  const cleanSearchTerm = normalizeString(nazwa_kierunku)
 
   for (const key of possibleKeys) {
-    if (rodzajeSzkoly[key] && rodzajeSzkoly[key].lista_kierunkow && rodzajeSzkoly[key].lista_kierunkow.length > 0) {
+    if (rodzajeSzkoly[key]?.lista_kierunkow?.length) {
       const kierunek = rodzajeSzkoly[key].lista_kierunkow.find((item) => {
         const itemNazwaKierunku = item.kierunek?.nazwa_kierunku
-        return (
-          itemNazwaKierunku && // Check if itemNazwaKierunku exists
-          itemNazwaKierunku.toLowerCase() === lowerCaseNazwaKierunku
-        )
+        return itemNazwaKierunku && normalizeString(itemNazwaKierunku) === cleanSearchTerm
       })
       if (kierunek) {
         return kierunek
@@ -364,4 +346,5 @@ function findKierunekByName(rodzajeSzkoly, nazwa_kierunku) {
 
   return null
 }
+
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))

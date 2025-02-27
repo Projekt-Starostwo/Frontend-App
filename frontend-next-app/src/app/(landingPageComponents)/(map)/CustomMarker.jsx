@@ -18,7 +18,13 @@ export default function CustomMarker({ school, userPosition, showPopup }) {
   })
 
   return (
-    <Marker position={[school.lokalizacja_szkoly.dlugosc_geograficzna_szkoly, school.lokalizacja_szkoly.szerokosc_geograficzna_szkoly]} icon={myIcon}>
+    <Marker
+      position={[
+        school.lokalizacja_szkoly.dlugosc_geograficzna_szkoly,
+        school.lokalizacja_szkoly.szerokosc_geograficzna_szkoly,
+      ]}
+      icon={myIcon}
+    >
       {showPopup && (
         <Popup offset={[0, -20]} className='p-0' maxWidth={700}>
           <div className='flex flex-col justify-center items-center gap-4'>
@@ -53,7 +59,13 @@ export default function CustomMarker({ school, userPosition, showPopup }) {
 export function MarkerHtml({ school }) {
   return (
     <div className='flex items-center justify-center'>
-      <Image src={appedDomain(school.glowne_zdjecie_szkoly.url)} width={50} height={50} alt='logo szkoly' className='w-8 h-8' />
+      <Image
+        src={appedDomain(school.glowne_zdjecie_szkoly.url)}
+        width={50}
+        height={50}
+        alt='logo szkoly'
+        className='w-8 h-8'
+      />
     </div>
   )
 }

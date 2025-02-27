@@ -139,22 +139,22 @@ function Przystanek({ przystanek }) {
 function getCorrectBusTableUrl(oznaczenie) {
   // console.log(oznaczenie)
   if (oznaczenie === 'M1') {
-    console.log('jest m1')
+    // console.log('jest m1')
     return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/718,linia-m1' />
   }
 
   if (oznaczenie === 'M2') {
-    console.log('jest m2')
+    // console.log('jest m2')
     return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/719,linia-m2' />
   }
 
   if (oznaczenie === 'M3') {
-    console.log('jest m3')
+    // console.log('jest m3')
     return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/720,linia-m3`' />
   }
 
   if (oznaczenie === 'M4') {
-    console.log('jest m4')
+    // console.log('jest m4')
     return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/1154,linia-m4' />
   }
 }

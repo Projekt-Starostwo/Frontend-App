@@ -7,17 +7,11 @@ import PhotoGallery from '@/components/PhotoGallery'
 import Link from 'next/link'
 import { Link2, ExternalLink, Facebook, Mail, PanelsTopLeft, Phone, School } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { tryCatch } from '@/lib/utils'
 
 export default async function SchoolPageInfo({ params }) {
-  let school = null
-  let error = null
-
-  try {
-    school = await getSchoolDetails(params.skrot_szkoly)
-  } catch (e) {
-    console.log(e)
-    error = e
-  }
+  const { data, error } = await tryCatch(getSchoolDetails(params.skrot_szkoly))
+  const school = data
 
   return (
     <div className='h-auto w-full  flex flex-col justify-start items-center p-10'>
