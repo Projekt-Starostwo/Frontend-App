@@ -17,7 +17,6 @@ export default function SchoolBrowser() {
     data: listOfSchools,
     isLoading,
     isError,
-    error,
   } = useQuery({
     queryKey: ['listOfschools'],
     queryFn: async () => getListOfSchool(),
@@ -30,14 +29,20 @@ export default function SchoolBrowser() {
           <SpinnerLoading />
         </div>
       )}
-      {isError && <ErrorPage errorMessage={'Błąd połączenia z serwerem'} statusCode={404} children={<p>Przepraszamy za niedogodności</p>} />}
+      {isError && (
+        <ErrorPage
+          errorMessage={'Błąd połączenia z serwerem'}
+          statusCode={404}
+          children={<p>Przepraszamy za niedogodności</p>}
+        />
+      )}
       {!isLoading && !isError && (
-        <>
+        <div className='w-full flex flex-row flex-wrap'>
           <ListOfSchools map={mapObj} listOfSchools={listOfSchools} />
           <div className='h-full w-2/3 p-5 flex flex-col justify-center items-center gap-5'>
-            <LeafletMap map={mapObj} listOfSchools={listOfSchools} showSearch showPopup />
+            <LeafletMap map={mapObj} listOfSchools={listOfSchools} showPopup />
           </div>
-        </>
+        </div>
       )}
     </div>
   )

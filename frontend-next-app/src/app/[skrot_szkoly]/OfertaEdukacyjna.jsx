@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { appedDomain, slugify } from '@/lib/utils'
 export default async function OfertaEdukacyjna({ school }) {
   return (
-    <div className='p-4 flex flex-col justify-center items-center gap-20'>
+    <div className='p-4 flex flex-col justify-center items-center gap-12'>
       {school.rodzaje_szkoly.liceum?.lista_kierunkow.length !== 0 && (
         <SchoolType
           school={school}
@@ -39,13 +39,13 @@ export default async function OfertaEdukacyjna({ school }) {
 function SchoolType({ school, listaKierunkow, typ, schoolDescription }) {
   // console.log(school)
   return (
-    <div className='w-full flex flex-col gap-28'>
+    <div className='w-full flex flex-col'>
       <div>
         <h1 className='text-3xl font-bold'>{typ}</h1>
-        <p className='py-4'>{schoolDescription}</p>
+        {/* <p className='py-4'>{schoolDescription}</p> */}
       </div>
 
-      <div className='h-52 w-full flex flex-col justify-center items-center'>
+      {/* <div className='h-52 w-full flex flex-col justify-center items-center'>
         <Carousel
           className='w-1/2'
           opts={{
@@ -66,7 +66,7 @@ function SchoolType({ school, listaKierunkow, typ, schoolDescription }) {
           <CarouselPrevious />
           <CarouselNext />
         </Carousel>
-      </div>
+      </div> */}
 
       <Accordion type='single' collapsible className=''>
         <AccordionItem value='item-1'>

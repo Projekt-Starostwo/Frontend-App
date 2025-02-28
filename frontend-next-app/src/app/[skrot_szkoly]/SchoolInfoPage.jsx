@@ -33,10 +33,10 @@ export default async function SchoolPageInfo({ params }) {
 
           <OfertaEdukacyjna school={school} />
 
-          <PhotoGallery
+          {/* <PhotoGallery
             photos={school.glowna_galeria_zdjec_szkoly}
             containerDivStyles={'h-[50vh] w-full flex flex-col justify-center items-center'}
-          />
+          /> */}
 
           <div className='h-[50vh] p-4'>
             <h1 className='text-2xl font-bold'>Tu nas znajdziesz</h1>

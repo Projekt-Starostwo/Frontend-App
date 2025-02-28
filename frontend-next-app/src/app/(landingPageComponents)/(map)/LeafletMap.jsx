@@ -16,7 +16,7 @@ import Link from 'next/link'
 
 export const MAP_CENTER = [52.179, 21.57211]
 
-export default function LeafletMap({ map, listOfSchools, showSearch, showPopup }) {
+export default function LeafletMap({ map, listOfSchools, showPopup }) {
   const { theme } = useTheme()
   const [userPosition, setUserPosition] = useState(null)
   const [selectedSchool, setSelectedSchool] = useState(null)
@@ -36,11 +36,6 @@ export default function LeafletMap({ map, listOfSchools, showSearch, showPopup }
         >
           Pokaz przystanki
         </Button>
-        {showSearch && (
-          <div className='w-1/3'>
-            <Input placeholder='Szukaj szkoły...' />
-          </div>
-        )}
       </div>
 
       <RequestLocation onLocationGranted={setUserPosition} />

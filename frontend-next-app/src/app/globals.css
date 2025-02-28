@@ -78,7 +78,7 @@ body {
 .reset-map {
   z-index: 99999;
   position: absolute;
-  top: 70;
+  top: 40;
   right: 12;
 }
 .mmz-heading {
@@ -93,7 +93,7 @@ body {
 .przystanki-btn {
   z-index: 99999;
   position: absolute;
-  top: 70;
+  top: 40;
   right: 160;
   /* background-color: var(--destructive); */
 }
