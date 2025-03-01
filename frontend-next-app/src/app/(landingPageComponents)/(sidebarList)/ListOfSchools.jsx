@@ -31,7 +31,7 @@ function SchoolListItem({ school, map }) {
             <CheckSchoolSupportedTypes school={school} />
           </CardDescription>
         </CardHeader>
-        <CardFooter className='flex flex-row justify-between items-center gap-2'>
+        <CardFooter className='flex flex-row justify-between items-center '>
           <Button
             variant='secondary'
             disabled={!school.isActive} // Disable the button
@@ -54,7 +54,7 @@ function SchoolListItem({ school, map }) {
           >
             <Button variant='outline'>
               <MapPin />
-              <h1>Przejdź do Google Maps</h1>
+              <h1>Google Maps</h1>
             </Button>
           </LinkButton>
           <LinkButton

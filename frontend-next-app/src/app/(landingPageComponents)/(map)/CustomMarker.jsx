@@ -40,7 +40,7 @@ export default function CustomMarker({ school, showPopup }) {
                 linkIcon={<MapPin />}
                 buttonStyle={'text-black'}
               >
-                <h1 className=''>Przejdź do Google Maps</h1>
+                <h1 className=''>Google Maps</h1>
               </LinkButton>
 
               <LinkButton linkHref={`/${school.skrot_szkoly}`} buttonStyle=' bg-black text-white' linkIcon={<Link2 />}>
