@@ -35,6 +35,14 @@ export default function Calculator() {
     foreignLang: "języka obcego",
   };
 
+  const subjectNamesGrades = {
+    polish: "z języka polskiego",
+    math: "z matematyki",
+    extra1: "z dodatkowego przedmiotu",
+    extra2: "z dodatkowego przedmiotu",
+  };
+
+
   const handleExamChange = (e) => {
     const value = parseFloat(e.target.value) || 0;
     if (value > 100) {
@@ -123,7 +131,7 @@ export default function Calculator() {
               key={subject}
               type="number"
               name={subject}
-              placeholder={`Ocena ${subjectNames[subject] || subject}`}
+              placeholder={`Ocena ${subjectNamesGrades[subject] || subject}`}
               onChange={handleGradeChange}
               max="6"
               className="block w-full p-2 border rounded mt-2"
@@ -204,7 +212,7 @@ export default function Calculator() {
 
   <AccordionItem value="item-2">
     <AccordionTrigger>
-      Uzyskanie w zawodach wiedzy będących konkursem o zasięgu międzynarodowym lub ogólnopolskim
+    Uzyskanie w zawodach wiedzy będących konkursem albo turniejem, o zasięgu ponadwojewódzkim lub wojewódzkim:
     </AccordionTrigger>
     <AccordionContent>
       {[
@@ -223,7 +231,7 @@ export default function Calculator() {
 
   <AccordionItem value="item-2">
     <AccordionTrigger>
-      Uzyskanie w zawodach wiedzy będących konkursem o zasięgu międzynarodowym lub ogólnopolskim
+    Uzyskanie wysokiego miejsca w zawodach wiedzy innych niż wymienione w pkt 1–4, artystycznych lub sportowych, organizowanych przez kuratora oświaty lub inne podmioty działające na terenie szkoły, na szczeblu:
     </AccordionTrigger>
     <AccordionContent>
       {[
