@@ -19,6 +19,7 @@ import { Badge } from './ui/badge'
 import { useTheme } from 'next-themes'
 import { CommandSeparator } from 'cmdk'
 import { getListOfSchool } from '@/lib/queries'
+import { DialogContent, DialogTitle } from './ui/dialog'
 
 export default function GlobalSearch() {
   const { setTheme } = useTheme()
@@ -48,7 +49,7 @@ export default function GlobalSearch() {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['listOfschools'],
+    queryKey: ['listOfschoolsForSearch'],
     queryFn: async () => getListOfSchool(),
   })
   // console.log(listOfSchools)
@@ -67,6 +68,8 @@ export default function GlobalSearch() {
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
+        <DialogTitle className='w-0 h-0'></DialogTitle>
+
         <CommandInput placeholder='Przejdź do strony lub wyszukaj...' />
         <CommandList>
           <CommandEmpty>Nie znaleziono wyników.</CommandEmpty>
@@ -110,7 +113,7 @@ export default function GlobalSearch() {
           </CommandGroup>
           <CommandGroup heading='Wyszukiwanie'>
             {listOfSchools?.data?.map((school) => (
-              <React.Fragment key={school.skrot_szkoly}>
+              <div key={school.skrot_szkoly}>
                 <CommandItem
                   onSelect={() => {
                     router.push(`/${school.skrot_szkoly}`)
@@ -127,7 +130,8 @@ export default function GlobalSearch() {
                   if (school.rodzaje_szkoly[key] && school.rodzaje_szkoly[key].lista_kierunkow) {
                     return school.rodzaje_szkoly[key].lista_kierunkow.map((kierunek) => (
                       <CommandItem
-                        key={`${school.skrot_szkoly}-${slugify(kierunek.kierunek.nazwa_kierunku)}`} // Unique key
+                        // key={`${school.skrot_szkoly}-${slugify(kierunek.kierunek.nazwa_kierunku)}`} // Unique key
+                        key={kierunek.id}
                         onSelect={() => {
                           router.push(`/${school.skrot_szkoly}/${slugify(kierunek.kierunek.nazwa_kierunku)}`)
                           handleCommandSelect()
@@ -136,14 +140,14 @@ export default function GlobalSearch() {
                         <div className='w-full flex flex-row justify-start items-center gap-2'>
                           <GraduationCap />
                           {kierunek.kierunek.nazwa_kierunku}
-                          <p className='text-muted-foreground'>Kierunek - {school.skrot_szkoly}</p>
+                          <p className='text-muted-foreground'>{school.skrot_szkoly}</p>
                         </div>
                       </CommandItem>
                     ))
                   }
                   return null
                 })}
-              </React.Fragment>
+              </div>
             ))}
           </CommandGroup>
         </CommandList>

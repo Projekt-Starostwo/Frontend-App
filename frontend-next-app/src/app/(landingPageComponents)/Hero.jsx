@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <div className='h-[50vh] w-full flex flex-row justify-center items-center border-b'>
       <div className='h-full w-2/5 flex flex-col justify-center items-center'>
-        <div className='text-7xl flex flex-col gap-4 '>
+        <div className='text-6xl flex flex-col gap-4 '>
           <h1 className=' font-bold'>Szkoły średnie w</h1>
           <h1 className=' font-bold mmz-heading '>Mińsku Mazowieckim</h1>
         </div>

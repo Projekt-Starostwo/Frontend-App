@@ -6,17 +6,18 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { appedDomain, slugify } from '@/lib/utils'
 export default async function OfertaEdukacyjna({ school }) {
+  console.log(school)
   return (
     <div className='p-4 flex flex-col justify-center items-center gap-12'>
-      {school.rodzaje_szkoly.liceum?.lista_kierunkow.length !== 0 && (
+      {school.rodzaje_szkoly.liceum && (
         <SchoolType
           school={school}
-          schoolDescription={school.rodzaje_szkoly.liceum?.opis}
+          schoolDescription={school.rodzaje_szkoly.liceum?.opis_typu_szkoly}
           listaKierunkow={school.rodzaje_szkoly.liceum?.lista_kierunkow}
           typ='Liceum'
         />
       )}
-      {school.rodzaje_szkoly.technikum?.lista_kierunkow.length !== 0 && (
+      {school.rodzaje_szkoly.technikum && (
         <SchoolType
           school={school}
           schoolDescription={school.rodzaje_szkoly.technikum?.opis}
@@ -24,7 +25,7 @@ export default async function OfertaEdukacyjna({ school }) {
           typ='Technikum'
         />
       )}
-      {school.rodzaje_szkoly.szkola_zawodowa?.lista_kierunkow.length !== 0 && (
+      {school.rodzaje_szkoly.szkola_zawodowa && (
         <SchoolType
           school={school}
           schoolDescription={school.rodzaje_szkoly.szkola_zawodowa?.opis}
@@ -40,10 +41,12 @@ function SchoolType({ school, listaKierunkow, typ, schoolDescription }) {
   // console.log(school)
   return (
     <div className='w-full flex flex-col'>
-      <div>
-        <h1 className='text-3xl font-bold'>{typ}</h1>
-        {/* <p className='py-4'>{schoolDescription}</p> */}
-      </div>
+      <h1 className='text-3xl font-bold'>{typ}</h1>
+      {schoolDescription && (
+        <div>
+          <p className='py-4'>{schoolDescription}</p>
+        </div>
+      )}
 
       {/* <div className='h-52 w-full flex flex-col justify-center items-center'>
         <Carousel

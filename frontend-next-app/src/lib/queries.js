@@ -84,28 +84,25 @@ export async function getListOfSchool() {
       },
     },
   })
-  try {
-    const url = `http://localhost:1337/api/lista-szkols?${queryParams}`
 
-    const headers = {
-      method: 'GET', // or "POST", "PUT", etc., depending on the API method
-      headers: {
-        Authorization: `Bearer ${token}`, // Include the Bearer token
-        'Content-Type': 'application/json', // Set the content type to JSON (optional)
-      },
-    }
-    const res = await fetch(url, headers)
-    // console.log(res)
-    if (!res.ok) {
-      throw new Error('Błąd połączenia z serwerem, spróbuj ponownie')
-    }
-    const jsonResponse = await res.json()
+  const url = `http://localhost:1337/api/lista-szkols?${queryParams}`
 
-    return jsonResponse
-  } catch (error) {
-    console.log(error)
-    throw error
+  const headers = {
+    method: 'GET', // or "POST", "PUT", etc., depending on the API method
+    headers: {
+      Authorization: `Bearer ${token}`, // Include the Bearer token
+      'Content-Type': 'application/json', // Set the content type to JSON (optional)
+    },
   }
+  const res = await fetch(url, headers)
+  // console.log(res)
+  if (!res.ok) {
+    console.log('res !ok, queries.js listOfSchools')
+    throw new Error('Błąd połączenia z serwerem, spróbuj ponownie')
+  }
+  const jsonResponse = await res.json()
+
+  return jsonResponse
 }
 
 export async function getSchoolDetails(skrot_szkoly) {
@@ -315,7 +312,7 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
   // console.log(jsonResponse.data)
 
   const foundKierunek = findKierunekByName(rodzajeSzkoly, nazwa_kierunku)
-  console.log(foundKierunek)
+  // console.log(foundKierunek)
 
   if (!foundKierunek) {
     let error = new Error('Nie znaleziono kierunku')
@@ -331,14 +328,15 @@ function findKierunekByName(rodzajeSzkoly, nazwa_kierunku) {
 
   // Normalize the search term
   const cleanSearchTerm = normalizeString(nazwa_kierunku)
-  console.log('clean search', cleanSearchTerm)
+  // console.log('clean search', cleanSearchTerm)
 
   for (const key of possibleKeys) {
     if (rodzajeSzkoly[key]?.lista_kierunkow?.length) {
       const kierunek = rodzajeSzkoly[key].lista_kierunkow.find((item) => {
         const itemNazwaKierunku = item.kierunek?.nazwa_kierunku
-        console.log('item nazwa', normalizeString(itemNazwaKierunku))
+        // console.log('item nazwa', normalizeString(itemNazwaKierunku))
         // console.log(cleanSearchTerm)
+        // console.log(normalizeString(itemNazwaKierunku) === cleanSearchTerm)
         return itemNazwaKierunku && normalizeString(itemNazwaKierunku) === cleanSearchTerm
       })
       if (kierunek) {

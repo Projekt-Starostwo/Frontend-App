@@ -9,8 +9,9 @@ import { CheckSchoolSupportedTypes } from '../(sidebarList)/ListOfSchools'
 import Link from 'next/link'
 import { Link2, MapPin } from 'lucide-react'
 import LinkButton from '@/components/LinkButton'
+import { Button } from '@/components/ui/button'
 
-export default function CustomMarker({ school, userPosition, showPopup }) {
+export default function CustomMarker({ school, showPopup }) {
   var myIcon = L.divIcon({
     html: ReactDOMServer.renderToStaticMarkup(<MarkerHtml school={school} />),
     className: 'custom-marker',
@@ -25,29 +26,26 @@ export default function CustomMarker({ school, userPosition, showPopup }) {
       ]}
       icon={myIcon}
     >
-      {showPopup && (
+      {showPopup && school.isActive && (
         <Popup offset={[0, -20]} className='p-0' maxWidth={700}>
-          <div className='flex flex-col justify-center items-center gap-4'>
+          <div className='flex flex-col justify-start items-start gap-2'>
             <h1 className='text-lg font-bold'>{school.nazwa_szkoly}</h1>
-            <div className='w-full flex flex-row gap-2 justify-start items-start'>
+            <div className='w-full flex flex-row justify-start items-start gap-2'>
               <CheckSchoolSupportedTypes school={school} />
             </div>
-            <div className='flex flex-row h-fit w-full'>
-              <div className='w-[50%] flex flex-row justify-end items-center'>
-                <LinkButton
-                  linkHref={`https://www.google.com/maps/dir/?api=1&destination=${school.lokalizacja_szkoly.dlugosc_geograficzna_szkoly},${school.lokalizacja_szkoly.szerokosc_geograficzna_szkoly}&travelmode=riding`}
-                  linkIcon={<MapPin color='black' />}
-                  linkTarget='_blank'
-                  rel='noopener noreferrer'
-                >
-                  <h1 className='text-black'>Przejdź do Google Maps</h1>
-                </LinkButton>
-              </div>
-              <div className='w-[50%] flex flex-row justify-end items-center'>
-                <LinkButton linkHref={`/${school.skrot_szkoly}`} linkIcon={<Link2 color='black' />}>
-                  <h1 className='text-black'>Dowiedz się więcej</h1>
-                </LinkButton>
-              </div>
+            <div className='flex flex-row h-fit w-full justify-evenly items-center gap-4'>
+              <LinkButton
+                linkHref={`https://www.google.com/maps/dir/?api=1&destination=${school.lokalizacja_szkoly.dlugosc_geograficzna_szkoly},${school.lokalizacja_szkoly.szerokosc_geograficzna_szkoly}&travelmode=riding`}
+                linkTarget='_blank'
+                linkIcon={<MapPin />}
+                buttonStyle={'text-black'}
+              >
+                <h1 className=''>Przejdź do Google Maps</h1>
+              </LinkButton>
+
+              <LinkButton linkHref={`/${school.skrot_szkoly}`} buttonStyle=' bg-black text-white' linkIcon={<Link2 />}>
+                Dowiedz się więcej
+              </LinkButton>
             </div>
           </div>
         </Popup>
@@ -58,13 +56,13 @@ export default function CustomMarker({ school, userPosition, showPopup }) {
 
 export function MarkerHtml({ school }) {
   return (
-    <div className='flex items-center justify-center'>
+    <div className={`flex items-center justify-center ${school.isActive ? 'opcatity-100' : 'opacity-50'}`}>
       <Image
         src={appedDomain(school.glowne_zdjecie_szkoly.url)}
         width={50}
         height={50}
         alt='logo szkoly'
-        className='w-8 h-8'
+        className='w-10 h-10 rounded-lg'
       />
     </div>
   )

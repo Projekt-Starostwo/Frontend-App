@@ -1,33 +1,37 @@
 'use client'
 
-import { MapContainer, TileLayer, Marker, Popup, Polyline, useMapEvents } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import CustomMarker from './CustomMarker'
 import RequestLocation from '@/app/lokalizacja-usera/page'
 import { Button } from '@/components/ui/button'
 import { useTheme } from 'next-themes'
 import { useState } from 'react'
-import { Input } from '@/components/ui/input'
 import L from 'leaflet'
-import { Bus, ExternalLink, User } from 'lucide-react'
+import { Bus, ExternalLink } from 'lucide-react'
 import ReactDOMServer from 'react-dom/server'
 import { PRZYSTANKI_MMZ } from '@/lib/przystankiMmz'
 import Link from 'next/link'
 
 export const MAP_CENTER = [52.179, 21.57211]
+const DEFAULT_ZOOM = 14
 
 export default function LeafletMap({ map, listOfSchools, showPopup }) {
   const { theme } = useTheme()
   const [userPosition, setUserPosition] = useState(null)
   const [selectedSchool, setSelectedSchool] = useState(null)
-
   const [pokazPrzystanki, setPokazPrzystanki] = useState(false)
 
   return (
     <>
       <div className='w-full flex flex-row justify-between items-center relative'>
         {/* buttons is shown on the map via custom css class (globals.css) */}
-        <Button className='border-2 border-transparent reset-map' onClick={() => map.map.setView(MAP_CENTER, 10)}>
+        <Button
+          className='border-2 border-transparent reset-map'
+          onClick={() => {
+            map.map.setView(MAP_CENTER, DEFAULT_ZOOM)
+          }}
+        >
           Zresetuj mapę
         </Button>
         <Button
@@ -43,13 +47,8 @@ export default function LeafletMap({ map, listOfSchools, showPopup }) {
       <MapContainer
         div
         center={MAP_CENTER}
-        zoom={10}
-        style={{
-          height: '100%',
-          width: '100%',
-          borderRadius: '10px',
-          zIndex: 10,
-        }} // Add zIndex here
+        zoom={DEFAULT_ZOOM}
+        className='w-full h-full z-10 rounded-xl'
         maxZoom={17}
         minZoom={13}
         maxBounds={[
@@ -71,7 +70,7 @@ export default function LeafletMap({ map, listOfSchools, showPopup }) {
           }
         />
 
-        {listOfSchools?.data?.map((school) => (
+        {listOfSchools?.map((school) => (
           <CustomMarker
             key={school.id}
             school={school}
@@ -81,7 +80,6 @@ export default function LeafletMap({ map, listOfSchools, showPopup }) {
                 school.lokalizacja_szkoly.szerokosc_geograficzna_szkoly,
               ])
             }
-            userPosition={userPosition}
             showPopup={showPopup}
           />
         ))}
@@ -89,20 +87,6 @@ export default function LeafletMap({ map, listOfSchools, showPopup }) {
           PRZYSTANKI_MMZ?.map((przystanek) => {
             return <Przystanek key={crypto.randomUUID()} przystanek={przystanek} />
           })}
-        {userPosition && (
-          <Marker
-            position={userPosition}
-            icon={L.divIcon({
-              className: 'user-marker',
-              html: ReactDOMServer.renderToString(<User size={24} color='cyan' />),
-              iconSize: [24, 24],
-              iconAnchor: [12, 12],
-            })}
-          >
-            <Popup>Twoja lokalizacja</Popup>
-          </Marker>
-        )}
-        {selectedSchool && userPosition && <Polyline positions={[userPosition, selectedSchool]} color='blue' />}
       </MapContainer>
     </>
   )

@@ -11,7 +11,7 @@ export function appedDomain(url) {
 export function slugify(text) {
   if (!text) return ''
 
-  const normalizedText = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  const normalizedText = normalizeString(text)
 
   return normalizedText
     .toString()
@@ -40,12 +40,41 @@ export async function tryCatch(promise) {
 
 export function normalizeString(str) {
   if (!str) {
-    return '' // Handle null or undefined input gracefully
+    return ''
   }
-  return str
-    .toLowerCase()
-    .trim() // Remove leading/trailing whitespace
-    .normalize('NFD') // Decomposes diacritics (e.g., ę -> e, ś -> s)
-    .replace(/[\u0300-\u036f]/g, '') // Removes diacritic marks
-    .replace(/[^a-z0-9\s]/g, '') // Removes unsupported characters, including spaces
+
+  let normalizedStr = str.toLowerCase()
+
+  for (const char in transliterationMap) {
+    const regex = new RegExp(char, 'g')
+    normalizedStr = normalizedStr.replace(regex, transliterationMap[char])
+  }
+
+  normalizedStr = normalizedStr
+    .replace(/- /g, '')
+    .trim()
+    .replace(/[^a-z0-9\s]/g, '') // Remove any remaining non-ASCII characters
+
+  return normalizedStr
+}
+
+const transliterationMap = {
+  ą: 'a',
+  ć: 'c',
+  ę: 'e',
+  ł: 'l',
+  ń: 'n',
+  ó: 'o',
+  ś: 's',
+  ź: 'z',
+  ż: 'z',
+  Ą: 'A',
+  Ć: 'C',
+  Ę: 'E',
+  Ł: 'L',
+  Ń: 'N',
+  Ó: 'O',
+  Ś: 'S',
+  Ź: 'Z',
+  Ż: 'Z',
 }

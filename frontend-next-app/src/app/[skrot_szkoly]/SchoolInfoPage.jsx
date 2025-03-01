@@ -5,7 +5,7 @@ import ErrorPage from '@/components/ErrorPage'
 import LinkButton from '@/components/LinkButton'
 import PhotoGallery from '@/components/PhotoGallery'
 import Link from 'next/link'
-import { Link2, ExternalLink, Facebook, Mail, PanelsTopLeft, Phone, School } from 'lucide-react'
+import { Link2, ExternalLink, Facebook, Mail, Phone, School } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { tryCatch } from '@/lib/utils'
 
@@ -62,23 +62,23 @@ function IconInfo({ school }) {
     <div className='flex flex-row justify-between items-center gap-8 p-8'>
       <Link href={`${school.adres_strony_szkoly}`} target='_blank'>
         <div className='flex flex-row justify-center items-center gap-4'>
-          <School size={40} />
+          <School size={30} />
           <Button variant='link'>
             <ExternalLink /> Strona Szkoły
           </Button>
         </div>
       </Link>
       <div className='flex flex-row justify-start items-center gap-4'>
-        <Phone size={40} />
+        <Phone size={30} />
         <p>{school.numer_telefonu}</p>
       </div>
       <div className='flex flex-row justify-center items-center gap-4'>
-        <Mail size={40} />
+        <Mail size={30} />
         <p>{school.email_szkoly}</p>
       </div>
       <Link href={`${school.adres_facebooka_szkoly}`} target='_blank'>
         <div className='flex flex-row justify-center items-center gap-4'>
-          <Facebook size={40} />
+          <Facebook size={30} />
           <Button variant='link'>
             <ExternalLink /> Facebook
           </Button>
