@@ -1,12 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-  } from "@/components/ui/accordion"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useState } from "react";
 
 export default function Calculator() {
@@ -32,13 +27,32 @@ export default function Calculator() {
   });
   const [competitionPoints, setCompetitionPoints] = useState(0);
   const [result, setResult] = useState(null);
+  const [error, setError] = useState("");
+
+  const subjectNames = {
+    polish: "języka polskiego",
+    math: "matematyki",
+    foreignLang: "języka obcego",
+  };
 
   const handleExamChange = (e) => {
-    setExamScores({ ...examScores, [e.target.name]: e.target.value });
+    const value = parseFloat(e.target.value) || 0;
+    if (value > 100) {
+      setError(`Wynik z ${subjectNames[e.target.name]} nie może przekraczać 100!`);
+    } else {
+      setError("");
+      setExamScores({ ...examScores, [e.target.name]: value });
+    }
   };
 
   const handleGradeChange = (e) => {
-    setGrades({ ...grades, [e.target.name]: e.target.value });
+    const value = parseInt(e.target.value) || 0;
+    if (value > 6 || value < 1) {
+      setError(`Ocena z ${subjectNames[e.target.name] || e.target.name} musi być między 1 a 6!`);
+    } else {
+      setError("");
+      setGrades({ ...grades, [e.target.name]: value });
+    }
   };
 
   const handleBonusChange = (e) => {
@@ -50,14 +64,16 @@ export default function Calculator() {
   };
 
   const handleCompetitionChange = (e) => {
-    setCompetitionPoints(parseInt(e.target.value));
+    setCompetitionPoints(parseInt(e.target.value) || 0);
   };
 
   const calculatePoints = () => {
+    if (error) return; // Nie liczymy punktów, jeśli jest błąd
+
     const examPoints =
-      (exempted.polish ? 35 : (parseFloat(examScores.polish) || 0) * 0.35) +
-      (exempted.math ? 35 : (parseFloat(examScores.math) || 0) * 0.35) +
-      (exempted.foreignLang ? 30 : (parseFloat(examScores.foreignLang) || 0) * 0.3);
+      (exempted.polish ? 35 : examScores.polish * 0.35) +
+      (exempted.math ? 35 : examScores.math * 0.35) +
+      (exempted.foreignLang ? 30 : examScores.foreignLang * 0.3);
 
     const gradeToPoints = { "6": 18, "5": 17, "4": 14, "3": 8, "2": 2, "1": 0 };
 
@@ -79,18 +95,20 @@ export default function Calculator() {
           <CardTitle>Kalkulator punktów rekrutacyjnych</CardTitle>
         </CardHeader>
         <CardContent>
+          {error && <h1 className="text-red-500 font-bold">{error}</h1>}
+          
           <h3 className="font-medium">Egzamin ósmoklasisty</h3>
-          {['polish', 'math', 'foreignLang'].map((subject) => (
+          {["polish", "math", "foreignLang"].map((subject) => (
             <div key={subject}>
               <label className="flex items-center space-x-2 mb-2">
                 <input type="checkbox" name={subject} onChange={handleExemptedChange} />
-                <span>Zwolniony z egzaminu ({subject})</span>
+                <span>Zwolniony z egzaminu ({subjectNames[subject]})</span>
               </label>
               {!exempted[subject] && (
                 <input
                   type="number"
                   name={subject}
-                  placeholder={`Wynik z ${subject}`}
+                  placeholder={`Wynik z ${subjectNames[subject]}`}
                   onChange={handleExamChange}
                   max="100"
                   className="block w-full p-2 border rounded mt-2"
@@ -100,12 +118,12 @@ export default function Calculator() {
           ))}
 
           <h3 className="font-medium">Świadectwo</h3>
-          {['polish', 'math', 'extra1', 'extra2'].map((subject) => (
+          {["polish", "math", "extra1", "extra2"].map((subject) => (
             <input
               key={subject}
               type="number"
               name={subject}
-              placeholder={`Ocena ${subject}`}
+              placeholder={`Ocena ${subjectNames[subject] || subject}`}
               onChange={handleGradeChange}
               max="6"
               className="block w-full p-2 border rounded mt-2"
@@ -124,26 +142,13 @@ export default function Calculator() {
 
           <h3 className="font-medium">Konkursy</h3>
           <Accordion type="single" collapsible className="w-full">
-      <AccordionItem value="item-1">
-        <AccordionTrigger>Is it accessible?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It adheres to the WAI-ARIA design pattern.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2">
-        <AccordionTrigger>Is it styled?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It comes with default styles that matches the other
-          components&apos; aesthetic.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-3">
-        <AccordionTrigger>Is it animated?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It's animated by default, but you can disable it if you prefer.
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Rodzaje konkursów</AccordionTrigger>
+              <AccordionContent>
+                Tutaj możesz dodać listę dostępnych konkursów i ich punktację.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </CardContent>
         <CardFooter>
           <button
@@ -152,9 +157,7 @@ export default function Calculator() {
           >
             Oblicz punkty
           </button>
-          {result !== null && (
-            <h1 className="text-2xl font-bold text-center mt-4">Twoje punkty: {result}</h1>
-          )}
+          {result !== null && <h1 className="text-2xl font-bold text-center mt-4">Twoje punkty: {result}</h1>}
         </CardFooter>
       </Card>
     </div>
