@@ -10,7 +10,10 @@ export function appedDomain(url) {
 
 export function slugify(text) {
   if (!text) return ''
-  return text
+
+  const normalizedText = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+
+  return normalizedText
     .toString()
     .toLowerCase()
     .replace(/\s+/g, '-') // Replace spaces with -
@@ -22,11 +25,10 @@ export function slugify(text) {
 
 export function deslugify(slug) {
   if (!slug) return ''
-  return slug
-    .replace(/-/g, ' ') // Replace all hyphens with spaces
-    .replace(/\b\w/g, (char) => char.toUpperCase()) // Capitalize the first letter of each word
+  return slug.replace(/-/g, ' ') // Replace all hyphens with spaces
 }
 
+// use this function to avoid using try catch thats not comfortable
 export async function tryCatch(promise) {
   try {
     const data = await promise
@@ -36,11 +38,14 @@ export async function tryCatch(promise) {
   }
 }
 
-// Function to normalize strings (remove special characters, normalize case)
 export function normalizeString(str) {
+  if (!str) {
+    return '' // Handle null or undefined input gracefully
+  }
   return str
     .toLowerCase()
+    .trim() // Remove leading/trailing whitespace
     .normalize('NFD') // Decomposes diacritics (e.g., ę -> e, ś -> s)
     .replace(/[\u0300-\u036f]/g, '') // Removes diacritic marks
-    .replace(/[^a-z0-9]/g, '') // Removes unsupported characters
+    .replace(/[^a-z0-9\s]/g, '') // Removes unsupported characters, including spaces
 }

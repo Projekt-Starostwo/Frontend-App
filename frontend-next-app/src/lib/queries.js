@@ -95,7 +95,7 @@ export async function getListOfSchool() {
       },
     }
     const res = await fetch(url, headers)
-    console.log(res)
+    // console.log(res)
     if (!res.ok) {
       throw new Error('Błąd połączenia z serwerem, spróbuj ponownie')
     }
@@ -312,7 +312,7 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
   }
 
   const rodzajeSzkoly = jsonResponse.data[0].rodzaje_szkoly
-  console.log(jsonResponse.data)
+  // console.log(jsonResponse.data)
 
   const foundKierunek = findKierunekByName(rodzajeSzkoly, nazwa_kierunku)
   console.log(foundKierunek)
@@ -331,11 +331,14 @@ function findKierunekByName(rodzajeSzkoly, nazwa_kierunku) {
 
   // Normalize the search term
   const cleanSearchTerm = normalizeString(nazwa_kierunku)
+  console.log('clean search', cleanSearchTerm)
 
   for (const key of possibleKeys) {
     if (rodzajeSzkoly[key]?.lista_kierunkow?.length) {
       const kierunek = rodzajeSzkoly[key].lista_kierunkow.find((item) => {
         const itemNazwaKierunku = item.kierunek?.nazwa_kierunku
+        console.log('item nazwa', normalizeString(itemNazwaKierunku))
+        // console.log(cleanSearchTerm)
         return itemNazwaKierunku && normalizeString(itemNazwaKierunku) === cleanSearchTerm
       })
       if (kierunek) {
