@@ -30,6 +30,16 @@ export default function Navbar() {
               </Link>
             </NavigationMenuItem>
 
+            <NavigationMenuItem>
+              <Link href='/calculator' legacyBehavior passHref>
+                <div className='cursor-pointer'>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    <h1 className='text-2xl font-bold'>Kalkulator</h1>
+                  </NavigationMenuLink>
+                </div>
+              </Link>
+            </NavigationMenuItem>
+
             <div>
               <Link href='/rekrutacja-vulcan' legacyBehavior passHref>
                 <div className='cursor-pointer'>
