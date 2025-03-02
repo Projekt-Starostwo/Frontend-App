@@ -100,12 +100,12 @@ export default function Calculator() {
     <div className="flex justify-center p-10">
       <Card className="w-[1000px] font-bold">
         <CardHeader>
-          <CardTitle>Kalkulator punktów rekrutacyjnych</CardTitle>
+          <CardTitle><h1 className='font-bold text-2xl'>Kalkulator punktów rekrutacyjnych</h1></CardTitle>
         </CardHeader>
         <CardContent>
           {error && <h1 className="text-red-500 font-bold">{error}</h1>}
           
-          <h3 className="font-medium">Egzamin ósmoklasisty</h3>
+          <h3 className="font-bold">Egzamin ósmoklasisty</h3>
           {["polish", "math", "foreignLang"].map((subject) => (
             <div key={subject}>
               <label className="flex items-center space-x-2 mb-2">
@@ -125,7 +125,7 @@ export default function Calculator() {
             </div>
           ))}
 
-          <h3 className="font-medium">Świadectwo</h3>
+          <h3 className="font-bold">Świadectwo</h3>
           {["polish", "math", "extra1", "extra2"].map((subject) => (
             <input
               key={subject}
@@ -138,7 +138,7 @@ export default function Calculator() {
             />
           ))}
 
-          <h3 className="font-medium">Bonusy</h3>
+          <h3 className="font-bold">Bonusy</h3>
           <label className="flex items-center space-x-2">
             <input type="checkbox" name="volunteer" onChange={handleBonusChange} />
             <span>Wolontariat (+3 pkt)</span>
@@ -148,10 +148,10 @@ export default function Calculator() {
             <span>Świadectwo z wyróżnieniem (+7 pkt)</span>
           </label>
 
-          <h3 className="font-medium">Konkursy</h3>
+          <h3 className="font-bold">Konkursy</h3>
 <Accordion type="single" collapsible className="w-full font-bold">
   <AccordionItem value="item-1">
-    <AccordionTrigger>
+    <AccordionTrigger className="font-bold">
       Uzyskanie w zawodach wiedzy będących konkursem o zasięgu ponadwojewódzkim
     </AccordionTrigger>
     <AccordionContent>
@@ -170,7 +170,7 @@ export default function Calculator() {
   </AccordionItem>
 
   <AccordionItem value="item-2">
-    <AccordionTrigger>
+    <AccordionTrigger className="font-bold">
       Uzyskanie w zawodach wiedzy będących konkursem o zasięgu międzynarodowym lub ogólnopolskim
     </AccordionTrigger>
     <AccordionContent>
@@ -189,7 +189,7 @@ export default function Calculator() {
   </AccordionItem>
 
   <AccordionItem value="item-3">
-    <AccordionTrigger>
+    <AccordionTrigger className="font-bold">
       Uzyskanie w zawodach wiedzy będących konkursem o zasięgu wojewódzkim
     </AccordionTrigger>
     <AccordionContent>
@@ -201,9 +201,9 @@ export default function Calculator() {
         { label: " tytuł finalisty konkursu przedmiotowego (7 pkt)", value: 7 },
         { label: " tytuł laureata konkursu interdyscyplinarnego (5 pkt)", value: 5 },
         { label: " tytuł finalisty konkursu interdyscyplinarnego (3 pkt)", value: 3 },
-      ].map((option) => (
-        <label key={option.value} className="block">
-          <input type="radio" name="competition3" value={option.value} onChange={handleCompetitionChange}  />
+      ].map((option, index) => (
+        <label key={`${option.value}-${index}`} className="block">
+          <input type="radio" name="competition3" value={option.value} onChange={handleCompetitionChange} />
           {option.label}
         </label>
       ))}
@@ -211,7 +211,7 @@ export default function Calculator() {
   </AccordionItem>
 
   <AccordionItem value="item-4">
-    <AccordionTrigger>
+    <AccordionTrigger className="font-bold">
     Uzyskanie w zawodach wiedzy będących konkursem albo turniejem, o zasięgu ponadwojewódzkim lub wojewódzkim:
     </AccordionTrigger>
     <AccordionContent>
@@ -223,8 +223,8 @@ export default function Calculator() {
         { label: " tytułu finalisty konkursu przedmiotowego (7 pkt)", value: 7 },
         { label: " tytułu laureata konkursu tematycznego lub interdyscyplinarnego (3 pkt)", value: 3 },
         { label: " tytułu finalisty konkursu tematycznego lub interdyscyplinarnego (2 pkt)", value: 2 }
-      ].map((option) => (
-        <label key={option.value} className="block">
+      ].map((option, index) => (
+        <label key={`${option.value}-${index}`} className="block">
           <input type="radio" name="competition4" value={option.value} onChange={handleCompetitionChange} />
           {option.label}
         </label>
@@ -233,7 +233,7 @@ export default function Calculator() {
   </AccordionItem>
 
   <AccordionItem value="item-5">
-    <AccordionTrigger>
+    <AccordionTrigger className="font-bold">
     Uzyskanie wysokiego miejsca w zawodach wiedzy innych niż wymienione w pkt 1–4, artystycznych lub sportowych, organizowanych przez kuratora oświaty lub inne podmioty działające na terenie szkoły, na szczeblu:
     </AccordionTrigger>
     <AccordionContent>
@@ -243,7 +243,7 @@ export default function Calculator() {
         { label: " krajowym (3 pkt)", value: 3 },
         { label: " wojewódzkim (2 pkt)", value: 2 },
         { label: " powiatowym (1 pkt)", value: 1 },
-      ].map((option) => (
+      ].map((option, ) => (
         <label key={option.value} className="block">
           <input type="radio" name="competition5" value={option.value} onChange={handleCompetitionChange} />
           {option.label}
