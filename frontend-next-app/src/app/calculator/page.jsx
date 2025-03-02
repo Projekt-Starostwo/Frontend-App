@@ -98,7 +98,7 @@ export default function Calculator() {
 
   return (
     <div className="flex justify-center p-10">
-      <Card className="w-[600px]">
+      <Card className="w-[1000px] font-bold">
         <CardHeader>
           <CardTitle>Kalkulator punktów rekrutacyjnych</CardTitle>
         </CardHeader>
@@ -149,7 +149,7 @@ export default function Calculator() {
           </label>
 
           <h3 className="font-medium">Konkursy</h3>
-<Accordion type="single" collapsible className="w-full">
+<Accordion type="single" collapsible className="w-full font-bold">
   <AccordionItem value="item-1">
     <AccordionTrigger>
       Uzyskanie w zawodach wiedzy będących konkursem o zasięgu ponadwojewódzkim
@@ -210,38 +210,42 @@ export default function Calculator() {
     </AccordionContent>
   </AccordionItem>
 
-  <AccordionItem value="item-2">
+  <AccordionItem value="item-4">
     <AccordionTrigger>
     Uzyskanie w zawodach wiedzy będących konkursem albo turniejem, o zasięgu ponadwojewódzkim lub wojewódzkim:
     </AccordionTrigger>
     <AccordionContent>
       {[
         { label: " brak (0 pkt)", value: 0 },
-        { label: " tytuł finalisty konkursu przedmiotowego lub artystycznego (10 pkt)", value: 10 },
-        { label: " tytuł laureata turnieju artystycznego (4 pkt)", value: 4 },
-        { label: " tytuł finalisty turnieju artystycznego (3 pkt)", value: 3 },
+        { label: " dwóch lub więcej tytułów finalisty konkursu przedmiotowego (10 pkt)", value: 10 },
+        { label: " dwóch lub więcej tytułów laureata konkursu tematycznego lub interdyscyplinarnego (7 pkt)", value: 7 },
+        { label: " dwóch lub więcej tytułów finalisty konkursu tematycznego lub interdyscyplinarnego (5 pkt)", value: 5 },
+        { label: " tytułu finalisty konkursu przedmiotowego (7 pkt)", value: 7 },
+        { label: " tytułu laureata konkursu tematycznego lub interdyscyplinarnego (3 pkt)", value: 3 },
+        { label: " tytułu finalisty konkursu tematycznego lub interdyscyplinarnego (2 pkt)", value: 2 }
       ].map((option) => (
         <label key={option.value} className="block">
-          <input type="radio" name="competition2" value={option.value} onChange={handleCompetitionChange} />
+          <input type="radio" name="competition4" value={option.value} onChange={handleCompetitionChange} />
           {option.label}
         </label>
       ))}
     </AccordionContent>
   </AccordionItem>
 
-  <AccordionItem value="item-2">
+  <AccordionItem value="item-5">
     <AccordionTrigger>
     Uzyskanie wysokiego miejsca w zawodach wiedzy innych niż wymienione w pkt 1–4, artystycznych lub sportowych, organizowanych przez kuratora oświaty lub inne podmioty działające na terenie szkoły, na szczeblu:
     </AccordionTrigger>
     <AccordionContent>
       {[
         { label: " brak (0 pkt)", value: 0 },
-        { label: " tytuł finalisty konkursu przedmiotowego lub artystycznego (10 pkt)", value: 10 },
-        { label: " tytuł laureata turnieju artystycznego (4 pkt)", value: 4 },
-        { label: " tytuł finalisty turnieju artystycznego (3 pkt)", value: 3 },
+        { label: " międzynarodowym (4 pkt)", value: 4 },
+        { label: " krajowym (3 pkt)", value: 3 },
+        { label: " wojewódzkim (2 pkt)", value: 2 },
+        { label: " powiatowym (1 pkt)", value: 1 },
       ].map((option) => (
         <label key={option.value} className="block">
-          <input type="radio" name="competition2" value={option.value} onChange={handleCompetitionChange} />
+          <input type="radio" name="competition5" value={option.value} onChange={handleCompetitionChange} />
           {option.label}
         </label>
       ))}
@@ -253,13 +257,19 @@ export default function Calculator() {
 
         </CardContent>
         <CardFooter>
+          <div className='flex flex-col'>
+
           <button
             onClick={calculatePoints}
             className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
           >
             Oblicz punkty
           </button>
+          
           {result !== null && <h1 className="text-2xl font-bold text-center mt-4">Twoje punkty: {result}</h1>}
+
+          </div>
+          
         </CardFooter>
       </Card>
     </div>
