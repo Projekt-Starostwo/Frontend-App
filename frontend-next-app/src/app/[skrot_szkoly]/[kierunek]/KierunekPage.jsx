@@ -142,9 +142,9 @@ function RenderAccordionOfListedInfo({ kierunek }) {
       )}
       {kierunek.warunki_pracy.length > 0 && (
         <AccordionItem value='item-3'>
-          <AccordionTrigger> className='text-lg'Jak wygląda praca w tym zawodzie?</AccordionTrigger>
+          <AccordionTrigger className='text-lg'>Jak wygląda praca w tym zawodzie?</AccordionTrigger>
           <AccordionContent>
-            <RenderListedInfo list={kierunek.warunki_pracy} itemLabel={'praca'} />
+            <RenderListedInfo list={kierunek.warunki_pracy} itemLabel={'cechy_pracy'} />
           </AccordionContent>
         </AccordionItem>
       )}
