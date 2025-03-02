@@ -203,7 +203,7 @@ export default function Calculator() {
         { label: " tytuł finalisty konkursu interdyscyplinarnego (3 pkt)", value: 3 },
       ].map((option) => (
         <label key={option.value} className="block">
-          <input type="radio" name="competition3" value={option.value} onChange={handleCompetitionChange} />
+          <input type="radio" name="competition3" value={option.value} onChange={handleCompetitionChange}  />
           {option.label}
         </label>
       ))}
