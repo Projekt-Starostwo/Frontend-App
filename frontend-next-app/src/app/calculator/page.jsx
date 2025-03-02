@@ -98,7 +98,7 @@ export default function Calculator() {
 
   return (
     <div className="flex justify-center p-10">
-      <Card className="w-[1000px] font-bold">
+      <Card className="w-[1000px] font-bold m-10 p-10 text-sm/8">
         <CardHeader>
           <CardTitle><h1 className='font-bold text-2xl'>Kalkulator punktów rekrutacyjnych</h1></CardTitle>
         </CardHeader>

@@ -6,7 +6,7 @@ import CustomMarker from './CustomMarker'
 import RequestLocation from '@/app/lokalizacja-usera/page'
 import { Button } from '@/components/ui/button'
 import { useTheme } from 'next-themes'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import L from 'leaflet'
 import { Bus, ExternalLink } from 'lucide-react'
 import ReactDOMServer from 'react-dom/server'
@@ -22,23 +22,32 @@ export default function LeafletMap({ map, listOfSchools, showPopup }) {
   const [selectedSchool, setSelectedSchool] = useState(null)
   const [pokazPrzystanki, setPokazPrzystanki] = useState(false)
 
+  useEffect(() => {
+    if (map.map && selectedSchool) {
+      flyToLocation(map.map, selectedSchool[1], selectedSchool[0], 15)
+    }
+  }, [selectedSchool])
+
+  const flyToLocation = (map, lat, lng, zoom) => {
+    map.flyTo([lat, lng], zoom)
+  }
+
   return (
     <>
       <div className='w-full flex flex-row justify-between items-center relative'>
-        {/* buttons is shown on the map via custom css class (globals.css) */}
         <Button
           className='border-2 border-transparent reset-map'
           onClick={() => {
-            map.map.setView(MAP_CENTER, DEFAULT_ZOOM)
+            flyToLocation(map.map, MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM)
           }}
         >
           Zresetuj mapę
         </Button>
         <Button
-          className={`${pokazPrzystanki ? 'przystanki-btn btn-active' : 'przystanki-btn'}`}
+          className={`${pokazPrzystanki ? 'przystanki-btn btn-active' : 'przystanki-btn'} transition-all duration-300 hover:scale-105`}
           onClick={() => setPokazPrzystanki((prevState) => !prevState)}
         >
-          Pokaz przystanki
+          {pokazPrzystanki ? 'Ukryj przystanki' : 'Pokaż przystanki'}
         </Button>
       </div>
 
@@ -91,6 +100,7 @@ export default function LeafletMap({ map, listOfSchools, showPopup }) {
     </>
   )
 }
+
 function Przystanek({ przystanek }) {
   return (
     <Marker
@@ -98,7 +108,7 @@ function Przystanek({ przystanek }) {
       icon={L.divIcon({
         iconSize: [0, 0],
         html: ReactDOMServer.renderToString(
-          <div className='bg-transparent'>
+          <div className='bg-transparent animate-pulse'>
             <Bus size={20} color='var(--main-mmz-blue)' />
           </div>
         ),
@@ -115,28 +125,25 @@ function Przystanek({ przystanek }) {
     </Marker>
   )
 }
+
 function getCorrectBusTableUrl(oznaczenie) {
-  // console.log(oznaczenie)
   if (oznaczenie === 'M1') {
-    // console.log('jest m1')
     return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/718,linia-m1' />
   }
 
   if (oznaczenie === 'M2') {
-    // console.log('jest m2')
     return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/719,linia-m2' />
   }
 
   if (oznaczenie === 'M3') {
-    // console.log('jest m3')
-    return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/720,linia-m3`' />
+    return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/720,linia-m3' />
   }
 
   if (oznaczenie === 'M4') {
-    // console.log('jest m4')
     return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/1154,linia-m4' />
   }
 }
+
 function OznaczenieLink({ oznaczenie, link }) {
   return (
     <div className='flex flex-row justify-between gap-5'>
