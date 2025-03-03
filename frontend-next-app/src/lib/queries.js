@@ -221,8 +221,9 @@ export async function getSchoolDetails(skrot_szkoly) {
     error.statusCode = 404
     throw error
   }
+
   // optional formating md file from db, (needs improvments)
-  if (school.rodzaje_szkoly.liceum) {
+  if (school.rodzaje_szkoly.liceum && school.rodzaje_szkoly.liceum.opis_typu_szkoly) {
     school.rodzaje_szkoly.liceum.opis_typu_szkoly = marked.parse(school.rodzaje_szkoly.liceum.opis_typu_szkoly)
   }
 
