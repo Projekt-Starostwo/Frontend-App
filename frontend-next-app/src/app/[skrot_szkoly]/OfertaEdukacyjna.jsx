@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { appedDomain, slugify } from '@/lib/utils'
 export default async function OfertaEdukacyjna({ school }) {
-  console.log(school)
+  // console.log(school)
   return (
     <div className='p-4 flex flex-col justify-center items-center gap-12'>
       {school.rodzaje_szkoly.liceum && (
@@ -44,7 +44,7 @@ function SchoolType({ school, listaKierunkow, typ, schoolDescription }) {
       <h1 className='text-3xl font-bold'>{typ}</h1>
       {schoolDescription && (
         <div>
-          <p className='py-4'>{schoolDescription}</p>
+          <p className='py-4' dangerouslySetInnerHTML={{ __html: schoolDescription }}></p>
         </div>
       )}
 

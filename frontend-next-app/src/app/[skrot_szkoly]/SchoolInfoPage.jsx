@@ -12,7 +12,7 @@ import { tryCatch } from '@/lib/utils'
 export default async function SchoolPageInfo({ params }) {
   const { data, error } = await tryCatch(getSchoolDetails(params.skrot_szkoly))
   const school = data
-
+  console.log(error)
   return (
     <div className='h-auto w-full  flex flex-col justify-start items-center p-10'>
       {error && (
@@ -27,7 +27,7 @@ export default async function SchoolPageInfo({ params }) {
         <div className='h-full w-2/3'>
           <h1 className='text-4xl font-bold p-4'>{school.nazwa_szkoly}</h1>
 
-          <SchoolDescription school={school} />
+          {/* <SchoolDescription school={school} /> */}
 
           <IconInfo school={school} />
 

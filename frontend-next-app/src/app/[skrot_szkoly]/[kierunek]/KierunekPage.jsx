@@ -51,7 +51,7 @@ function HeadingAndDescription({ kierunek }) {
     <div className='flex gap-6 flex-col'>
       <h1 className='text-4xl font-bold'>{kierunek.nazwa_kierunku}</h1>
       <div className='h-1/2'>
-        <p className=''>{kierunek.opis_kierunku}</p>
+        <p className='' dangerouslySetInnerHTML={{ __html: kierunek.opis_kierunku }}></p>
       </div>
     </div>
   )
