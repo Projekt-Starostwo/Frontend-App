@@ -28,8 +28,8 @@ export default function LeafletMap({ map, listOfSchools, showPopup }) {
     }
   }, [selectedSchool])
 
-  const flyToLocation = (map, lat, lng, zoom) => {
-    map.flyTo([lat, lng], zoom)
+  const flyToLocation = (lat, lng, zoom) => {
+    map.map.flyTo([lat, lng], zoom)
   }
 
   return (
@@ -38,7 +38,7 @@ export default function LeafletMap({ map, listOfSchools, showPopup }) {
         <Button
           className='border-2 border-transparent reset-map'
           onClick={() => {
-            flyToLocation(map.map, MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM)
+            flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM)
           }}
         >
           Zresetuj mapę

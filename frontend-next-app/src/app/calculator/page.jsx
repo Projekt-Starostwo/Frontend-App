@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Calculator() {
   const [examScores, setExamScores] = useState({
@@ -75,8 +75,12 @@ export default function Calculator() {
     setCompetitionPoints(parseInt(e.target.value) || 0);
   };
 
+  useEffect(() => {
+    calculatePoints();
+  }, [examScores, grades, bonus, exempted, competitionPoints]); // Automatyczna aktualizacja przy zmianie wartości
+  
   const calculatePoints = () => {
-    if (error) return; // Nie liczymy punktów, jeśli jest błąd
+    if (error) return;
 
     const examPoints =
       (exempted.polish ? 35 : examScores.polish * 0.35) +
@@ -100,18 +104,15 @@ export default function Calculator() {
     <div className="flex justify-center p-10">
       <Card className="w-[1000px] font-bold m-10 p-10 text-sm/8">
         <CardHeader>
-          <CardTitle><h1 className='font-bold text-2xl'>Kalkulator punktów rekrutacyjnych</h1></CardTitle>
+          <CardTitle><h1 className='font-bold text-4xl'>Kalkulator punktów rekrutacyjnych</h1></CardTitle>
         </CardHeader>
         <CardContent>
           {error && <h1 className="text-red-500 font-bold">{error}</h1>}
           
-          <h3 className="font-bold">Egzamin ósmoklasisty</h3>
+          <h3 className="font-bold text-2xl">Egzamin ósmoklasisty</h3>
           {["polish", "math", "foreignLang"].map((subject) => (
             <div key={subject}>
-              <label className="flex items-center space-x-2 mb-2">
-                <input type="checkbox" name={subject} onChange={handleExemptedChange} />
-                <span>Zwolniony z egzaminu ({subjectNames[subject]})</span>
-              </label>
+              
               {!exempted[subject] && (
                 <input
                   type="number"
@@ -121,11 +122,16 @@ export default function Calculator() {
                   max="100"
                   className="block w-full p-2 border rounded mt-2"
                 />
+                
               )}
+              <label className="flex items-center space-x-2 mb-2">
+                <input type="checkbox" name={subject} onChange={handleExemptedChange} />
+                <span>Zwolniony z egzaminu ({subjectNames[subject]})</span>
+              </label>
             </div>
           ))}
 
-          <h3 className="font-bold">Świadectwo</h3>
+          <h3 className="font-bold text-2xl">Świadectwo</h3>
           {["polish", "math", "extra1", "extra2"].map((subject) => (
             <input
               key={subject}
@@ -138,7 +144,7 @@ export default function Calculator() {
             />
           ))}
 
-          <h3 className="font-bold">Bonusy</h3>
+          <h3 className="font-bold text-2xl">Bonusy</h3>
           <label className="flex items-center space-x-2">
             <input type="checkbox" name="volunteer" onChange={handleBonusChange} />
             <span>Wolontariat (+3 pkt)</span>
