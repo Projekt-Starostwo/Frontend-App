@@ -1,6 +1,6 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Polygon } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import CustomMarker from "./CustomMarker";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import L from "leaflet";
 import { Bus, ExternalLink } from "lucide-react";
 import ReactDOMServer from "react-dom/server";
 import { PRZYSTANKI_MMZ } from "@/lib/przystankiMmz";
+import { GraniceMmz } from "@/lib/granicemmz";
 import Link from "next/link";
 
 export const MAP_CENTER = [52.179, 21.57211];
@@ -22,7 +23,7 @@ export default function LeafletMap({ map, listOfSchools, showPopup }) {
 
   return (
     <>
-      <div className="w-full flex flex-row justify-between items-center relative">
+      <div className="w-full flex flex-row justify-between items-center relative bg-black">
         {/* buttons is shown on the map via custom css class (globals.css) */}
         <Button
           className="border-2 border-transparent reset-map"
@@ -67,7 +68,19 @@ export default function LeafletMap({ map, listOfSchools, showPopup }) {
               : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           }
         />
-
+        {GraniceMmz.map((polygon, index) => (
+          <Polygon
+            key={index}
+            positions={polygon.coordinates[0].map((coord) => [
+              coord[1],
+              coord[0],
+            ])}
+            weight={4}
+            color={"#1E90FF"}
+            fillColor={"#1e90ff"}
+            fillOpacity={0.1}
+          />
+        ))}
         {listOfSchools?.map((school) => (
           <CustomMarker
             key={school.id}
