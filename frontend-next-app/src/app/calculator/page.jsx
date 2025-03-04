@@ -97,7 +97,9 @@ export default function Calculator() {
 
     const bonusPoints = (bonus.volunteer ? 3 : 0) + (bonus.distinction ? 7 : 0) + competitionPoints;
 
-    setResult(Math.min(200, examPoints + gradesPoints + bonusPoints));
+    const totalPoints = examPoints + gradesPoints + bonusPoints;
+const scaledResult = Math.round(Math.min(200, totalPoints));
+setResult(scaledResult);
   };
 
   return (
@@ -257,19 +259,15 @@ export default function Calculator() {
 
         </CardContent>
         <CardFooter>
-          <div className='flex flex-col'>
-
-          <button
-            onClick={calculatePoints}
-            className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
-          >
-            Oblicz punkty
-          </button>
           
-          {result !== null && <h1 className="text-2xl font-bold text-center mt-4">Twoje punkty: {result}</h1>}
-
-          </div>
-          
+        <div className='flex justify-center items-center '>
+  <h1 className="text-2xl font-bold text-center mr-4">Twój wynik</h1>
+  {result !== null && (
+    <div className="bg-blue p-4 rounded-lg shadow-lg border border-gray">
+      <p className='text-center text-white'>{result}/200</p>
+    </div>
+  )}
+</div>
         </CardFooter>
       </Card>
     </div>
