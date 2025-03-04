@@ -77,8 +77,7 @@ export default function LeafletMap({ map, listOfSchools, showPopup }) {
             ])}
             weight={4}
             color={"#1E90FF"}
-            fillColor={"#1e90ff"}
-            fillOpacity={0.1}
+            fill={false}
           />
         ))}
         {listOfSchools?.map((school) => (
