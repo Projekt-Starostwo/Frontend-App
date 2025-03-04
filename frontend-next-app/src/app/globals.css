@@ -82,7 +82,11 @@ body {
   right: 12;
 }
 .mmz-heading {
-  background: -webkit-linear-gradient(45deg, var(--main-mmz-blue), var(--main-mmz-yellow));
+  background: -webkit-linear-gradient(
+    45deg,
+    var(--main-mmz-blue),
+    var(--main-mmz-yellow)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
