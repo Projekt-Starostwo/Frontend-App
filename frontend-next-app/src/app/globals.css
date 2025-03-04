@@ -82,11 +82,7 @@ body {
   right: 12;
 }
 .mmz-heading {
-  background: -webkit-linear-gradient(
-    45deg,
-    var(--main-mmz-blue),
-    var(--main-mmz-yellow)
-  );
+  background: -webkit-linear-gradient(45deg, var(--main-mmz-blue), var(--main-mmz-yellow));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -98,9 +94,15 @@ body {
   z-index: 99999;
   position: absolute;
   top: 40;
-  right: 160;
+  right: 180;
   /* background-color: var(--destructive); */
 }
 .btn-active {
   background-color: var(--main-mmz-blue);
+}
+.schoolItem {
+  transition: filter 0.2s ease-out; /* Added transition */
+}
+.schoolItem:hover {
+  filter: drop-shadow(var(--main-mmz-blue) 0 0 25px);
 }

@@ -1,11 +1,13 @@
 'use client'
-
+import dynamic from 'next/dynamic'
+const LeafletMap = dynamic(() => import('../(landingPageComponents)/(map)/LeafletMap'), {
+  ssr: false,
+})
 import { useEffect, useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getListOfSchool } from '@/lib/queries'
 import ListOfSchools from './(sidebarList)/ListOfSchools'
 import SpinnerLoading from '@/components/SpinnerLoading'
-import LeafletMap from './(map)/LeafletMap'
 import ErrorPage from '@/components/ErrorPage'
 import { Checkbox } from '@/components/ui/checkbox'
 import { tryCatch } from '@/lib/utils'
