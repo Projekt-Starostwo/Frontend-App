@@ -101,7 +101,7 @@ export default function Calculator() {
   };
 
   return (
-    <div className="flex justify-center p-10">
+    <div className="flex justify-center p-10 ">
       <Card className="w-[1000px] font-bold m-10 p-10 text-sm/8">
         <CardHeader>
           <CardTitle><h1 className='font-bold text-4xl'>Kalkulator punktów rekrutacyjnych</h1></CardTitle>
@@ -113,11 +113,17 @@ export default function Calculator() {
           {["polish", "math", "foreignLang"].map((subject) => (
             <div key={subject}>
               
+              <h1 className="text-xl font-bold">
+            {subject === "polish" && "Jezyk polski"}
+            {subject === "math" && "Matematyka"}
+            {subject === "foreignLang" && "Jezyk obcy"}
+          </h1>
+
               {!exempted[subject] && (
                 <input
                   type="number"
                   name={subject}
-                  placeholder={`Wynik z ${subjectNames[subject]}`}
+                  placeholder={`Wynik % z ${subjectNames[subject]}`}
                   onChange={handleExamChange}
                   max="100"
                   className="block w-full p-2 border rounded mt-2"
@@ -154,111 +160,99 @@ export default function Calculator() {
             <span>Świadectwo z wyróżnieniem (+7 pkt)</span>
           </label>
 
-          <h3 className="font-bold">Konkursy</h3>
-<Accordion type="single" collapsible className="w-full font-bold">
-  <AccordionItem value="item-1">
-    <AccordionTrigger className="font-bold">
-      Uzyskanie w zawodach wiedzy będących konkursem o zasięgu ponadwojewódzkim
+          <h3 className="font-bold text-2xl"></h3>
+          <Accordion type="single" collapsible className="w-full font-bold">
+  <AccordionItem value="competitions">
+    <AccordionTrigger className="font-bold text-2xl">
+      Konkursy
     </AccordionTrigger>
     <AccordionContent>
-      {[
-        { label: " brak (0 pkt)", value: 0 },
-        { label: " tytuł finalisty konkursu przedmiotowego (10 pkt)", value: 10 },
-        { label: " tytuł laureata konkursu tematycznego lub interdyscyplinarnego (7 pkt)", value: 7 },
-        { label: " tytuł finalisty konkursu tematycznego lub interdyscyplinarnego (5 pkt)", value: 5 },
-      ].map((option) => (
-        <label key={option.value} className="block">
-          <input type="radio" name="competition1" value={option.value} onChange={handleCompetitionChange} />
-          {option.label}
-        </label>
-      ))}
+      <div className="mb-4">
+        <h4 className="font-bold text-xl">Uzyskanie w zawodach wiedzy będących konkursem o zasięgu ponadwojewódzkim:</h4>
+        {[
+          { label: " brak (0 pkt)", value: 0 },
+          { label: " tytuł finalisty konkursu przedmiotowego (10 pkt)", value: 10 },
+          { label: " tytuł laureata konkursu tematycznego lub interdyscyplinarnego (7 pkt)", value: 7 },
+          { label: " tytuł finalisty konkursu tematycznego lub interdyscyplinarnego (5 pkt)", value: 5 },
+        ].map((option, index) => (
+          <label key={`competition1-${index}`} className="block">
+            <input type="radio" name="competition1" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0} />
+            {option.label}
+          </label>
+        ))}
+      </div>
+
+      <div className="mb-4">
+        <h4 className="font-bold text-xl">Uzyskanie w zawodach wiedzy będących konkursem o zasięgu międzynarodowym lub ogólnopolskim:</h4>
+        {[
+          { label: " brak (0 pkt)", value: 0 },
+          { label: " tytuł finalisty konkursu przedmiotowego lub artystycznego (10 pkt)", value: 10 },
+          { label: " tytuł laureata turnieju artystycznego (4 pkt)", value: 4 },
+          { label: " tytuł finalisty turnieju artystycznego (3 pkt)", value: 3 },
+        ].map((option, index) => (
+          <label key={`competition2-${index}`} className="block">
+            <input type="radio" name="competition2" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0} />
+            {option.label}
+          </label>
+        ))}
+      </div>
+
+      <div className="mb-4">
+        <h4 className="font-bold text-xl">Uzyskanie w zawodach wiedzy będących konkursem o zasięgu wojewódzkim:</h4>
+        {[
+          { label: " brak (0 pkt)", value: 0 },
+          { label: " dwóch lub więcej tytułów finalisty konkursu przedmiotowego (10 pkt)", value: 10 },
+          { label: " dwóch lub więcej tytułów laureata konkursu interdyscyplinarnego (7 pkt)", value: 7 },
+          { label: " dwóch lub więcej tytułów finalisty konkursu interdyscyplinarnego (5 pkt)", value: 5 },
+          { label: " tytuł finalisty konkursu przedmiotowego (7 pkt)", value: 7 },
+          { label: " tytuł laureata konkursu interdyscyplinarnego (5 pkt)", value: 5 },
+          { label: " tytuł finalisty konkursu interdyscyplinarnego (3 pkt)", value: 3 },
+        ].map((option, index) => (
+          <label key={`competition3-${index}`} className="block">
+            <input type="radio" name="competition3" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0} />
+            {option.label}
+          </label>
+        ))}
+      </div>
+
+      <div className="mb-4">
+        <h4 className="font-bold text-xl">Uzyskanie w zawodach wiedzy będących konkursem albo turniejem, o zasięgu ponadwojewódzkim lub wojewódzkim:</h4>
+        {[
+          { label: " brak (0 pkt)", value: 0 },
+          { label: " dwóch lub więcej tytułów finalisty konkursu przedmiotowego (10 pkt)", value: 10 },
+          { label: " dwóch lub więcej tytułów laureata konkursu tematycznego lub interdyscyplinarnego (7 pkt)", value: 7 },
+          { label: " dwóch lub więcej tytułów finalisty konkursu tematycznego lub interdyscyplinarnego (5 pkt)", value: 5 },
+          { label: " tytułu finalisty konkursu przedmiotowego (7 pkt)", value: 7 },
+          { label: " tytułu laureata konkursu tematycznego lub interdyscyplinarnego (3 pkt)", value: 3 },
+          { label: " tytułu finalisty konkursu tematycznego lub interdyscyplinarnego (2 pkt)", value: 2 },
+        ].map((option, index) => (
+          <label key={`competition4-${index}`} className="block">
+            <input type="radio" name="competition4" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0} />
+            {option.label}
+          </label>
+        ))}
+      </div>
+
+      <div>
+        <h4 className="font-bold text-xl">Uzyskanie wysokiego miejsca w zawodach wiedzy innych niż wymienione w pkt 1–4, artystycznych lub sportowych, organizowanych przez kuratora oświaty lub inne podmioty działające na terenie szkoły, na szczeblu:</h4>
+        {[
+          { label: " brak (0 pkt)", value: 0 },
+          { label: " międzynarodowym (4 pkt)", value: 4 },
+          { label: " krajowym (3 pkt)", value: 3 },
+          { label: " wojewódzkim (2 pkt)", value: 2 },
+          { label: " powiatowym (1 pkt)", value: 1 },
+        ].map((option, index) => (
+          <label key={`competition5-${index}`} className="block">
+            <input type="radio" name="competition5" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0} />
+            {option.label}
+          </label>
+        ))}
+      </div>
     </AccordionContent>
   </AccordionItem>
-
-  <AccordionItem value="item-2">
-    <AccordionTrigger className="font-bold">
-      Uzyskanie w zawodach wiedzy będących konkursem o zasięgu międzynarodowym lub ogólnopolskim
-    </AccordionTrigger>
-    <AccordionContent>
-      {[
-        { label: " brak (0 pkt)", value: 0 },
-        { label: " tytuł finalisty konkursu przedmiotowego lub artystycznego (10 pkt)", value: 10 },
-        { label: " tytuł laureata turnieju artystycznego (4 pkt)", value: 4 },
-        { label: " tytuł finalisty turnieju artystycznego (3 pkt)", value: 3 },
-      ].map((option) => (
-        <label key={option.value} className="block">
-          <input type="radio" name="competition2" value={option.value} onChange={handleCompetitionChange} />
-          {option.label}
-        </label>
-      ))}
-    </AccordionContent>
-  </AccordionItem>
-
-  <AccordionItem value="item-3">
-    <AccordionTrigger className="font-bold">
-      Uzyskanie w zawodach wiedzy będących konkursem o zasięgu wojewódzkim
-    </AccordionTrigger>
-    <AccordionContent>
-      {[
-        { label: " brak (0 pkt)", value: 0 },
-        { label: " dwóch lub więcej tytułów finalisty konkursu przedmiotowego (10 pkt)", value: 10 },
-        { label: " dwóch lub więcej tytułów laureata konkursu interdyscyplinarnego (7 pkt)", value: 7 },
-        { label: " dwóch lub więcej tytułów finalisty konkursu interdyscyplinarnego (5 pkt)", value: 5 },
-        { label: " tytuł finalisty konkursu przedmiotowego (7 pkt)", value: 7 },
-        { label: " tytuł laureata konkursu interdyscyplinarnego (5 pkt)", value: 5 },
-        { label: " tytuł finalisty konkursu interdyscyplinarnego (3 pkt)", value: 3 },
-      ].map((option, index) => (
-        <label key={`${option.value}-${index}`} className="block">
-          <input type="radio" name="competition3" value={option.value} onChange={handleCompetitionChange} />
-          {option.label}
-        </label>
-      ))}
-    </AccordionContent>
-  </AccordionItem>
-
-  <AccordionItem value="item-4">
-    <AccordionTrigger className="font-bold">
-    Uzyskanie w zawodach wiedzy będących konkursem albo turniejem, o zasięgu ponadwojewódzkim lub wojewódzkim:
-    </AccordionTrigger>
-    <AccordionContent>
-      {[
-        { label: " brak (0 pkt)", value: 0 },
-        { label: " dwóch lub więcej tytułów finalisty konkursu przedmiotowego (10 pkt)", value: 10 },
-        { label: " dwóch lub więcej tytułów laureata konkursu tematycznego lub interdyscyplinarnego (7 pkt)", value: 7 },
-        { label: " dwóch lub więcej tytułów finalisty konkursu tematycznego lub interdyscyplinarnego (5 pkt)", value: 5 },
-        { label: " tytułu finalisty konkursu przedmiotowego (7 pkt)", value: 7 },
-        { label: " tytułu laureata konkursu tematycznego lub interdyscyplinarnego (3 pkt)", value: 3 },
-        { label: " tytułu finalisty konkursu tematycznego lub interdyscyplinarnego (2 pkt)", value: 2 }
-      ].map((option, index) => (
-        <label key={`${option.value}-${index}`} className="block">
-          <input type="radio" name="competition4" value={option.value} onChange={handleCompetitionChange} />
-          {option.label}
-        </label>
-      ))}
-    </AccordionContent>
-  </AccordionItem>
-
-  <AccordionItem value="item-5">
-    <AccordionTrigger className="font-bold">
-    Uzyskanie wysokiego miejsca w zawodach wiedzy innych niż wymienione w pkt 1–4, artystycznych lub sportowych, organizowanych przez kuratora oświaty lub inne podmioty działające na terenie szkoły, na szczeblu:
-    </AccordionTrigger>
-    <AccordionContent>
-      {[
-        { label: " brak (0 pkt)", value: 0 },
-        { label: " międzynarodowym (4 pkt)", value: 4 },
-        { label: " krajowym (3 pkt)", value: 3 },
-        { label: " wojewódzkim (2 pkt)", value: 2 },
-        { label: " powiatowym (1 pkt)", value: 1 },
-      ].map((option, ) => (
-        <label key={option.value} className="block">
-          <input type="radio" name="competition5" value={option.value} onChange={handleCompetitionChange} />
-          {option.label}
-        </label>
-      ))}
-    </AccordionContent>
-  </AccordionItem>
-
 </Accordion>
+
+
 
 
         </CardContent>
