@@ -25,9 +25,24 @@ export default function Calculator() {
     math: false,
     foreignLang: false,
   });
-  const [competitionPoints, setCompetitionPoints] = useState(0);
+  
+  const [competitionPoints, setCompetitionPoints] = useState({
+    competition1: 0,
+    competition2: 0,
+    competition3: 0,
+    competition4: 0,
+    competition5: 0,
+  });
+  
+
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+
+  const [totalCompetitionPoints, setTotalCompetitionPoints] = useState(0);
+
+  const [examErrors, setExamErrors] = useState({});
+const [gradeErrors, setGradeErrors] = useState({});
+
 
   const subjectNames = {
     polish: "języka polskiego",
@@ -53,14 +68,20 @@ export default function Calculator() {
   };
 
   const handleGradeChange = (e) => {
-    const value = parseInt(e.target.value) || 0;
-    if (value > 6 || value < 1) {
-      setError(`Ocena z ${subjectNames[e.target.name] || e.target.name} musi być między 1 a 6!`);
+    const { name, value } = e.target;
+    const numValue = parseInt(value) || 0;
+  
+    if (numValue < 1 || numValue > 6) {
+      setGradeErrors((prev) => ({
+        ...prev,
+        [name]: `Ocena ${subjectNamesGrades[name] || name} musi być między 1 a 6!`
+      }));
     } else {
-      setError("");
-      setGrades({ ...grades, [e.target.name]: value });
+      setGradeErrors((prev) => ({ ...prev, [name]: "" }));
+      setGrades((prev) => ({ ...prev, [name]: numValue }));
     }
   };
+  
 
   const handleBonusChange = (e) => {
     setBonus({ ...bonus, [e.target.name]: e.target.checked });
@@ -71,12 +92,24 @@ export default function Calculator() {
   };
 
   const handleCompetitionChange = (e) => {
-    setCompetitionPoints(parseInt(e.target.value) || 0);
+    const value = parseInt(e.target.value) || 0;
+    const name = e.target.name;
+  
+    setCompetitionPoints((prev) => {
+      const updatedPoints = { ...prev, [name]: value };
+      const total = Object.values(updatedPoints).reduce((sum, val) => sum + val, 0);
+      setTotalCompetitionPoints(total); 
+      return updatedPoints;
+    });
   };
+  
 
   useEffect(() => {
     calculatePoints();
-  }, [examScores, grades, bonus, exempted, competitionPoints]); // Automatyczna aktualizacja przy zmianie wartości
+  }, [examScores, grades, bonus, exempted, competitionPoints]); 
+
+  
+
 
   const calculatePoints = () => {
     if (error) return;
@@ -89,7 +122,7 @@ export default function Calculator() {
     const gradesPoints =
       (gradeToPoints[grades.polish] || 0) + (gradeToPoints[grades.math] || 0) + (gradeToPoints[grades.extra1] || 0) + (gradeToPoints[grades.extra2] || 0);
 
-    const bonusPoints = (bonus.volunteer ? 3 : 0) + (bonus.distinction ? 7 : 0) + competitionPoints;
+    const bonusPoints = (bonus.volunteer ? 3 : 0) + (bonus.distinction ? 7 : 0) + totalCompetitionPoints;
 
     const totalPoints = examPoints + gradesPoints + bonusPoints;
     const scaledResult = Math.round(Math.min(200, totalPoints));
