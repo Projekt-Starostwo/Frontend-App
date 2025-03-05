@@ -43,7 +43,7 @@ export default function LeafletMap({ map, listOfSchools, showPopup, initialMapCe
           onClick={() => setPokazPrzystanki((prevState) => !prevState)}
         >
           <Bus />
-          <p>Pokaz przystanki</p>
+          {pokazPrzystanki ? 'Ukryj przystanki' : 'Pokaż przystanki'}
         </Button>
       </div>
 
@@ -96,7 +96,7 @@ function Przystanek({ przystanek }) {
       icon={L.divIcon({
         iconSize: [0, 0],
         html: ReactDOMServer.renderToString(
-          <div className='bg-transparent'>
+          <div className='bg-transparent animate-pulse'>
             <Bus size={20} color='var(--main-mmz-blue)' />
           </div>
         ),
