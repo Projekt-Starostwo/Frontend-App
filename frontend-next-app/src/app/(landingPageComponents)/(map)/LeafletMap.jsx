@@ -13,6 +13,11 @@ import { PRZYSTANKI_MMZ } from '@/lib/przystankiMmz'
 import { GraniceMmz } from '@/lib/granicemmz'
 import Link from 'next/link'
 
+const GraniceMMZ = [
+  [52.14, 21.53],
+  [52.22, 21.61]  
+];
+
 export const MAP_CENTER = [52.179, 21.57211]
 const DEFAULT_ZOOM = 14
 
@@ -49,10 +54,7 @@ export default function LeafletMap({ map, listOfSchools, showPopup, initialMapCe
         className='w-full h-full z-10 rounded-xl'
         maxZoom={17}
         minZoom={13}
-        maxBounds={[
-          [51.8, 20.6],
-          [52.5, 22.4113],
-        ]}
+        maxBounds={GraniceMMZ}
         ref={map.setMap}
       >
         <TileLayer
