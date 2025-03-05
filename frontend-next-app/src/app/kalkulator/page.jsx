@@ -156,7 +156,7 @@ const [gradeErrors, setGradeErrors] = useState({});
                   placeholder={`Wynik % z ${subjectNames[subject]}`}
                   onChange={handleExamChange}
                   max="100"
-                  className="block w-full p-2 border rounded mt-2"
+                  className="block w-full p-2 border-2 border-[#008cd8] rounded mt-2 bg-transparent"
                 />
               )}
               <label className="flex items-center space-x-2 mb-2">
@@ -175,19 +175,35 @@ const [gradeErrors, setGradeErrors] = useState({});
               placeholder={`Ocena ${subjectNamesGrades[subject] || subject}`}
               onChange={handleGradeChange}
               max="6"
-              className="block w-full p-2 border rounded mt-2"
+              className="block w-full p-2 border-2 border-[#008cd8] rounded mt-2 bg-transparent"
             />
           ))}
 
           <h3 className="font-bold text-2xl py-10">Bonusy</h3>
-          <label className="flex items-center space-x-2">
-            <input type="checkbox" name="volunteer" onChange={handleBonusChange} />
-            <span>Wolontariat (+3 pkt)</span>
-          </label>
-          <label className="flex items-center space-x-2 mt-2">
-            <input type="checkbox" name="distinction" onChange={handleBonusChange} />
-            <span>Świadectwo z wyróżnieniem (+7 pkt)</span>
-          </label>
+          <label className="flex items-center cursor-pointer text-lg relative">
+      <input
+        type="checkbox"
+        className="absolute opacity-0 w-0 h-0 peer"
+        name="volunteer"
+        onChange={handleBonusChange}
+      />
+      <span
+        className="w-5 h-5 border-2 rounded-full transition-all duration-300 border-gray-400 peer-checked:border-[#008cd8] peer-checked:bg-[#fcf403] hover:bg-[#008cd8]"
+      ></span>
+      <span className="ml-2">Wolontariat (3pkt)</span>
+    </label>
+    <label className="flex items-center cursor-pointer text-lg relative">
+      <input
+        type="checkbox"
+        className="absolute opacity-0 w-0 h-0 peer"
+        name="distinction"
+        onChange={handleBonusChange}
+      />
+      <span
+        className="w-5 h-5 border-2 rounded-full transition-all duration-300 border-gray-400 peer-checked:border-[#008cd8] peer-checked:bg-[#fcf403] hover:bg-blue-[#008cd8]"
+      ></span>
+      <span className="ml-2">Wolontariat (7pkt)</span>
+    </label>
 
           <h3 className="font-bold text-2xl"></h3>
           <Accordion type="single" collapsible className="w-full font-bold">
@@ -203,7 +219,7 @@ const [gradeErrors, setGradeErrors] = useState({});
                     { label: " tytuł finalisty konkursu tematycznego lub interdyscyplinarnego (5 pkt)", value: 5 },
                   ].map((option, index) => (
                     <label key={`competition1-${index}`} className="block">
-                      <input type="radio" name="competition1" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0} />
+                      <input type="radio" name="competition1" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0}  className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[#fcf403] checked:border-[#008cd8] transition-colors hover:bg-[#008cd8] " />
                       {option.label}
                     </label>
                   ))}
@@ -218,7 +234,7 @@ const [gradeErrors, setGradeErrors] = useState({});
                     { label: " tytuł finalisty turnieju artystycznego (3 pkt)", value: 3 },
                   ].map((option, index) => (
                     <label key={`competition2-${index}`} className="block">
-                      <input type="radio" name="competition2" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0} />
+                      <input type="radio" name="competition2" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0} className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[#fcf403] checked:border-[#008cd8] transition-colors hover:bg-[#008cd8]" />
                       {option.label}
                     </label>
                   ))}
@@ -236,7 +252,7 @@ const [gradeErrors, setGradeErrors] = useState({});
                     { label: " tytuł finalisty konkursu interdyscyplinarnego (3 pkt)", value: 3 },
                   ].map((option, index) => (
                     <label key={`competition3-${index}`} className="block">
-                      <input type="radio" name="competition3" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0} />
+                      <input type="radio" name="competition3" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0} className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[#fcf403] checked:border-[#008cd8] transition-colors hover:bg-[#008cd8] " />
                       {option.label}
                     </label>
                   ))}
@@ -254,7 +270,7 @@ const [gradeErrors, setGradeErrors] = useState({});
                     { label: " tytułu finalisty konkursu tematycznego lub interdyscyplinarnego (2 pkt)", value: 2 },
                   ].map((option, index) => (
                     <label key={`competition4-${index}`} className="block">
-                      <input type="radio" name="competition4" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0} />
+                      <input type="radio" name="competition4" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0} className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[#fcf403] checked:border-[#008cd8] transition-colors hover:bg-[#008cd8]"/>
                       {option.label}
                     </label>
                   ))}
@@ -273,7 +289,7 @@ const [gradeErrors, setGradeErrors] = useState({});
                     { label: " powiatowym (1 pkt)", value: 1 },
                   ].map((option, index) => (
                     <label key={`competition5-${index}`} className="block">
-                      <input type="radio" name="competition5" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0} />
+                      <input type="radio" name="competition5" value={option.value} onChange={handleCompetitionChange} defaultChecked={option.value === 0} className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[#fcf403] checked:border-[#008cd8] transition-colors hover:bg-[#008cd8] "/>
                       {option.label}
                     </label>
                   ))}
