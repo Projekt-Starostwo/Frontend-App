@@ -7,7 +7,13 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { useState } from "react";
 import L from "leaflet";
-import { Bus, ExternalLink, LocateFixed, MapPinned } from "lucide-react";
+import {
+  Bus,
+  BusFront,
+  ExternalLink,
+  LocateFixed,
+  MapPinned,
+} from "lucide-react";
 import ReactDOMServer from "react-dom/server";
 import { PRZYSTANKI_MMZ } from "@/lib/przystankiMmz";
 import { GraniceMmz } from "@/lib/granicemmz";
@@ -47,12 +53,10 @@ export default function LeafletMap({
           <p>Zresetuj mapę</p>
         </Button>
         <Button
-          className={`${
-            pokazPrzystanki ? "przystanki-btn btn-active" : "przystanki-btn"
-          }`}
+          className={`przystanki-btn`}
           onClick={() => setPokazPrzystanki((prevState) => !prevState)}
         >
-          <Bus />
+          <BusFront />
           {pokazPrzystanki ? "Ukryj przystanki" : "Pokaż przystanki"}
         </Button>
       </div>
@@ -111,8 +115,8 @@ function Przystanek({ przystanek }) {
       icon={L.divIcon({
         iconSize: [0, 0],
         html: ReactDOMServer.renderToString(
-          <div className="bg-transparent animate-pulse">
-            <Bus size={20} color="var(--main-mmz-blue)" />
+          <div className="bg-transparent ">
+            <BusFront size={20} color="var(--main-mmz-blue)" />
           </div>
         ),
       })}
