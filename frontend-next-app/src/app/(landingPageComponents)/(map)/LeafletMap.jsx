@@ -1,8 +1,5 @@
 "use client";
 
-
-
-
 import { MapContainer, TileLayer, Marker, Popup, Polygon } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import CustomMarker from "./CustomMarker";
@@ -10,18 +7,11 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { useState } from "react";
 import L from "leaflet";
-import {
-  Bus,
-  BusFront,
-  ExternalLink,
-  LocateFixed,
-  MapPinned,
-} from "lucide-react";
+import { BusFront, ExternalLink, LocateFixed } from "lucide-react";
 import ReactDOMServer from "react-dom/server";
 import { PRZYSTANKI_MMZ } from "@/lib/przystankiMmz";
 import { GraniceMmz } from "@/lib/granicemmz";
 import Link from "next/link";
-
 
 const GraniceMMZ = [
   [52.14, 21.53],
@@ -40,41 +30,30 @@ export default function LeafletMap({
   const { theme } = useTheme();
   const [pokazPrzystanki, setPokazPrzystanki] = useState(false);
 
-  useEffect(() => {
-    if (map.map && selectedSchool) {
-      flyToLocation(map.map, selectedSchool[1], selectedSchool[0], 15)
-    }
-  }, [selectedSchool])
-
   const flyToLocation = (lat, lng, zoom) => {
-    map.map.flyTo([lat, lng], zoom)
-  }
+    map.map.flyTo([lat, lng], zoom);
+  };
 
   return (
     <>
-
       <div className="w-full flex flex-row justify-between items-center relative bg-black">
         {/* buttons is shown on the map via custom css class (globals.css) */}
 
         <Button
           className="border-2 border-transparent reset-map"
           onClick={() => {
-
-            flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM)
-
+            flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM);
           }}
         >
           <LocateFixed />
           <p>Zresetuj mapę</p>
         </Button>
         <Button
-
           className={`przystanki-btn`}
           onClick={() => setPokazPrzystanki((prevState) => !prevState)}
         >
           <BusFront />
           {pokazPrzystanki ? "Ukryj przystanki" : "Pokaż przystanki"}
-
         </Button>
       </div>
 
@@ -133,10 +112,8 @@ function Przystanek({ przystanek }) {
       icon={L.divIcon({
         iconSize: [0, 0],
         html: ReactDOMServer.renderToString(
-
           <div className="bg-transparent ">
             <BusFront size={20} color="var(--main-mmz-blue)" />
-
           </div>
         ),
       })}
@@ -156,7 +133,6 @@ function Przystanek({ przystanek }) {
 }
 
 function getCorrectBusTableUrl(oznaczenie) {
-
   // console.log(oznaczenie)
   if (oznaczenie === "M1") {
     // console.log('jest m1')
@@ -196,7 +172,6 @@ function getCorrectBusTableUrl(oznaczenie) {
         link="https://www.minsk-maz.pl/1154,linia-m4"
       />
     );
-
   }
 }
 
