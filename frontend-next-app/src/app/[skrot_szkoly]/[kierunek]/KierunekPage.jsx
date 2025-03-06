@@ -1,6 +1,6 @@
 import ErrorPage from "@/components/ErrorPage";
 import LinkButton from "@/components/LinkButton";
-import getKierunekInfo from "@/lib/queries";
+import getKierunekInfo, { getSchoolDetails } from "@/lib/queries";
 import { deslugify, tryCatch } from "@/lib/utils";
 import { Link2, User, Users } from "lucide-react";
 import {
@@ -9,30 +9,36 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Link from "next/link";
 
 export default async function KierunekPage({ params }) {
-  const { data, error } = await tryCatch(
+  const kierunekData = await tryCatch(
     getKierunekInfo(params.skrot_szkoly, deslugify(params.kierunek))
   );
-  const kierunek = data;
+  const kierunek = kierunekData.data;
+
+  const schoolData = await tryCatch(getSchoolDetails(params.skrot_szkoly));
+  const school = schoolData.data;
+  console.log(school);
 
   return (
     <div className="h-auto w-full flex flex-col justify-start items-center p-10">
-      {error && (
-        <ErrorPage errorMessage={error.message} statusCode={error.statusCode}>
-          <LinkButton
-            buttonStyle={"p-0"}
-            linkHref={`/${params.skrot_szkoly}`}
-            linkIcon={<Link2 />}
-          >
-            Wróć do strony szkoły
-          </LinkButton>
-        </ErrorPage>
-      )}
+      {kierunekData.error ||
+        (schoolData.error && (
+          <ErrorPage errorMessage={error.message} statusCode={error.statusCode}>
+            <LinkButton
+              buttonStyle={"p-0"}
+              linkHref={`/${params.skrot_szkoly}`}
+              linkIcon={<Link2 />}
+            >
+              Wróć do strony szkoły
+            </LinkButton>
+          </ErrorPage>
+        ))}
 
-      {!error && kierunek && (
+      {!kierunekData.error && kierunek && (
         <div className="h-full w-2/3 flex flex-col justify-start items-start p-4 gap-10">
-          <HeadingAndDescription kierunek={kierunek} />
+          <HeadingAndDescription kierunek={kierunek} school={school} />
 
           <Stats kierunek={kierunek} />
 
@@ -65,10 +71,13 @@ export default async function KierunekPage({ params }) {
     </div>
   );
 }
-function HeadingAndDescription({ kierunek }) {
+function HeadingAndDescription({ kierunek, school }) {
   return (
-    <div className="flex gap-6 flex-col">
+    <div className="flex gap-2 flex-col">
       <h1 className="text-4xl font-bold">{kierunek.nazwa_kierunku}</h1>
+      <LinkButton linkIcon={<Link2 />} linkHref={`/${school.skrot_szkoly}`}>
+        <p className="py-0 text-muted-foreground">{school.nazwa_szkoly}</p>
+      </LinkButton>
       <div className="h-1/2">
         <p
           className=""
