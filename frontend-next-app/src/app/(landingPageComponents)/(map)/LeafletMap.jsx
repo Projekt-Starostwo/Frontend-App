@@ -1,26 +1,44 @@
-'use client'
+"use client";
 
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import 'leaflet/dist/leaflet.css'
-import CustomMarker from './CustomMarker'
-import RequestLocation from '@/app/lokalizacja-usera/page'
-import { Button } from '@/components/ui/button'
-import { useTheme } from 'next-themes'
-import { useState, useEffect } from 'react'
-import L from 'leaflet'
-import { Bus, ExternalLink } from 'lucide-react'
-import ReactDOMServer from 'react-dom/server'
-import { PRZYSTANKI_MMZ } from '@/lib/przystankiMmz'
-import Link from 'next/link'
 
-export const MAP_CENTER = [52.179, 21.57211]
-const DEFAULT_ZOOM = 14
 
-export default function LeafletMap({ map, listOfSchools, showPopup }) {
-  const { theme } = useTheme()
-  const [userPosition, setUserPosition] = useState(null)
-  const [selectedSchool, setSelectedSchool] = useState(null)
-  const [pokazPrzystanki, setPokazPrzystanki] = useState(false)
+
+import { MapContainer, TileLayer, Marker, Popup, Polygon } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import CustomMarker from "./CustomMarker";
+import { Button } from "@/components/ui/button";
+import { useTheme } from "next-themes";
+import { useState } from "react";
+import L from "leaflet";
+import {
+  Bus,
+  BusFront,
+  ExternalLink,
+  LocateFixed,
+  MapPinned,
+} from "lucide-react";
+import ReactDOMServer from "react-dom/server";
+import { PRZYSTANKI_MMZ } from "@/lib/przystankiMmz";
+import { GraniceMmz } from "@/lib/granicemmz";
+import Link from "next/link";
+
+
+const GraniceMMZ = [
+  [52.14, 21.53],
+  [52.22, 21.61],
+];
+
+export const MAP_CENTER = [52.179, 21.57211];
+const DEFAULT_ZOOM = 14;
+
+export default function LeafletMap({
+  map,
+  listOfSchools,
+  showPopup,
+  initialMapCenter,
+}) {
+  const { theme } = useTheme();
+  const [pokazPrzystanki, setPokazPrzystanki] = useState(false);
 
   useEffect(() => {
     if (map.map && selectedSchool) {
@@ -34,71 +52,78 @@ export default function LeafletMap({ map, listOfSchools, showPopup }) {
 
   return (
     <>
-      <div className='w-full flex flex-row justify-between items-center relative'>
+
+      <div className="w-full flex flex-row justify-between items-center relative bg-black">
+        {/* buttons is shown on the map via custom css class (globals.css) */}
+
         <Button
-          className='border-2 border-transparent reset-map'
+          className="border-2 border-transparent reset-map"
           onClick={() => {
+
             flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM)
+
           }}
         >
-          Zresetuj mapę
+          <LocateFixed />
+          <p>Zresetuj mapę</p>
         </Button>
         <Button
-          className={`${pokazPrzystanki ? 'przystanki-btn btn-active' : 'przystanki-btn'} transition-all duration-300 hover:scale-105`}
+
+          className={`przystanki-btn`}
           onClick={() => setPokazPrzystanki((prevState) => !prevState)}
         >
-          {pokazPrzystanki ? 'Ukryj przystanki' : 'Pokaż przystanki'}
+          <BusFront />
+          {pokazPrzystanki ? "Ukryj przystanki" : "Pokaż przystanki"}
+
         </Button>
       </div>
 
-      <RequestLocation onLocationGranted={setUserPosition} />
-
       <MapContainer
         div
-        center={MAP_CENTER}
+        center={initialMapCenter ? initialMapCenter : MAP_CENTER}
         zoom={DEFAULT_ZOOM}
-        className='w-full h-full z-10 rounded-xl'
+        className="w-full h-full z-10 rounded-xl"
         maxZoom={17}
         minZoom={13}
-        maxBounds={[
-          [51.8, 20.6],
-          [52.5, 22.4113],
-        ]}
+        maxBounds={GraniceMMZ}
         ref={map.setMap}
       >
         <TileLayer
           attribution={
-            theme === 'dark'
+            theme === "dark"
               ? '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           }
           url={
-            theme === 'dark'
-              ? 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png'
-              : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            theme === "dark"
+              ? "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+              : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           }
         />
-
-        {listOfSchools?.map((school) => (
-          <CustomMarker
-            key={school.id}
-            school={school}
-            onClick={() =>
-              setSelectedSchool([
-                school.lokalizacja_szkoly.dlugosc_geograficzna_szkoly,
-                school.lokalizacja_szkoly.szerokosc_geograficzna_szkoly,
-              ])
-            }
-            showPopup={showPopup}
+        {GraniceMmz.map((polygon, index) => (
+          <Polygon
+            key={index}
+            positions={polygon.coordinates[0].map((coord) => [
+              coord[1],
+              coord[0],
+            ])}
+            weight={1}
+            color={"#1E90FF"}
+            fill={false}
           />
+        ))}
+        {listOfSchools?.map((school) => (
+          <CustomMarker key={school.id} school={school} showPopup={showPopup} />
         ))}
         {pokazPrzystanki &&
           PRZYSTANKI_MMZ?.map((przystanek) => {
-            return <Przystanek key={crypto.randomUUID()} przystanek={przystanek} />
+            return (
+              <Przystanek key={crypto.randomUUID()} przystanek={przystanek} />
+            );
           })}
       </MapContainer>
     </>
-  )
+  );
 }
 
 function Przystanek({ przystanek }) {
@@ -108,52 +133,83 @@ function Przystanek({ przystanek }) {
       icon={L.divIcon({
         iconSize: [0, 0],
         html: ReactDOMServer.renderToString(
-          <div className='bg-transparent animate-pulse'>
-            <Bus size={20} color='var(--main-mmz-blue)' />
+
+          <div className="bg-transparent ">
+            <BusFront size={20} color="var(--main-mmz-blue)" />
+
           </div>
         ),
       })}
     >
       <Popup>
-        <h1 className='font-bold text-lg py-1'>{przystanek.name}</h1>
+        <h1 className="font-bold text-lg py-1">{przystanek.name}</h1>
         <div>
           {przystanek.oznaczenia.map((oznaczenie) => (
-            <div key={przystanek.id}>{getCorrectBusTableUrl(oznaczenie)}</div>
+            <div key={crypto.randomUUID()}>
+              {getCorrectBusTableUrl(oznaczenie)}
+            </div>
           ))}
         </div>
       </Popup>
     </Marker>
-  )
+  );
 }
 
 function getCorrectBusTableUrl(oznaczenie) {
-  if (oznaczenie === 'M1') {
-    return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/718,linia-m1' />
+
+  // console.log(oznaczenie)
+  if (oznaczenie === "M1") {
+    // console.log('jest m1')
+    return (
+      <OznaczenieLink
+        oznaczenie={oznaczenie}
+        link="https://www.minsk-maz.pl/718,linia-m1"
+      />
+    );
   }
 
-  if (oznaczenie === 'M2') {
-    return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/719,linia-m2' />
+  if (oznaczenie === "M2") {
+    // console.log('jest m2')
+    return (
+      <OznaczenieLink
+        oznaczenie={oznaczenie}
+        link="https://www.minsk-maz.pl/719,linia-m2"
+      />
+    );
   }
 
-  if (oznaczenie === 'M3') {
-    return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/720,linia-m3' />
+  if (oznaczenie === "M3") {
+    // console.log('jest m3')
+    return (
+      <OznaczenieLink
+        oznaczenie={oznaczenie}
+        link="https://www.minsk-maz.pl/720,linia-m3`"
+      />
+    );
   }
 
-  if (oznaczenie === 'M4') {
-    return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/1154,linia-m4' />
+  if (oznaczenie === "M4") {
+    // console.log('jest m4')
+    return (
+      <OznaczenieLink
+        oznaczenie={oznaczenie}
+        link="https://www.minsk-maz.pl/1154,linia-m4"
+      />
+    );
+
   }
 }
 
 function OznaczenieLink({ oznaczenie, link }) {
   return (
-    <div className='flex flex-row justify-between gap-5'>
-      <h1 className='font-bold'>{oznaczenie}</h1>
-      <Link target='_blank' href={link}>
-        <div className='flex flex-row gap-1'>
+    <div className="flex flex-row justify-between gap-5">
+      <h1 className="font-bold">{oznaczenie}</h1>
+      <Link target="_blank" href={link}>
+        <div className="flex flex-row gap-1">
           <ExternalLink size={15} />
           <h1> Rozkład</h1>
         </div>
       </Link>
     </div>
-  )
+  );
 }

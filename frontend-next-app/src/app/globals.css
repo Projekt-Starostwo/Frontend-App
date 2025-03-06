@@ -81,8 +81,15 @@ body {
   top: 40;
   right: 12;
 }
+.reset-map:hover {
+  filter: drop-shadow(var(--main-mmz-blue) 0 0 25px);
+}
 .mmz-heading {
-  background: -webkit-linear-gradient(45deg, var(--main-mmz-blue), var(--main-mmz-yellow));
+  background: -webkit-linear-gradient(
+    45deg,
+    var(--main-mmz-blue),
+    var(--main-mmz-yellow)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -90,13 +97,22 @@ body {
   filter: drop-shadow(var(--main-mmz-blue) 0 0 45px);
 }
 
+.btn-active {
+  background-color: var(--main-mmz-blue);
+}
+.schoolItem {
+  transition: filter 0.2s ease-out; /* Added transition */
+}
+.schoolItem:hover {
+  filter: drop-shadow(var(--main-mmz-blue) 0 0 25px);
+}
 .przystanki-btn {
   z-index: 99999;
   position: absolute;
   top: 40;
-  right: 160;
-  /* background-color: var(--destructive); */
+  right: 180;
+  transition: filter 0.2s ease-out; /* Added transition */
 }
-.btn-active {
-  background-color: var(--main-mmz-blue);
+.przystanki-btn:hover {
+  filter: drop-shadow(var(--main-mmz-blue) 0 0 25px);
 }

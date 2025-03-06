@@ -2,6 +2,7 @@
 const token = process.env.NEXT_PUBLIC_TOKEN
 import qs from 'qs'
 import { normalizeString } from './utils'
+import { marked } from 'marked'
 
 export async function getListOfSchool() {
   const queryParams = qs.stringify({
@@ -212,7 +213,7 @@ export async function getSchoolDetails(skrot_szkoly) {
 
   const jsonResponse = await res.json()
   // console.log(jsonResponse)
-
+  const school = jsonResponse.data[0]
   // await sleep(2000)
 
   if (jsonResponse.data.length === 0) {
@@ -221,7 +222,12 @@ export async function getSchoolDetails(skrot_szkoly) {
     throw error
   }
 
-  return jsonResponse.data[0]
+  // optional formating md file from db, (needs improvments)
+  if (school.rodzaje_szkoly.liceum && school.rodzaje_szkoly.liceum.opis_typu_szkoly) {
+    school.rodzaje_szkoly.liceum.opis_typu_szkoly = marked.parse(school.rodzaje_szkoly.liceum.opis_typu_szkoly)
+  }
+
+  return school
 }
 export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
   const typySzkol = ['liceum', 'technikum', 'szkola_zawodowa']
@@ -312,13 +318,14 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
   // console.log(jsonResponse.data)
 
   const foundKierunek = findKierunekByName(rodzajeSzkoly, nazwa_kierunku)
-  // console.log(foundKierunek)
+  console.log(foundKierunek)
 
   if (!foundKierunek) {
     let error = new Error('Nie znaleziono kierunku')
     error.statusCode = 404
     throw error
   }
+  foundKierunek.kierunek.opis_kierunku = marked.parse(foundKierunek.kierunek.opis_kierunku)
 
   return foundKierunek.kierunek
 }
