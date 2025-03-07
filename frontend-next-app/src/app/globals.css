@@ -116,3 +116,59 @@ body {
 .przystanki-btn:hover {
   filter: drop-shadow(var(--main-mmz-blue) 0 0 25px);
 }
+.leaflet-marker-icon.leaflet-zoom-animated {
+  transition: transform 0.3s ease-in-out;
+}
+
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  background: var(--main-mmz-blue) !important;
+  color: white;
+  box-shadow: 0px 0px 10px var(--main-mmz-blue);
+}
+
+.custom-bus-cluster-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-bus-cluster {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  background-color: rgba(30, 60, 90, 0.9); /* Stonowany granat */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 5px rgba(30, 60, 90, 0.7);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.bus-icon {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 18px;
+  background-image: url("/bus-icon.png"); /* Ikona autobusu */
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.bus-count {
+  margin-top: 10px;
+}
