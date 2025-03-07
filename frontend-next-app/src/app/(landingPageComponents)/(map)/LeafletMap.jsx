@@ -67,6 +67,11 @@ export default function LeafletMap({
         maxBounds={GraniceMMZ}
         ref={map.setMap}
       >
+        <div
+          className={`w-full h-full 
+            
+            ${theme === "dark" ? "bg-[#333333]" : "bg-[#e0dfdf]"} `}
+        ></div>
         <TileLayer
           attribution={
             theme === "dark"
