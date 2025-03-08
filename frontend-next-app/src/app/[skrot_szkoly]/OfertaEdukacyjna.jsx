@@ -1,14 +1,12 @@
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Link2 } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { appedDomain, slugify } from '@/lib/utils'
 export default async function OfertaEdukacyjna({ school }) {
   // console.log(school)
   return (
-    <div className='p-4 flex flex-col justify-center items-center gap-12'>
+    <div className='p-4 flex flex-col justify-center items-center gap-8'>
       {school.rodzaje_szkoly.liceum && (
         <SchoolType
           school={school}
@@ -44,43 +42,22 @@ function SchoolType({ school, listaKierunkow, typ, schoolDescription }) {
       <h1 className='text-3xl font-bold'>{typ}</h1>
       {schoolDescription && (
         <div>
-          <p className='py-4' dangerouslySetInnerHTML={{ __html: schoolDescription }}></p>
+          <p className='pt-4' dangerouslySetInnerHTML={{ __html: schoolDescription }}></p>
         </div>
       )}
 
-      {/* <div className='h-52 w-full flex flex-col justify-center items-center'>
-        <Carousel
-          className='w-1/2'
-          opts={{
-            slidesToShow: 3,
-            loop: true,
-          }}
-        >
-          <CarouselContent>
-            {listaKierunkow?.map((kierunekValue) => {
-              const { kierunek } = kierunekValue
-              return (
-                <CarouselItem key={kierunek.id}>
-                  <KierunekCard school={school} kierunek={kierunek} />
-                </CarouselItem>
-              )
-            })}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-      </div> */}
-
       <Accordion type='single' collapsible className=''>
         <AccordionItem value='item-1'>
-          <AccordionTrigger>Lista wszystkich dostepnych kierunków</AccordionTrigger>
+          <AccordionTrigger>
+            <h2 className='text-lg'>Lista wszystkich kierunków</h2>
+          </AccordionTrigger>
           <AccordionContent className='flex flex-col gap-2'>
             {listaKierunkow?.map((kierunekValue, index) => {
               const { kierunek } = kierunekValue
               return (
                 <Link key={index} href={`/${school.skrot_szkoly}/${slugify(kierunek.nazwa_kierunku)}`}>
                   <Button variant='link'>
-                    <Link2 /> <p>{kierunek.nazwa_kierunku}</p>
+                    <Link2 /> <p className='text-lg'>{kierunek.nazwa_kierunku}</p>
                   </Button>
                 </Link>
               )
@@ -89,25 +66,5 @@ function SchoolType({ school, listaKierunkow, typ, schoolDescription }) {
         </AccordionItem>
       </Accordion>
     </div>
-  )
-}
-
-function KierunekCard({ school, kierunek }) {
-  // console.log(kierunek)
-  return (
-    <Link href={`/${school.skrot_szkoly}/${slugify(kierunek.nazwa_kierunku)}`}>
-      <div className='w-full flex flex-col justify-center items-center gap-2'>
-        {kierunek.glowne_zdjecie !== null && (
-          <Image
-            src={appedDomain(kierunek.glowne_zdjecie.url)}
-            alt={kierunek.nazwa_kierunku}
-            width={100}
-            height={100}
-            className='rounded-lg w-[400px]'
-          />
-        )}
-        <h1 className='text-3xl'>{kierunek.nazwa_kierunku}</h1>
-      </div>
-    </Link>
   )
 }

@@ -5,14 +5,15 @@ import ErrorPage from '@/components/ErrorPage'
 import LinkButton from '@/components/LinkButton'
 import PhotoGallery from '@/components/PhotoGallery'
 import Link from 'next/link'
-import { Link2, ExternalLink, Facebook, Mail, Phone, School } from 'lucide-react'
+import { Link2, ExternalLink, Mail, Phone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { tryCatch } from '@/lib/utils'
+import { appedDomain, tryCatch } from '@/lib/utils'
+import Image from 'next/image'
 
 export default async function SchoolPageInfo({ params }) {
   const { data, error } = await tryCatch(getSchoolDetails(params.skrot_szkoly))
   const school = data
-  console.log(error)
+  // console.log(error)
   return (
     <div className='h-auto w-full  flex flex-col justify-start items-center p-10'>
       {error && (
@@ -25,9 +26,7 @@ export default async function SchoolPageInfo({ params }) {
 
       {!error && school && (
         <div className='h-full w-2/3'>
-          <h1 className='text-4xl font-bold p-4'>{school.nazwa_szkoly}</h1>
-
-          {/* <SchoolDescription school={school} /> */}
+          <BigSchoolCard school={school} />
 
           <IconInfo school={school} />
 
@@ -48,42 +47,50 @@ export default async function SchoolPageInfo({ params }) {
     </div>
   )
 }
-function SchoolDescription({ school }) {
-  return (
-    <div className='h-1/2 p-4'>
-      <h1 className='text-2xl font-bold'>O nas</h1>
-      <p className='py-4'>{school.opis_szkoly}</p>
-    </div>
-  )
-}
 
 function IconInfo({ school }) {
   return (
-    <div className='flex flex-row justify-between items-center gap-8 p-8'>
+    <div className='flex flex-row justify-between items-center p-8'>
       <Link href={`${school.adres_strony_szkoly}`} target='_blank'>
         <div className='flex flex-row justify-center items-center gap-4'>
-          <School size={30} />
           <Button variant='link'>
-            <ExternalLink /> Strona Szkoły
+            <ExternalLink /> <p className='text-md'>Strona Szkoły</p>
+          </Button>
+        </div>
+      </Link>
+      <Link href={`${school.adres_facebooka_szkoly}`} target='_blank'>
+        <div className='flex flex-row justify-center items-center gap-4'>
+          <Button variant='link'>
+            <ExternalLink /> <p className='text-md'>Facebook</p>
           </Button>
         </div>
       </Link>
       <div className='flex flex-row justify-start items-center gap-4'>
-        <Phone size={30} />
-        <p>{school.numer_telefonu}</p>
+        <Phone />
+        <p className='text-md'>{school.numer_telefonu}</p>
       </div>
       <div className='flex flex-row justify-center items-center gap-4'>
-        <Mail size={30} />
-        <p>{school.email_szkoly}</p>
+        <Mail />
+        <p className='text-md'>{school.email_szkoly}</p>
       </div>
-      <Link href={`${school.adres_facebooka_szkoly}`} target='_blank'>
-        <div className='flex flex-row justify-center items-center gap-4'>
-          <Facebook size={30} />
-          <Button variant='link'>
-            <ExternalLink /> Facebook
-          </Button>
-        </div>
-      </Link>
+    </div>
+  )
+}
+function BigSchoolCard({ school }) {
+  return (
+    <div>
+      <div className='flex justify-center items-cente pb-4'>
+        <Image
+          src={appedDomain(school.glowne_zdjecie_szkoly.url)}
+          width={100}
+          height={100}
+          alt='Logo Szkoły'
+          className='w-52'
+        />
+      </div>
+      <div>
+        <h1 className='text-4xl font-bold p-4 text-center'>{school.nazwa_szkoly}</h1>
+      </div>
     </div>
   )
 }

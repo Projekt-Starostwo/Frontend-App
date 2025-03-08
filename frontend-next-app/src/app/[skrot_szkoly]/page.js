@@ -3,16 +3,19 @@ import SchoolPageInfo from './SchoolInfoPage'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export default async function Page({ params }) {
-  const param = await params
-
   return (
     <>
       <Suspense fallback={<SchoolPageInfoLoading />}>
-        <SchoolPageInfo params={param} />
+        <LoadSchoolPage params={params} />
       </Suspense>
     </>
   )
 }
+async function LoadSchoolPage({ params }) {
+  const param = await params
+  return <SchoolPageInfo params={param} />
+}
+
 function SchoolPageInfoLoading() {
   return (
     <div className='h-auto w-full  flex flex-col justify-start items-center  p-10'>
