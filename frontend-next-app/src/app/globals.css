@@ -146,7 +146,7 @@ body {
   position: relative;
   width: 45px;
   height: 45px;
-  background-color: rgba(30, 60, 90, 0.9); /* Stonowany granat */
+  background-color: rgba(30, 60, 90, 0.9);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -164,7 +164,7 @@ body {
   transform: translateX(-50%);
   width: 18px;
   height: 18px;
-  background-image: url("/bus-icon.png"); /* Ikona autobusu */
+  background-image: url("/bus-icon.png");
   background-size: contain;
   background-repeat: no-repeat;
 }
