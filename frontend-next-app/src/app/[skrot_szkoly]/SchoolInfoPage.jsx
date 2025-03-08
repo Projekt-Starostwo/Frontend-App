@@ -76,9 +76,9 @@ function IconInfo({ school }) {
     </div>
   )
 }
-function BigSchoolCard({ school }) {
+export function BigSchoolCard({ school }) {
   return (
-    <div>
+    <div className='w-full'>
       <div className='flex justify-center items-cente pb-4'>
         <Image
           src={appedDomain(school.glowne_zdjecie_szkoly.url)}
@@ -89,7 +89,7 @@ function BigSchoolCard({ school }) {
         />
       </div>
       <div>
-        <h1 className='text-4xl font-bold p-4 text-center'>{school.nazwa_szkoly}</h1>
+        <h1 className='text-4xl font-bold pt-4 text-center'>{school.nazwa_szkoly}</h1>
       </div>
     </div>
   )
