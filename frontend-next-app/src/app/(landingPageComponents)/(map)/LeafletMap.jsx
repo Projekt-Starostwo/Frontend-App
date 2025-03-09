@@ -75,7 +75,7 @@ export default function LeafletMap({
           <BusFront />
           {pokazPrzystanki ? "Ukryj przystanki" : "Pokaż przystanki"}
         </Button>
-        <div className="font-bold absolute top-2 left-1/2 -translate-x-1/2 z-[1000] py-2 text-md">
+        <div className="font-bold absolute top-2 left-1/2 -translate-x-1/2 z-[1000] py-2 text-md hidden sm:block">
           Przybliżanie i oddalanie mapy:{" "}
           <span className="font-bold text-lg">Ctrl + Scroll</span>
         </div>
