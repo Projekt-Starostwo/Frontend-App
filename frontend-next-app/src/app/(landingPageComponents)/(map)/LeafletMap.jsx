@@ -1,58 +1,51 @@
-"use client";
+'use client'
 
-import { MapContainer, TileLayer, Marker, Popup, Polygon } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import CustomMarker from "./CustomMarker";
-import { Button } from "@/components/ui/button";
-import { useTheme } from "next-themes";
-import { useState } from "react";
-import L from "leaflet";
-import { BusFront, ExternalLink, LocateFixed } from "lucide-react";
-import ReactDOMServer from "react-dom/server";
-import { PRZYSTANKI_MMZ } from "@/lib/przystankiMmz";
-import { GraniceMmz } from "@/lib/granicemmz";
-import Link from "next/link";
-import MarkerClusterGroup from "react-leaflet-markercluster";
+import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
+import CustomMarker from './CustomMarker'
+import { Button } from '@/components/ui/button'
+import { useTheme } from 'next-themes'
+import { useState } from 'react'
+import L from 'leaflet'
+import { BusFront, ExternalLink, LocateFixed } from 'lucide-react'
+import ReactDOMServer from 'react-dom/server'
+import { PRZYSTANKI_MMZ } from '@/lib/przystankiMmz'
+import { GraniceMmz } from '@/lib/granicemmz'
+import Link from 'next/link'
+import MarkerClusterGroup from 'react-leaflet-markercluster'
 
 const GraniceMMZ = [
   [52.14, 21.53],
   [52.22, 21.61],
-];
+]
 
-export const MAP_CENTER = [52.179, 21.57211];
-const DEFAULT_ZOOM = 14;
+export const MAP_CENTER = [52.179, 21.57211]
+const DEFAULT_ZOOM = 14
 
-export default function LeafletMap({
-  map,
-  listOfSchools,
-  showPopup,
-  initialMapCenter,
-}) {
-  const { theme } = useTheme();
-  const [pokazPrzystanki, setPokazPrzystanki] = useState(false);
+export default function LeafletMap({ map, listOfSchools, showPopup, initialMapCenter, showMarkers, setShowMarkers }) {
+  const { theme } = useTheme()
+  const [pokazPrzystanki, setPokazPrzystanki] = useState(false)
 
   const flyToLocation = (lat, lng, zoom) => {
-    map.map.flyTo([lat, lng], zoom);
-  };
+    console.log(showMarkers)
+    map.map.flyTo([lat, lng], zoom)
+  }
 
   return (
     <>
-      <div className="w-full flex flex-row justify-between items-center relative bg-black">
+      <div className='w-full flex flex-row justify-between items-center relative bg-black'>
         <Button
-          className="border-2 border-transparent reset-map"
+          className='border-2 border-transparent reset-map'
           onClick={() => {
-            flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM);
+            flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM)
           }}
         >
           <LocateFixed />
           <p>Zresetuj mapę</p>
         </Button>
-        <Button
-          className={`przystanki-btn`}
-          onClick={() => setPokazPrzystanki((prevState) => !prevState)}
-        >
+        <Button className={`przystanki-btn`} onClick={() => setPokazPrzystanki((prevState) => !prevState)}>
           <BusFront />
-          {pokazPrzystanki ? "Ukryj przystanki" : "Pokaż przystanki"}
+          {pokazPrzystanki ? 'Ukryj przystanki' : 'Pokaż przystanki'}
         </Button>
       </div>
 
@@ -60,84 +53,71 @@ export default function LeafletMap({
         div
         center={initialMapCenter ? initialMapCenter : MAP_CENTER}
         zoom={DEFAULT_ZOOM}
-        className="w-full h-full z-10 rounded-xl"
+        className='w-full h-full z-10 rounded-xl'
         maxZoom={17}
-        minZoom={13}
+        minZoom={DEFAULT_ZOOM}
         maxBounds={GraniceMMZ}
         ref={map.setMap}
       >
-        <div
-          className={`w-full h-full ${
-            theme === "dark" ? "bg-[#333333]" : "bg-background"
-          }`}
-        ></div>
+        {/* map bg color */}
+        <div className={`w-full h-full ${theme === 'dark' ? 'bg-[#333333]' : 'bg-background'}`}></div>
         <TileLayer
           attribution={
-            theme === "dark"
+            theme === 'dark'
               ? '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           }
           url={
-            theme === "dark"
-              ? "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-              : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            theme === 'dark'
+              ? 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png'
+              : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           }
         />
         {GraniceMmz.map((polygon, index) => (
           <Polygon
             key={index}
-            positions={polygon.coordinates[0].map((coord) => [
-              coord[1],
-              coord[0],
-            ])}
+            positions={polygon.coordinates[0].map((coord) => [coord[1], coord[0]])}
             weight={1}
-            color={"#1E90FF"}
+            color={'#1E90FF'}
             fill={false}
           />
         ))}
-        <MarkerClusterGroup
-          chunkedLoading
-          animate={true}
-          spiderfyOnMaxZoom={true}
-          showCoverageOnHover={false}
-        >
-          {listOfSchools?.map((school) => (
-            <CustomMarker
-              key={school.id}
-              school={school}
-              showPopup={showPopup}
-            />
-          ))}
-        </MarkerClusterGroup>
-        <MarkerClusterGroup
-          key={pokazPrzystanki ? "bus-cluster-visible" : "bus-cluster-hidden"}
-          chunkedLoading
-          animate={true}
-          spiderfyOnMaxZoom={true}
-          showCoverageOnHover={false}
-          iconCreateFunction={(cluster) => {
-            const count = cluster.getChildCount();
+        {/* hide markers when animating */}
+        {showMarkers && (
+          <>
+            {listOfSchools?.map((school) => (
+              <CustomMarker key={school.id} school={school} showPopup={showPopup} />
+            ))}
 
-            return L.divIcon({
-              html: `
+            <MarkerClusterGroup
+              key={pokazPrzystanki ? 'bus-cluster-visible' : 'bus-cluster-hidden'}
+              chunkedLoading
+              animate={true}
+              spiderfyOnMaxZoom={true}
+              showCoverageOnHover={false}
+              iconCreateFunction={(cluster) => {
+                const count = cluster.getChildCount()
+
+                return L.divIcon({
+                  html: `
         <div class="custom-bus-cluster">
           <div class="bus-icon"></div>
           <span class="bus-count">${count}</span>
         </div>
       `,
-              className: "custom-bus-cluster-wrapper",
-              iconSize: [45, 45],
-            });
-          }}
-        >
-          {pokazPrzystanki &&
-            PRZYSTANKI_MMZ?.map((przystanek) => (
-              <Przystanek key={crypto.randomUUID()} przystanek={przystanek} />
-            ))}
-        </MarkerClusterGroup>
+                  className: 'custom-bus-cluster-wrapper',
+                  iconSize: [45, 45],
+                })
+              }}
+            >
+              {pokazPrzystanki &&
+                PRZYSTANKI_MMZ?.map((przystanek) => <Przystanek key={crypto.randomUUID()} przystanek={przystanek} />)}
+            </MarkerClusterGroup>
+          </>
+        )}
       </MapContainer>
     </>
-  );
+  )
 }
 
 function Przystanek({ przystanek }) {
@@ -147,74 +127,52 @@ function Przystanek({ przystanek }) {
       icon={L.divIcon({
         iconSize: [0, 0],
         html: ReactDOMServer.renderToString(
-          <div className="bg-transparent">
-            <BusFront size={20} color="var(--main-mmz-blue)" />
+          <div className='bg-transparent'>
+            <BusFront size={20} color='var(--main-mmz-blue)' />
           </div>
         ),
       })}
     >
       <Popup>
-        <h1 className="font-bold text-lg py-1">{przystanek.name}</h1>
+        <h1 className='font-bold text-lg py-1'>{przystanek.name}</h1>
         <div>
           {przystanek.oznaczenia.map((oznaczenie) => (
-            <div key={crypto.randomUUID()}>
-              {getCorrectBusTableUrl(oznaczenie)}
-            </div>
+            <div key={crypto.randomUUID()}>{getCorrectBusTableUrl(oznaczenie)}</div>
           ))}
         </div>
       </Popup>
     </Marker>
-  );
+  )
 }
 
 function getCorrectBusTableUrl(oznaczenie) {
-  if (oznaczenie === "M1") {
-    return (
-      <OznaczenieLink
-        oznaczenie={oznaczenie}
-        link="https://www.minsk-maz.pl/718,linia-m1"
-      />
-    );
+  if (oznaczenie === 'M1') {
+    return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/718,linia-m1' />
   }
 
-  if (oznaczenie === "M2") {
-    return (
-      <OznaczenieLink
-        oznaczenie={oznaczenie}
-        link="https://www.minsk-maz.pl/719,linia-m2"
-      />
-    );
+  if (oznaczenie === 'M2') {
+    return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/719,linia-m2' />
   }
 
-  if (oznaczenie === "M3") {
-    return (
-      <OznaczenieLink
-        oznaczenie={oznaczenie}
-        link="https://www.minsk-maz.pl/720,linia-m3`"
-      />
-    );
+  if (oznaczenie === 'M3') {
+    return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/720,linia-m3`' />
   }
 
-  if (oznaczenie === "M4") {
-    return (
-      <OznaczenieLink
-        oznaczenie={oznaczenie}
-        link="https://www.minsk-maz.pl/1154,linia-m4"
-      />
-    );
+  if (oznaczenie === 'M4') {
+    return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/1154,linia-m4' />
   }
 }
 
 function OznaczenieLink({ oznaczenie, link }) {
   return (
-    <div className="flex flex-row justify-between gap-5">
-      <h1 className="font-bold">{oznaczenie}</h1>
-      <Link target="_blank" href={link}>
-        <div className="flex flex-row gap-1">
+    <div className='flex flex-row justify-between gap-5'>
+      <h1 className='font-bold'>{oznaczenie}</h1>
+      <Link target='_blank' href={link}>
+        <div className='flex flex-row gap-1'>
           <ExternalLink size={15} />
           <h1> Rozkład</h1>
         </div>
       </Link>
     </div>
-  );
+  )
 }
