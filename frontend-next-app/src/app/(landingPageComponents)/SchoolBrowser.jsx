@@ -123,7 +123,7 @@ export default function SchoolBrowser() {
             </Tabs>
           </div>
           {/* Desktop view */}
-          <div className='hidden md:grid md:grid-cols-3 lg:grid-cols-5 gap-6 h-[80vh]'>
+          <div className='hidden md:grid md:grid-cols-3 lg:grid-cols-5 gap-6 h-[80vh] xl:pt-10'>
             <div className='md:col-span-1 lg:col-span-2 rounded-lg overflow-hidden'>
               <Filters
                 listOfSchools={listOfSchools}
