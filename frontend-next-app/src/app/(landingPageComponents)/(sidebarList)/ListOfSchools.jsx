@@ -1,5 +1,3 @@
-'use client'
-
 import { BookOpen, LocateFixed, MapPinned } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -8,19 +6,31 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import Link from 'next/link'
 import Image from 'next/image'
 import { appedDomain } from '@/lib/utils'
-import { useState } from 'react'
+import { animate } from 'framer-motion'
 
-export default function ListOfSchools({ map, listOfSchools, setShowMarkers }) {
+export default function ListOfSchools({ map, listOfSchools, setShowMarkers, setSelectedTab }) {
   return (
-    <div className='h-full w-1/3 overflow-y-auto p-10 flex flex-col gap-10'>
-      {listOfSchools?.map((school) => {
-        return <SchoolListItem map={map} key={school.id} school={school} setShowMarkers={setShowMarkers} />
-      })}
+    <div className='h-full flex flex-col'>
+      <div className='flex-1 overflow-auto p-4'>
+        <div className='grid gap-10 py-8 pb-32'>
+          {listOfSchools?.map((school) => {
+            return (
+              <SchoolListItem
+                map={map}
+                key={school.id}
+                school={school}
+                setShowMarkers={setShowMarkers}
+                setSelectedTab={setSelectedTab}
+              />
+            )
+          })}
+        </div>
+      </div>
     </div>
   )
 }
 
-export function SchoolListItem({ school, map, setShowMarkers }) {
+export function SchoolListItem({ school, map, setShowMarkers, setSelectedTab }) {
   return (
     <Card
       className={`schoolItem w-full max-w-lg min-w-lg  mx-auto shadow-lg ${
@@ -57,15 +67,21 @@ export function SchoolListItem({ school, map, setShowMarkers }) {
                       variant='outline'
                       className='w-full h-full p-0'
                       onClick={() => {
+                        // setSelectedTab('map')
                         setShowMarkers(false)
+                        console.log([
+                          school.lokalizacja_szkoly.dlugosc_geograficzna_szkoly,
+                          school.lokalizacja_szkoly.szerokosc_geograficzna_szkoly,
+                        ])
+
                         map.map.flyTo(
                           [
                             school.lokalizacja_szkoly.dlugosc_geograficzna_szkoly,
                             school.lokalizacja_szkoly.szerokosc_geograficzna_szkoly,
                           ],
-                          16,
-                          { animate: true, duration: 0.5 }
+                          16
                         )
+                        // // show markers after animation ends
                         setTimeout(() => {
                           setShowMarkers(true)
                         }, 450)

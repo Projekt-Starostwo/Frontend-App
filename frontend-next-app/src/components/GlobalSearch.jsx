@@ -12,16 +12,12 @@ import {
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
-import { useQuery } from '@tanstack/react-query'
 import { slugify } from '@/lib/utils'
-import { GraduationCap, Link2, MapPin, Moon, School, Scroll, Sun } from 'lucide-react'
-import { Badge } from './ui/badge'
+import { GraduationCap, Link2, MapPin, Moon, School, Scroll, Search, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { CommandSeparator } from 'cmdk'
-import { getListOfSchool } from '@/lib/queries'
-import { DialogContent, DialogTitle } from './ui/dialog'
+import { DialogTitle } from './ui/dialog'
 
-export default function GlobalSearch() {
+export default function GlobalSearch({ listOfSchools }) {
   const { setTheme } = useTheme()
   const [open, setOpen] = React.useState(false)
   const router = useRouter()
@@ -44,16 +40,6 @@ export default function GlobalSearch() {
     setOpen(false) // Close the CommandDialog when a command is selected
   }
 
-  const {
-    data: listOfSchools,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ['listOfschoolsForSearch'],
-    queryFn: async () => getListOfSchool(),
-  })
-  // console.log(listOfSchools)
-
   const possibleKeys = ['liceum', 'technikum', 'szkola_zawodowa']
 
   return (
@@ -62,9 +48,9 @@ export default function GlobalSearch() {
         variant='outline'
         size='sm'
         onClick={handleInputClick}
-        className='relative w-40 h-9 justify-between overflow-visible'
+        className='relative w-full h-9 justify-between overflow-visible'
       >
-        <h1 className='font-bold'>Szukaj...</h1>
+        <h1 className=''>Szukaj...</h1>
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
@@ -112,7 +98,7 @@ export default function GlobalSearch() {
             </CommandItem>
           </CommandGroup>
           <CommandGroup heading='Wyszukiwanie'>
-            {listOfSchools?.data?.map((school) => (
+            {listOfSchools?.map((school) => (
               <div key={school.skrot_szkoly}>
                 <CommandItem
                   onSelect={() => {

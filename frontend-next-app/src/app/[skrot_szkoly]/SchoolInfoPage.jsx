@@ -7,7 +7,7 @@ import PhotoGallery from '@/components/PhotoGallery'
 import Link from 'next/link'
 import { Link2, ExternalLink, Mail, Phone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { appedDomain, tryCatch } from '@/lib/utils'
+import { appedDomain, Facebook, tryCatch } from '@/lib/utils'
 import Image from 'next/image'
 
 export default async function SchoolPageInfo({ params }) {

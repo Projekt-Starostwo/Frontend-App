@@ -11,6 +11,8 @@ import SpinnerLoading from '@/components/SpinnerLoading'
 import ErrorPage from '@/components/ErrorPage'
 import { Checkbox } from '@/components/ui/checkbox'
 import { tryCatch } from '@/lib/utils'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import GlobalSearch from '@/components/GlobalSearch'
 
 export default function SchoolBrowser() {
   const queryClient = useQueryClient()
@@ -18,7 +20,27 @@ export default function SchoolBrowser() {
   const [map, setMap] = useState(null)
   const mapObj = { map: map, setMap: setMap }
   const [showMarkers, setShowMarkers] = useState(true)
+  const [selectedTab, setSelectedTab] = useState('list')
+
+  const [currentFilters, setCurrentFilters] = useState([
+    {
+      id: 'liceum',
+      label: 'Liceum',
+      checked: true,
+    },
+    {
+      id: 'technikum',
+      label: 'Technikum',
+      checked: true,
+    },
+    {
+      id: 'szkola_zawodowa',
+      label: 'Szkoła zawodowa',
+      checked: true,
+    },
+  ])
   const [listOfSchools, setListOfSchools] = useState(null)
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ['listOfSchools'],
     queryFn: async () => {
@@ -43,7 +65,7 @@ export default function SchoolBrowser() {
   // console.log(listOfSchools)
 
   return (
-    <div className='flex flex-row h-[80vh]'>
+    <div className=''>
       {isLoading && (
         <div className='flex justify-center items-center h-[80vh] w-full'>
           <SpinnerLoading />
@@ -57,42 +79,84 @@ export default function SchoolBrowser() {
         />
       )}
       {!isLoading && !isError && (
-        <div className='w-full flex flex-row flex-wrap'>
-          <ListOfSchools map={mapObj} listOfSchools={listOfSchools} setShowMarkers={setShowMarkers} />
-          <div className='h-full w-2/3 p-10 flex flex-col justify-center items-center gap-2'>
-            <Filters listOfSchools={listOfSchools} setListOfSchools={setListOfSchools} />
-            <LeafletMap
-              map={mapObj}
-              listOfSchools={listOfSchools}
-              showPopup
-              showMarkers={showMarkers}
-              setShowMarkers={setShowMarkers}
-            />
+        <>
+          {/* Mobile view - Tabs for switching between list and map */}
+          <div className='md:hidden'>
+            <Tabs
+              defaultValue='list'
+              value={selectedTab}
+              onValueChange={(e) => {
+                setSelectedTab(e)
+              }}
+            >
+              <TabsList className='grid grid-cols-2 my-4'>
+                <TabsTrigger value='list'>Szkoły</TabsTrigger>
+                <TabsTrigger value='map'>Mapa</TabsTrigger>
+              </TabsList>
+              <Filters
+                listOfSchools={listOfSchools}
+                setListOfSchools={setListOfSchools}
+                currentFilters={currentFilters}
+                setCurrentFilters={setCurrentFilters}
+              />
+              <TabsContent value='list' className='h-[70vh]'>
+                <ListOfSchools
+                  map={mapObj}
+                  listOfSchools={listOfSchools}
+                  setShowMarkers={setShowMarkers}
+                  setSelectedTab={setSelectedTab}
+                />
+              </TabsContent>
+              <TabsContent value='map' className='h-[80vh]'>
+                <div className='md:col-span-2 lg:col-span-3 rounded-lg overflow-hidden'>
+                  <div className='h-[80vh] w-full p-10 flex flex-col justify-center items-center gap-2'>
+                    <LeafletMap
+                      map={mapObj}
+                      listOfSchools={listOfSchools}
+                      showPopup
+                      showMarkers={showMarkers}
+                      setShowMarkers={setShowMarkers}
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
-        </div>
+          {/* Desktop view */}
+          <div className='hidden md:grid md:grid-cols-3 lg:grid-cols-5 gap-6 h-[80vh]'>
+            <div className='md:col-span-1 lg:col-span-2 rounded-lg overflow-hidden'>
+              <Filters
+                listOfSchools={listOfSchools}
+                setListOfSchools={setListOfSchools}
+                currentFilters={currentFilters}
+                setCurrentFilters={setCurrentFilters}
+              />
+              <ListOfSchools
+                map={mapObj}
+                listOfSchools={listOfSchools}
+                setShowMarkers={setShowMarkers}
+                setSelectedTab={setSelectedTab}
+              />
+            </div>
+            <div className='md:col-span-2 lg:col-span-3  rounded-lg overflow-hidden'>
+              <div className='h-[80vh] w-full p-10 flex flex-col justify-center items-center gap-2'>
+                <LeafletMap
+                  map={mapObj}
+                  listOfSchools={listOfSchools}
+                  showPopup
+                  showMarkers={showMarkers}
+                  setShowMarkers={setShowMarkers}
+                />
+              </div>
+            </div>
+          </div>
+        </>
       )}
     </div>
   )
 }
-function Filters({ listOfSchools, setListOfSchools }) {
-  const [currentFilters, setCurrentFilters] = useState([
-    {
-      id: 'liceum',
-      label: 'Liceum',
-      checked: true,
-    },
-    {
-      id: 'technikum',
-      label: 'Technikum',
-      checked: true,
-    },
-    {
-      id: 'szkola_zawodowa',
-      label: 'Szkoła zawodowa',
-      checked: true,
-    },
-  ])
-  // update the school list, to match actual filters
+
+function Filters({ listOfSchools, setListOfSchools, currentFilters, setCurrentFilters }) {
   useEffect(() => {
     if (!listOfSchools) return
     setListOfSchools((prevListOfSchools) => {
@@ -145,24 +209,30 @@ function Filters({ listOfSchools, setListOfSchools }) {
     return result.some((element) => element === true)
   }
   return (
-    <div className='w-full flex flex-row justify-start items-start gap-6'>
-      {currentFilters.map((item, index) => {
-        return (
-          <div key={item.id} className='flex flex-row justify-center items-center gap-4'>
-            <Checkbox
-              id={`${item.id}`}
-              onCheckedChange={(newValue) => handleFiltersChange(item.id, item.label, newValue, index)}
-              defaultChecked
-            />
-            <label
-              htmlFor={`${item.id}`}
-              className='text-xl font-medium  peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer'
-            >
-              {item.label}
-            </label>
-          </div>
-        )
-      })}
+    <div className='p-4 pb-0 space-y-4 w-full max-w-lg min-w-lg  mx-auto'>
+      <div className='relative'>
+        <GlobalSearch listOfSchools={listOfSchools} />
+      </div>
+      <div className='relative flex justify-center items-start gap-6 flex-wrap'>
+        {currentFilters.map((item, index) => {
+          return (
+            <div key={item.id} className='flex flex-row justify-center items-center gap-4'>
+              <Checkbox
+                id={`${item.id}`}
+                checked={item.checked}
+                onCheckedChange={(newValue) => handleFiltersChange(item.id, item.label, newValue, index)}
+                defaultChecked
+              />
+              <label
+                htmlFor={`${item.id}`}
+                className='text-lg font-medium  peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer'
+              >
+                {item.label}
+              </label>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

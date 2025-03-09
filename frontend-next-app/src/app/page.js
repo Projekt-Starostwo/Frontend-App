@@ -4,7 +4,7 @@ import SchoolBrowser from './(landingPageComponents)/SchoolBrowser'
 export default function Home() {
   return (
     <>
-      <Hero />
+      {/* <Hero /> */}
       <SchoolBrowser />
     </>
   )

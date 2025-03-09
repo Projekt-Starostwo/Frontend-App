@@ -85,11 +85,7 @@ body {
   filter: drop-shadow(var(--main-mmz-blue) 0 0 25px);
 }
 .mmz-heading {
-  background: -webkit-linear-gradient(
-    45deg,
-    var(--main-mmz-blue),
-    var(--main-mmz-yellow)
-  );
+  background: -webkit-linear-gradient(45deg, var(--main-mmz-blue), var(--main-mmz-yellow));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -109,8 +105,8 @@ body {
 .przystanki-btn {
   z-index: 99999;
   position: absolute;
-  top: 40;
-  right: 180;
+  top: 90;
+  right: 12;
   transition: filter 0.2s ease-out; /* Added transition */
 }
 .przystanki-btn:hover {
@@ -164,7 +160,7 @@ body {
   transform: translateX(-50%);
   width: 18px;
   height: 18px;
-  background-image: url("/bus-icon.png");
+  background-image: url('/bus-icon.png');
   background-size: contain;
   background-repeat: no-repeat;
 }

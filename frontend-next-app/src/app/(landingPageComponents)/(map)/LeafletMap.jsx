@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css'
 import CustomMarker from './CustomMarker'
 import { Button } from '@/components/ui/button'
 import { useTheme } from 'next-themes'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import L from 'leaflet'
 import { BusFront, ExternalLink, LocateFixed } from 'lucide-react'
 import ReactDOMServer from 'react-dom/server'
@@ -22,7 +22,7 @@ const GraniceMMZ = [
 export const MAP_CENTER = [52.179, 21.57211]
 const DEFAULT_ZOOM = 14
 
-export default function LeafletMap({ map, listOfSchools, showPopup, initialMapCenter, showMarkers, setShowMarkers }) {
+export default function LeafletMap({ map, listOfSchools, showPopup, initialMapCenter, showMarkers }) {
   const { theme } = useTheme()
   const [pokazPrzystanki, setPokazPrzystanki] = useState(false)
 
@@ -35,7 +35,7 @@ export default function LeafletMap({ map, listOfSchools, showPopup, initialMapCe
     <>
       <div className='w-full flex flex-row justify-between items-center relative bg-black'>
         <Button
-          className='border-2 border-transparent reset-map'
+          className='border-2 border-transparent reset-map w-48'
           onClick={() => {
             flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM)
           }}
@@ -43,7 +43,7 @@ export default function LeafletMap({ map, listOfSchools, showPopup, initialMapCe
           <LocateFixed />
           <p>Zresetuj mapę</p>
         </Button>
-        <Button className={`przystanki-btn`} onClick={() => setPokazPrzystanki((prevState) => !prevState)}>
+        <Button className={`przystanki-btn w-48`} onClick={() => setPokazPrzystanki((prevState) => !prevState)}>
           <BusFront />
           {pokazPrzystanki ? 'Ukryj przystanki' : 'Pokaż przystanki'}
         </Button>
@@ -73,7 +73,7 @@ export default function LeafletMap({ map, listOfSchools, showPopup, initialMapCe
               : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           }
         />
-        {GraniceMmz.map((polygon, index) => (
+        {/* {GraniceMmz.map((polygon, index) => (
           <Polygon
             key={index}
             positions={polygon.coordinates[0].map((coord) => [coord[1], coord[0]])}
@@ -81,7 +81,7 @@ export default function LeafletMap({ map, listOfSchools, showPopup, initialMapCe
             color={'#1E90FF'}
             fill={false}
           />
-        ))}
+        ))} */}
         {/* hide markers when animating */}
         {showMarkers && (
           <>
