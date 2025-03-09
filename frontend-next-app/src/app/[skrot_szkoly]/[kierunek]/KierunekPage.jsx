@@ -4,7 +4,6 @@ import getKierunekInfo, { getSchoolDetails } from '@/lib/queries'
 import { deslugify, tryCatch } from '@/lib/utils'
 import { Link2, User, Users } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import Link from 'next/link'
 import { BigSchoolCard } from '../SchoolInfoPage'
 
 export default async function KierunekPage({ params }) {
@@ -13,7 +12,7 @@ export default async function KierunekPage({ params }) {
 
   const schoolData = await tryCatch(getSchoolDetails(params.skrot_szkoly))
   const school = schoolData.data
-  console.log(school)
+  // console.log(school)
 
   return (
     <div className='h-auto w-full flex flex-col justify-start items-center p-10'>
@@ -34,19 +33,16 @@ export default async function KierunekPage({ params }) {
 
           <HeadingAndDescription kierunek={kierunek} school={school} />
 
-          <div className='flex flex-col gap-2'>
+          <RenderAccordionOfListedInfo kierunek={kierunek} />
+
+          {/* <div className='flex flex-col gap-2'>
             <Przedmioty title={'Przedmioty rozszerzone'} przedmioty={kierunek.rozszerzone_przedmioty} />
 
             <Przedmioty title={'Przedmioty punktowane'} przedmioty={kierunek.punktowane_przedmioty} />
-          </div>
-          <RenderAccordionOfListedInfo kierunek={kierunek} />
+          </div> */}
+          <Przedmioty kierunek={kierunek} />
 
-          {kierunek.galeria && (
-            <PhotoGallery
-              photos={kierunek.galeria}
-              containerDivStyles={'h-[30vh] w-full flex flex-col justify-center items-center'}
-            />
-          )}
+          <Stats kierunek={kierunek} />
 
           <Slogan slogan={kierunek.slogan_koniec} />
         </div>
@@ -54,14 +50,15 @@ export default async function KierunekPage({ params }) {
     </div>
   )
 }
-function HeadingAndDescription({ kierunek, school }) {
+function HeadingAndDescription({ kierunek }) {
   return (
-    <div className='flex gap-2 flex-col'>
-      <h1 className='text-2xl font-bold'>{kierunek.nazwa_kierunku}</h1>
-      <Stats kierunek={kierunek} />
-      <div className='h-1/2'>
-        <p className='' dangerouslySetInnerHTML={{ __html: kierunek.opis_kierunku }}></p>
-      </div>
+    <div className='flex flex-col w-full justify-center items-center'>
+      <h1 className='text-4xl font-bold'>{kierunek.nazwa_kierunku}</h1>
+      {kierunek.opis_kierunku && (
+        <div className='h-1/2 pt-10'>
+          <p className='' dangerouslySetInnerHTML={{ __html: kierunek.opis_kierunku }}></p>
+        </div>
+      )}
     </div>
   )
 }
@@ -78,23 +75,34 @@ function Slogan({ slogan }) {
     </>
   )
 }
-function Przedmioty({ title, przedmioty }) {
+function Przedmioty({ kierunek }) {
+  if (!kierunek.rozszerzone_przedmioty.length && !kierunek.punktowane_przedmioty.length) return null
+
   return (
-    <>
-      {przedmioty.length > 0 && (
+    <div className='flex flex-col gap-2'>
+      {kierunek.rozszerzone_przedmioty.length > 0 && (
         <div className='flex flex-col gap-2'>
-          <h1 className='text-2xl font-bold '>{title}</h1>
+          <h1 className='text-2xl font-bold '>Przedmioty rozszerzone</h1>
           <div>
-            <p>{przedmioty}</p>
+            <p>{kierunek.rozszerzone_przedmioty}</p>
           </div>
         </div>
       )}
-    </>
+      {kierunek.punktowane_przedmioty.length > 0 && (
+        <div className='flex flex-col gap-2'>
+          <h1 className='text-2xl font-bold '>Przedmioty punktowane</h1>
+          <div>
+            <p>{kierunek.punktowane_przedmioty}</p>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }
 function Stats({ kierunek }) {
   return (
-    <div className='text-md flex flex-col justify-start items-start w-full gap-2 pt-4 flex-wrap'>
+    <div className='text-md flex flex-col justify-start items-start w-full gap-2 flex-wrap'>
+      <h1 className='font-bold text-2xl'>Szczegóły</h1>
       {kierunek.liczba_oddzialow > 0 && (
         <div className='flex flex-row gap-4 items-center'>
           <div>
@@ -117,6 +125,15 @@ function Stats({ kierunek }) {
 }
 
 function RenderAccordionOfListedInfo({ kierunek }) {
+  if (
+    !kierunek.umiejetnosci.length &&
+    !kierunek.praca.length &&
+    !kierunek.warunki_pracy.length &&
+    !kierunek.cechy_ludzkie_dla_kierunku.length &&
+    !kierunek.mozliwosci_rozwoju.length
+  )
+    return null
+
   function RenderListedInfo({ list, itemLabel }) {
     if (!list) return
     return (
@@ -131,6 +148,7 @@ function RenderAccordionOfListedInfo({ kierunek }) {
       </ul>
     )
   }
+
   return (
     <Accordion type='single' collapsible className='w-full'>
       {kierunek.umiejetnosci.length > 0 && (
