@@ -9,24 +9,38 @@ export default function Swiadectwo({ grades, setGrades }) {
   };
 
   const handleGradeChange = (e) => {
-    const { name, value } = e.target;
-    const numValue = parseInt(value) || 0;
-    setGrades((prev) => ({ ...prev, [name]: numValue }));
+    let value = e.target.value;
+
+    // Usuwamy nieprawidłowe znaki (np. litery)
+    if (!/^\d*$/.test(value)) return;
+
+    // Konwersja do liczby
+    value = parseInt(value, 10);
+
+    // Blokada wartości ujemnych i większych niż 6
+    if (isNaN(value) || value < 1) value = 0;
+    if (value > 6) value = 6;
+
+    setGrades((prev) => ({ ...prev, [e.target.name]: value }));
   };
 
   return (
     <div>
       <h3 className="font-bold text-2xl">Świadectwo</h3>
       {Object.keys(subjectNamesGrades).map((subject) => (
-        <input
-          key={subject}
-          type="number"
-          name={subject}
-          placeholder={`Ocena ${subjectNamesGrades[subject]}`}
-          onChange={handleGradeChange}
-          max="6"
-          className="block w-full p-2 border-2  rounded mt-2 bg-transparent"
-        />
+        <div key={subject}>
+          <label className="block font-bold">
+            Ocena {subjectNamesGrades[subject]}
+          </label>
+          <input
+            type="number"
+            name={subject}
+            placeholder={`Ocena ${subjectNamesGrades[subject]}`}
+            value={grades[subject] || ""}
+            onChange={handleGradeChange}
+            className="block w-full p-2 border-2 rounded mt-2 bg-transparent"
+          />
+        </div>
       ))}
     </div>
   );

@@ -1,15 +1,39 @@
 import React from "react";
 
-export default function E8({ examScores, setExamScores, exempted, setExempted, setError }) {
+export default function E8({ examScores, setExamScores, exempted, setExempted }) {
   const subjectNames = { polish: "języka polskiego", math: "matematyki", foreignLang: "języka obcego" };
 
-  const handleExamChange = (e) => {
-    const value = parseFloat(e.target.value) || 0;
-    if (value > 100) {
-      setError(`Wynik z ${subjectNames[e.target.name]} nie może przekraczać 100!`);
+  const mathPointsMap = { 1: 0, 2: 10, 3: 15, 4: 25, 5: 30, 6: 35 };
+  const gradePointsMap = { 1: 0, 2: 10, 3: 15, 4: 25, 5: 30, 6: 35 }; // Tak samo dla polskiego!
+
+  const handleInputChange = (e) => {
+    let value = e.target.value;
+    const subject = e.target.name;
+
+    if (!/^\d*$/.test(value)) return;
+    value = parseInt(value, 10);
+
+    if (exempted[subject]) {
+      if (isNaN(value) || value < 1) value = 0;
+      if (value > 6) value = 6;
+      setExamScores({ ...examScores, [subject]: subject === "math" ? mathPointsMap[value] : gradePointsMap[value] });
     } else {
-      setError("");
-      setExamScores({ ...examScores, [e.target.name]: value });
+      if (isNaN(value) || value < 0) value = 0;
+      if (value > 100) value = 100;
+      setExamScores({ ...examScores, [subject]: value });
+    }
+  };
+
+  const handleExemptionChange = (e) => {
+    const subject = e.target.name;
+    const isChecked = e.target.checked;
+
+    setExempted({ ...exempted, [subject]: isChecked });
+
+    if (isChecked) {
+      setExamScores({ ...examScores, [subject]: "" });
+    } else {
+      setExamScores({ ...examScores, [subject]: "" });
     }
   };
 
@@ -19,18 +43,31 @@ export default function E8({ examScores, setExamScores, exempted, setExempted, s
       {Object.keys(subjectNames).map((subject) => (
         <div key={subject}>
           <h1 className="text-xl font-bold">{subjectNames[subject]}</h1>
-          {!exempted[subject] && (
-            <input
-              type="number"
-              name={subject}
-              placeholder={`Wynik % z ${subjectNames[subject]}`}
-              onChange={handleExamChange}
-              max="100"
-              className="block w-full p-2 border-2 rounded mt-2 bg-transparent"
-            />
-          )}
+
+          <input
+  type="number"
+  name={subject}
+  placeholder={
+    exempted[subject]
+      ? `Ocena z ${subjectNames[subject]} (1-6)`
+      : `Wynik % z ${subjectNames[subject]}`
+  }
+  value={
+    exempted[subject]
+      ? Object.keys(mathPointsMap).find(key => mathPointsMap[key] == examScores[subject]) || ""
+      : examScores[subject] || ""
+  }
+  onChange={handleInputChange}
+  className="block w-full p-2 border-2 rounded bg-transparent"
+/>
+
           <label className="flex items-center space-x-2 mb-2">
-            <input type="checkbox" name={subject} onChange={(e) => setExempted({ ...exempted, [e.target.name]: e.target.checked })} />
+            <input
+              type="checkbox"
+              name={subject}
+              onChange={handleExemptionChange}
+              checked={exempted[subject] || false}
+            />
             <span>Zwolniony z egzaminu ({subjectNames[subject]})</span>
           </label>
         </div>

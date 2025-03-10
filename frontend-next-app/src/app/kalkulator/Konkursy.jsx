@@ -1,5 +1,6 @@
 import React from "react";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { useState, useEffect } from "react";
 
 const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetitionPoints }) => {
   const handleCompetitionChange = (event) => {
