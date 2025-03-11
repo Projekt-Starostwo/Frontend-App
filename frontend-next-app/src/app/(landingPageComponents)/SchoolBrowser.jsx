@@ -15,7 +15,6 @@ import ErrorPage from "@/components/ErrorPage";
 import { Checkbox } from "@/components/ui/checkbox";
 import { tryCatch } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import GlobalSearch from "@/components/GlobalSearch";
 
 export default function SchoolBrowser() {
   const queryClient = useQueryClient();
@@ -220,9 +219,6 @@ function Filters({
   }
   return (
     <div className="p-4  space-y-4 w-full max-w-lg min-w-lg  mx-auto max-sm:border-b">
-      <div className="relative">
-        <GlobalSearch listOfSchools={listOfSchools} />
-      </div>
       <div className="relative flex justify-center items-start gap-6 flex-wrap">
         {currentFilters.map((item, index) => {
           return (

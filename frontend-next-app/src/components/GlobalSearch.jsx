@@ -1,87 +1,105 @@
-'use client'
+"use client";
 
 import {
-  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command'
-import React from 'react'
-import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
-import { slugify } from '@/lib/utils'
-import { GraduationCap, Link2, MapPin, Moon, School, Scroll, Search, Sun } from 'lucide-react'
-import { useTheme } from 'next-themes'
-import { DialogTitle } from './ui/dialog'
+} from "@/components/ui/command";
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { slugify, tryCatch } from "@/lib/utils";
+import { GraduationCap, MapPin, Moon, School, Scroll, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { DialogTitle } from "./ui/dialog";
+import { useQuery } from "@tanstack/react-query";
+import { getListOfSchool } from "@/lib/queries";
 
-export default function GlobalSearch({ listOfSchools }) {
-  const { setTheme } = useTheme()
-  const [open, setOpen] = React.useState(false)
-  const router = useRouter()
+export default function GlobalSearch() {
+  const { setTheme } = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const router = useRouter();
+
+  const { data: listOfSchools } = useQuery({
+    queryKey: ["listOfSchoolsSearch"],
+    queryFn: async () => {
+      const { data, error } = await tryCatch(getListOfSchool());
+
+      if (error) throw new Error("Nie pobrano szkół");
+      console.log(data.data);
+      return data.data;
+    },
+  });
 
   React.useEffect(() => {
     const down = (e) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setOpen((open) => !open)
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setOpen((open) => !open);
       }
-    }
-    document.addEventListener('keydown', down)
-    return () => document.removeEventListener('keydown', down)
-  }, [])
+    };
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
 
   const handleInputClick = () => {
-    setOpen(true) // Open the CommandDialog when the input is clicked
-  }
+    setOpen(true); // Open the CommandDialog when the input is clicked
+  };
   const handleCommandSelect = () => {
-    setOpen(false) // Close the CommandDialog when a command is selected
-  }
+    setOpen(false); // Close the CommandDialog when a command is selected
+  };
 
-  const possibleKeys = ['liceum', 'technikum', 'szkola_zawodowa']
+  const possibleKeys = ["liceum", "technikum", "szkola_zawodowa"];
 
   return (
     <>
       <Button
-        variant='outline'
-        size='sm'
+        variant="outline"
+        size="sm"
         onClick={handleInputClick}
-        className='relative w-full h-9 justify-between overflow-visible'
+        className="relative w-full h-9 justify-between overflow-visible"
       >
-        <h1 className=''>Szukaj...</h1>
+        <h1 className="w-40 h-1/3 flex flex-row justify-between items-center">
+          Szukaj...
+          <kbd class="pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+            <span class="text-xs">⌘</span>
+            <p className="text-[15px]"> K</p>
+          </kbd>
+        </h1>
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <DialogTitle className='w-0 h-0'></DialogTitle>
+        <DialogTitle className="w-0 h-0"></DialogTitle>
 
-        <CommandInput placeholder='Przejdź do strony lub wyszukaj...' />
+        <CommandInput placeholder="Przejdź do strony lub wyszukaj..." />
         <CommandList>
           <CommandEmpty>Nie znaleziono wyników.</CommandEmpty>
-          <CommandGroup heading='Preferencje'>
+          <CommandGroup heading="Preferencje">
             <CommandItem
               onSelect={() => {
-                setTheme('dark')
-                handleCommandSelect()
+                setTheme("dark");
+                handleCommandSelect();
               }}
             >
               <Moon /> Ciemny Motyw
             </CommandItem>
             <CommandItem
               onSelect={() => {
-                setTheme('light')
-                handleCommandSelect()
+                setTheme("light");
+                handleCommandSelect();
               }}
             >
               <Sun /> Jasny Motyw
             </CommandItem>
           </CommandGroup>
-          <CommandGroup heading='Przejdź do strony'>
+          <CommandGroup heading="Przejdź do strony">
             <CommandItem
               onSelect={() => {
-                router.push('/')
-                handleCommandSelect()
+                router.push("/");
+                handleCommandSelect();
               }}
             >
               <MapPin />
@@ -89,49 +107,60 @@ export default function GlobalSearch({ listOfSchools }) {
             </CommandItem>
             <CommandItem
               onSelect={() => {
-                router.push('/rekrutacja-vulcan')
-                handleCommandSelect()
+                router.push("/rekrutacja-vulcan");
+                handleCommandSelect();
               }}
             >
               <Scroll />
               Rekrutacja Vulcan
             </CommandItem>
           </CommandGroup>
-          <CommandGroup heading='Wyszukiwanie'>
+          <CommandGroup heading="Wyszukiwanie">
             {listOfSchools?.map((school) => (
               <div key={school.skrot_szkoly}>
                 <CommandItem
                   onSelect={() => {
-                    router.push(`/${school.skrot_szkoly}`)
-                    handleCommandSelect()
+                    router.push(`/${school.skrot_szkoly}`);
+                    handleCommandSelect();
                   }}
                 >
-                  <div className='w-full flex flex-row justify-start items-center gap-2'>
+                  <div className="w-full flex flex-row justify-start items-center gap-2">
                     <School />
                     {school.nazwa_szkoly}
-                    <p className='text-muted-foreground'>Szkoła</p>
+                    <p className="text-muted-foreground">Szkoła</p>
                   </div>
                 </CommandItem>
                 {possibleKeys.map((key) => {
-                  if (school.rodzaje_szkoly[key] && school.rodzaje_szkoly[key].lista_kierunkow) {
-                    return school.rodzaje_szkoly[key].lista_kierunkow.map((kierunek) => (
-                      <CommandItem
-                        // key={`${school.skrot_szkoly}-${slugify(kierunek.kierunek.nazwa_kierunku)}`} // Unique key
-                        key={kierunek.id}
-                        onSelect={() => {
-                          router.push(`/${school.skrot_szkoly}/${slugify(kierunek.kierunek.nazwa_kierunku)}`)
-                          handleCommandSelect()
-                        }}
-                      >
-                        <div className='w-full flex flex-row justify-start items-center gap-2'>
-                          <GraduationCap />
-                          {kierunek.kierunek.nazwa_kierunku}
-                          <p className='text-muted-foreground'>{school.skrot_szkoly}</p>
-                        </div>
-                      </CommandItem>
-                    ))
+                  if (
+                    school.rodzaje_szkoly[key] &&
+                    school.rodzaje_szkoly[key].lista_kierunkow
+                  ) {
+                    return school.rodzaje_szkoly[key].lista_kierunkow.map(
+                      (kierunek) => (
+                        <CommandItem
+                          // key={`${school.skrot_szkoly}-${slugify(kierunek.kierunek.nazwa_kierunku)}`} // Unique key
+                          key={kierunek.id}
+                          onSelect={() => {
+                            router.push(
+                              `/${school.skrot_szkoly}/${slugify(
+                                kierunek.kierunek.nazwa_kierunku
+                              )}`
+                            );
+                            handleCommandSelect();
+                          }}
+                        >
+                          <div className="w-full flex flex-row justify-start items-center gap-2">
+                            <GraduationCap />
+                            {kierunek.kierunek.nazwa_kierunku}
+                            <p className="text-muted-foreground">
+                              {school.skrot_szkoly}
+                            </p>
+                          </div>
+                        </CommandItem>
+                      )
+                    );
                   }
-                  return null
+                  return null;
                 })}
               </div>
             ))}
@@ -139,5 +168,5 @@ export default function GlobalSearch({ listOfSchools }) {
         </CommandList>
       </CommandDialog>
     </>
-  )
+  );
 }

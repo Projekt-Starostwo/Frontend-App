@@ -7,6 +7,7 @@ import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { ThemeToggle } from "./ThemeToggle";
 import { ScrollProgress } from "./magicui/scroll-progress";
 import { Menu, X } from "lucide-react";
+import GlobalSearch from "./GlobalSearch";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -52,7 +53,7 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-4">
-          {/* <GlobalSearch /> */}
+          <GlobalSearch />
           <ThemeToggle />
         </div>
       </div>
