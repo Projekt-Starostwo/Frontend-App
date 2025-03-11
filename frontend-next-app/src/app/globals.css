@@ -172,3 +172,6 @@ body {
 .bus-count {
   margin-top: 10px;
 }
+.navbar {
+  z-index: 999999;
+}

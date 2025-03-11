@@ -3,16 +3,9 @@
 import * as React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { ThemeToggle } from "./ThemeToggle";
 import { ScrollProgress } from "./magicui/scroll-progress";
-import GlobalSearch from "./GlobalSearch";
 import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
@@ -23,7 +16,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="sticky top-0 z-50">
+    <div className="sticky top-0 navbar">
       <div className="w-full flex justify-between items-center h-[7vh] border-b bg-background px-4 py-2">
         <button
           className="sm:hidden"

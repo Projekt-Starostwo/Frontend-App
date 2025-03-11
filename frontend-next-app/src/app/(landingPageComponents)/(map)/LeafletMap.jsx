@@ -15,7 +15,7 @@ import Link from "next/link";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 
 const GraniceMMZ = [
-  [52.14, 21.53],
+  [52.146706, 21.502658],
   [52.22, 21.61],
 ];
 
@@ -28,9 +28,21 @@ export default function LeafletMap({
   showPopup,
   initialMapCenter,
   showMarkers,
+  setShowMarkers,
+  newSchoolFocued,
 }) {
   const { theme } = useTheme();
   const [pokazPrzystanki, setPokazPrzystanki] = useState(false);
+
+  useEffect(() => {
+    if (!newSchoolFocued || !map.map) {
+      console.log("PROBELM: ", newSchoolFocued, map.map);
+      setShowMarkers(true);
+      return;
+    }
+
+    map.map.setView([newSchoolFocued[0], newSchoolFocued[1]], 16);
+  }, [newSchoolFocued, map.map]);
 
   useEffect(() => {
     if (!map.map) return;
@@ -52,7 +64,6 @@ export default function LeafletMap({
   }, [map.map]);
 
   const flyToLocation = (lat, lng, zoom) => {
-    console.log(showMarkers);
     map.map.flyTo([lat, lng], zoom);
   };
 
