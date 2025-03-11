@@ -228,7 +228,7 @@ function getCorrectBusTableUrl(oznaczenie) {
     return (
       <OznaczenieLink
         oznaczenie={oznaczenie}
-        link="https://www.minsk-maz.pl/720,linia-m3`"
+        link="https://www.minsk-maz.pl/720,linia-m3"
       />
     );
   }
