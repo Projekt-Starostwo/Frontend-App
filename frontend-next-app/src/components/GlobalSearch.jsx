@@ -64,8 +64,8 @@ export default function GlobalSearch() {
       >
         <h1 className="w-40 h-1/3 flex flex-row justify-between items-center">
           Szukaj...
-          <kbd class="pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
-            <span class="text-xs">⌘</span>
+          <kbd className="pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+            <span className="text-xs">⌘</span>
             <p className="text-[15px]"> K</p>
           </kbd>
         </h1>
