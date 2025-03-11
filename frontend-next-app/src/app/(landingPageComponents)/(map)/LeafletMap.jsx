@@ -35,8 +35,11 @@ export default function LeafletMap({
   const [pokazPrzystanki, setPokazPrzystanki] = useState(false);
 
   useEffect(() => {
+    if (!setShowMarkers) {
+      return;
+    }
+
     if (!newSchoolFocued || !map.map) {
-      console.log("PROBELM: ", newSchoolFocued, map.map);
       setShowMarkers(true);
       return;
     }
