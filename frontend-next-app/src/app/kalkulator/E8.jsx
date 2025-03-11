@@ -45,29 +45,16 @@ export default function E8({ examScores, setExamScores, exempted, setExempted })
           <h1 className="text-xl font-bold">{subjectNames[subject]}</h1>
 
           <input
-  type="number"
-  name={subject}
-  placeholder={
-    exempted[subject]
-      ? `Ocena z ${subjectNames[subject]} (1-6)`
-      : `Wynik % z ${subjectNames[subject]}`
-  }
-  value={
-    exempted[subject]
-      ? Object.keys(mathPointsMap).find(key => mathPointsMap[key] == examScores[subject]) || ""
-      : examScores[subject] || ""
-  }
-  onChange={handleInputChange}
-  className="block w-full p-2 border-2 rounded bg-transparent"
-/>
+            type="number"
+            name={subject}
+            placeholder={exempted[subject] ? `Ocena z ${subjectNames[subject]} (1-6)` : `Wynik % z ${subjectNames[subject]}`}
+            value={exempted[subject] ? Object.keys(mathPointsMap).find((key) => mathPointsMap[key] == examScores[subject]) || "" : examScores[subject] || ""}
+            onChange={handleInputChange}
+            className="block w-full p-2 border-2 rounded bg-transparent"
+          />
 
           <label className="flex items-center space-x-2 mb-2">
-            <input
-              type="checkbox"
-              name={subject}
-              onChange={handleExemptionChange}
-              checked={exempted[subject] || false}
-            />
+            <input type="checkbox" name={subject} onChange={handleExemptionChange} checked={exempted[subject] || false} />
             <span>Zwolniony z egzaminu ({subjectNames[subject]})</span>
           </label>
         </div>

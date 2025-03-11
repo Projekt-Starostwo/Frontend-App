@@ -13,6 +13,7 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
 
       // Po zaktualizowaniu, obliczamy sumę punktów z konkursów
       const totalPoints = Object.values(updatedPoints).reduce((sum, points) => sum + points, 0);
+
       setTotalCompetitionPoints(totalPoints); // Zaktualizowanie całkowitej liczby punktów z konkursów
       return updatedPoints;
     });
@@ -25,7 +26,9 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
         <AccordionContent>
           {/* Konkursy ponadwojewódzkie */}
           <div className="mb-4 leading-7">
-            <h4 className="font-bold text-xl">Uzyskanie w zawodach wiedzy będących konkursem o zasięgu ponadwojewódzkim organizowanym przez kuratorów oświaty na podstawie zawartych porozumień:</h4>
+            <h4 className="font-bold text-xl">
+              Uzyskanie w zawodach wiedzy będących konkursem o zasięgu ponadwojewódzkim organizowanym przez kuratorów oświaty na podstawie zawartych porozumień:
+            </h4>
             {[
               { label: " brak (0 pkt)", value: 0 },
               { label: " tytuł finalisty konkursu przedmiotowego (10 pkt)", value: 10 },
@@ -48,12 +51,23 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
 
           {/* Konkursy międzynarodowe i ogólnopolskie */}
           <div className="mb-4 leading-7">
-            <h4 className="font-bold text-xl">Uzyskanie w zawodach wiedzy będących konkursem o zasięgu międzynarodowym lub ogólnopolskim albo turniejem o zasięgu ogólnopolskim:</h4>
+            <h4 className="font-bold text-xl">
+              Uzyskanie w zawodach wiedzy będących konkursem o zasięgu międzynarodowym lub ogólnopolskim albo turniejem o zasięgu ogólnopolskim:
+            </h4>
             {[
               { label: " brak (0 pkt)", value: 0 },
-              { label: " tytułu finalisty konkursu z przedmiotu lub przedmiotów artystycznych objętych ramowym planem nauczania szkoły artystycznej (10 pkt)", value: 10 },
-              { label: " tytułu laureata turnieju z przedmiotu lub przedmiotów artystycznych nieobjętych ramowym planem nauczania szkoły artystycznej (4 pkt)", value: 4 },
-              { label: " tytułu finalisty turnieju z przedmiotu lub przedmiotów artystycznych nieobjętych ramowym planem nauczania szkoły artystycznej (3 pkt)", value: 3 },
+              {
+                label: " tytułu finalisty konkursu z przedmiotu lub przedmiotów artystycznych objętych ramowym planem nauczania szkoły artystycznej (10 pkt)",
+                value: 10,
+              },
+              {
+                label: " tytułu laureata turnieju z przedmiotu lub przedmiotów artystycznych nieobjętych ramowym planem nauczania szkoły artystycznej (4 pkt)",
+                value: 4,
+              },
+              {
+                label: " tytułu finalisty turnieju z przedmiotu lub przedmiotów artystycznych nieobjętych ramowym planem nauczania szkoły artystycznej (3 pkt)",
+                value: 3,
+              },
             ].map((option, index) => (
               <label key={`competition2-${index}`} className="block font-normal">
                 <input
@@ -98,7 +112,7 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
           {/* Konkursy regionalne */}
           <div className="mb-4 leading-7">
             <h4 className="font-bold text-xl">Uzyskanie w zawodach wiedzy będących konkursem albo turniejem, o zasięgu ponadwojewódzkim lub wojewódzkim:</h4>
-           {[
+            {[
               { label: " brak (0 pkt)", value: 0 },
               { label: " dwóch lub więcej tytułów finalisty konkursu przedmiotowego (10 pkt)", value: 10 },
               { label: " dwóch lub więcej tytułów laureata konkursu tematycznego lub interdyscyplinarnego (7 pkt)", value: 7 },
@@ -121,10 +135,11 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
             ))}
           </div>
 
-         
           <div className="mb-4 leading-7">
-            <h4 className="font-bold text-xl">Uzyskanie wysokiego miejsca w zawodach wiedzy innych niż wymienione w pkt 1–4, artystycznych lub sportowych, organizowanych przez kuratora oświaty lub
-            inne podmioty działające na terenie szkoły, na szczeblu:</h4>
+            <h4 className="font-bold text-xl">
+              Uzyskanie wysokiego miejsca w zawodach wiedzy innych niż wymienione w pkt 1–4, artystycznych lub sportowych, organizowanych przez kuratora oświaty lub inne
+              podmioty działające na terenie szkoły, na szczeblu:
+            </h4>
             {[
               { label: " brak (0 pkt)", value: 0 },
               { label: " międzynarodowym (4 pkt)", value: 4 },
