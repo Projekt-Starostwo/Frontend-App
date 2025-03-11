@@ -13,6 +13,7 @@ import { PRZYSTANKI_MMZ } from "@/lib/przystankiMmz";
 import { GraniceMmz } from "@/lib/granicemmz";
 import Link from "next/link";
 import MarkerClusterGroup from "react-leaflet-markercluster";
+import { ZoomIn } from "lucide-react";
 
 const GraniceMMZ = [
   [52.146706, 21.502658],
@@ -22,15 +23,7 @@ const GraniceMMZ = [
 export const MAP_CENTER = [52.179, 21.57211];
 const DEFAULT_ZOOM = 14;
 
-export default function LeafletMap({
-  map,
-  listOfSchools,
-  showPopup,
-  initialMapCenter,
-  showMarkers,
-  setShowMarkers,
-  newSchoolFocued,
-}) {
+export default function LeafletMap({ map, listOfSchools, showPopup, initialMapCenter, showMarkers, setShowMarkers, newSchoolFocued }) {
   const { theme } = useTheme();
   const [pokazPrzystanki, setPokazPrzystanki] = useState(false);
 
@@ -82,10 +75,7 @@ export default function LeafletMap({
           <LocateFixed />
           <p>Zresetuj mapę</p>
         </Button>
-        <Button
-          className={`przystanki-btn w-48`}
-          onClick={() => setPokazPrzystanki((prevState) => !prevState)}
-        >
+        <Button className={`przystanki-btn w-48`} onClick={() => setPokazPrzystanki((prevState) => !prevState)}>
           <BusFront />
           {pokazPrzystanki ? "Ukryj przystanki" : "Pokaż przystanki"}
         </Button>
@@ -103,22 +93,14 @@ export default function LeafletMap({
         scrollWheelZoom={false}
       >
         {/* map bg color */}
-        <div
-          className={`w-full h-full ${
-            theme === "dark" ? "bg-[#333333]" : "bg-background"
-          }`}
-        ></div>
+        <div className={`w-full h-full ${theme === "dark" ? "bg-[#333333]" : "bg-background"}`}></div>
         <TileLayer
           attribution={
             theme === "dark"
               ? '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           }
-          url={
-            theme === "dark"
-              ? "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-              : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          }
+          url={theme === "dark" ? "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png" : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}
         />
         {/* {GraniceMmz.map((polygon, index) => (
           <Polygon
@@ -133,17 +115,11 @@ export default function LeafletMap({
         {showMarkers && (
           <>
             {listOfSchools?.map((school) => (
-              <CustomMarker
-                key={school.id}
-                school={school}
-                showPopup={showPopup}
-              />
+              <CustomMarker key={school.id} school={school} showPopup={showPopup} />
             ))}
 
             <MarkerClusterGroup
-              key={
-                pokazPrzystanki ? "bus-cluster-visible" : "bus-cluster-hidden"
-              }
+              key={pokazPrzystanki ? "bus-cluster-visible" : "bus-cluster-hidden"}
               chunkedLoading
               animate={true}
               spiderfyOnMaxZoom={true}
@@ -163,18 +139,15 @@ export default function LeafletMap({
                 });
               }}
             >
-              {pokazPrzystanki &&
-                PRZYSTANKI_MMZ?.map((przystanek) => (
-                  <Przystanek
-                    key={crypto.randomUUID()}
-                    przystanek={przystanek}
-                  />
-                ))}
+              {pokazPrzystanki && PRZYSTANKI_MMZ?.map((przystanek) => <Przystanek key={crypto.randomUUID()} przystanek={przystanek} />)}
             </MarkerClusterGroup>
           </>
         )}
         <div className="absolute bottom-2 left-2 z-[1000] py-2 text-lg hidden sm:block md:hidden lg:block lg:text-md">
-          <Button>**Przybliżanie i oddalanie mapy: Ctrl + Scroll**</Button>
+          <Button className="font-bold">
+            <ZoomIn />
+            Zoomowanie mapy: Ctrl + Scroll
+          </Button>
         </div>
       </MapContainer>
     </>
@@ -198,9 +171,7 @@ function Przystanek({ przystanek }) {
         <h1 className="font-bold text-lg py-1">{przystanek.name}</h1>
         <div>
           {przystanek.oznaczenia.map((oznaczenie) => (
-            <div key={crypto.randomUUID()}>
-              {getCorrectBusTableUrl(oznaczenie)}
-            </div>
+            <div key={crypto.randomUUID()}>{getCorrectBusTableUrl(oznaczenie)}</div>
           ))}
         </div>
       </Popup>
@@ -210,39 +181,19 @@ function Przystanek({ przystanek }) {
 
 function getCorrectBusTableUrl(oznaczenie) {
   if (oznaczenie === "M1") {
-    return (
-      <OznaczenieLink
-        oznaczenie={oznaczenie}
-        link="https://www.minsk-maz.pl/718,linia-m1"
-      />
-    );
+    return <OznaczenieLink oznaczenie={oznaczenie} link="https://www.minsk-maz.pl/718,linia-m1" />;
   }
 
   if (oznaczenie === "M2") {
-    return (
-      <OznaczenieLink
-        oznaczenie={oznaczenie}
-        link="https://www.minsk-maz.pl/719,linia-m2"
-      />
-    );
+    return <OznaczenieLink oznaczenie={oznaczenie} link="https://www.minsk-maz.pl/719,linia-m2" />;
   }
 
   if (oznaczenie === "M3") {
-    return (
-      <OznaczenieLink
-        oznaczenie={oznaczenie}
-        link="https://www.minsk-maz.pl/720,linia-m3"
-      />
-    );
+    return <OznaczenieLink oznaczenie={oznaczenie} link="https://www.minsk-maz.pl/720,linia-m3" />;
   }
 
   if (oznaczenie === "M4") {
-    return (
-      <OznaczenieLink
-        oznaczenie={oznaczenie}
-        link="https://www.minsk-maz.pl/1154,linia-m4"
-      />
-    );
+    return <OznaczenieLink oznaczenie={oznaczenie} link="https://www.minsk-maz.pl/1154,linia-m4" />;
   }
 }
 
