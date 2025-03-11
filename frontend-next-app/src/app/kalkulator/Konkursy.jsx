@@ -11,10 +11,10 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
         [name]: parseInt(value, 10),
       };
 
-      // Po zaktualizowaniu, obliczamy sumę punktów z konkursów
+      // Obliczamy sumę punktów z konkursów, ale nie przekraczamy 18
       const totalPoints = Object.values(updatedPoints).reduce((sum, points) => sum + points, 0);
+      setTotalCompetitionPoints(Math.min(totalPoints, 18)); // Ograniczenie do 18 punktów
 
-      setTotalCompetitionPoints(totalPoints); // Zaktualizowanie całkowitej liczby punktów z konkursów
       return updatedPoints;
     });
   };

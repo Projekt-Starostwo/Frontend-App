@@ -13,14 +13,22 @@ export default function E8({ examScores, setExamScores, exempted, setExempted })
     if (!/^\d*$/.test(value)) return;
     value = parseInt(value, 10);
 
+    if (isNaN(value)) value = 0;
+
     if (exempted[subject]) {
-      if (isNaN(value) || value < 1) value = 0;
+      if (value < 1) value = 0; // Zmiana wartości początkowej na 0
       if (value > 6) value = 6;
-      setExamScores({ ...examScores, [subject]: subject === "math" ? mathPointsMap[value] : gradePointsMap[value] });
+      setExamScores({
+        ...examScores,
+        [subject]: subject === "math" ? mathPointsMap[value] || 0 : gradePointsMap[value] || 0,
+      });
     } else {
-      if (isNaN(value) || value < 0) value = 0;
+      if (value < 0) value = 0;
       if (value > 100) value = 100;
-      setExamScores({ ...examScores, [subject]: value });
+      setExamScores({
+        ...examScores,
+        [subject]: value,
+      });
     }
   };
 
@@ -31,9 +39,9 @@ export default function E8({ examScores, setExamScores, exempted, setExempted })
     setExempted({ ...exempted, [subject]: isChecked });
 
     if (isChecked) {
-      setExamScores({ ...examScores, [subject]: "" });
+      setExamScores({ ...examScores, [subject]: "" }); // Ustawienie pustej wartości
     } else {
-      setExamScores({ ...examScores, [subject]: "" });
+      setExamScores({ ...examScores, [subject]: 0 });
     }
   };
 
@@ -48,7 +56,7 @@ export default function E8({ examScores, setExamScores, exempted, setExempted })
             type="number"
             name={subject}
             placeholder={exempted[subject] ? `Ocena z ${subjectNames[subject]} (1-6)` : `Wynik % z ${subjectNames[subject]}`}
-            value={exempted[subject] ? Object.keys(mathPointsMap).find((key) => mathPointsMap[key] == examScores[subject]) || "" : examScores[subject] || ""}
+            value={exempted[subject] ? "" : examScores[subject] || ""}
             onChange={handleInputChange}
             className="block w-full p-2 border-2 rounded bg-transparent"
           />
