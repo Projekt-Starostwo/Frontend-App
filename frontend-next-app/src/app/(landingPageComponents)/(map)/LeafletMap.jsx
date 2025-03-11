@@ -30,7 +30,7 @@ export default function LeafletMap({
   initialMapCenter,
   showMarkers,
   setShowMarkers,
-  newSchoolFocued,
+  newSchoolFocused,
 }) {
   const { theme } = useTheme();
   const [pokazPrzystanki, setPokazPrzystanki] = useState(false);
@@ -40,13 +40,13 @@ export default function LeafletMap({
       return;
     }
 
-    if (!newSchoolFocued || !map.map) {
+    if (!newSchoolFocused || !map.map) {
       setShowMarkers(true);
       return;
     }
 
-    map.map.setView([newSchoolFocued[0], newSchoolFocued[1]], 16);
-  }, [newSchoolFocued, map.map]);
+    map.map.setView([newSchoolFocused[0], newSchoolFocused[1]], 16);
+  }, [newSchoolFocused, map.map]);
 
   useEffect(() => {
     if (!map.map) return;
@@ -68,7 +68,7 @@ export default function LeafletMap({
   }, [map.map]);
 
   const flyToLocation = (lat, lng, zoom) => {
-    map.map.flyTo([lat, lng], zoom);
+    map.map.flyTo([lat, lng], zoom, { animate: true, duration: 0.5 });
   };
 
   return (
@@ -77,7 +77,11 @@ export default function LeafletMap({
         <Button
           className="border-2 border-transparent reset-map w-48"
           onClick={() => {
+            setShowMarkers(false);
             flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM);
+            setTimeout(() => {
+              setShowMarkers(true);
+            }, 500);
           }}
         >
           <LocateFixed />
@@ -121,16 +125,6 @@ export default function LeafletMap({
               : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           }
         />
-        {/* {GraniceMmz.map((polygon, index) => (
-          <Polygon
-            key={index}
-            positions={polygon.coordinates[0].map((coord) => [coord[1], coord[0]])}
-            weight={1}
-            color={'#1E90FF'}
-            fill={false}
-          />
-        ))} */}
-        {/* hide markers when animating */}
         {showMarkers && (
           <>
             {listOfSchools?.map((school) => (
@@ -140,7 +134,6 @@ export default function LeafletMap({
                 showPopup={showPopup}
               />
             ))}
-
             <MarkerClusterGroup
               key={
                 pokazPrzystanki ? "bus-cluster-visible" : "bus-cluster-hidden"
