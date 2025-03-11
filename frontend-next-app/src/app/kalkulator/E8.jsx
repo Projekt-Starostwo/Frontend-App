@@ -56,7 +56,7 @@ export default function E8({ examScores, setExamScores, exempted, setExempted })
             type="number"
             name={subject}
             placeholder={exempted[subject] ? `Ocena z ${subjectNames[subject]} (1-6)` : `Wynik % z ${subjectNames[subject]}`}
-            value={exempted[subject] ? "" : examScores[subject] || ""}
+            value={examScores[subject] || ""}
             onChange={handleInputChange}
             className="block w-full p-2 border-2 rounded bg-transparent"
           />
