@@ -12,7 +12,15 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { slugify, tryCatch } from "@/lib/utils";
-import { GraduationCap, MapPin, Moon, School, Scroll, Sun } from "lucide-react";
+import {
+  Command,
+  GraduationCap,
+  MapPin,
+  Moon,
+  School,
+  Scroll,
+  Sun,
+} from "lucide-react";
 import { useTheme } from "next-themes";
 import { DialogTitle } from "./ui/dialog";
 import { useQuery } from "@tanstack/react-query";
@@ -60,15 +68,15 @@ export default function GlobalSearch() {
         variant="outline"
         size="sm"
         onClick={handleInputClick}
-        className="relative w-full h-9 justify-between overflow-visible"
+        className="  h-9  "
       >
-        <h1 className="w-40 h-1/3 flex flex-row justify-between items-center">
-          Szukaj...
-          <kbd className="pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
-            <span className="text-xs">⌘</span>
-            <p className="text-[15px]"> K</p>
-          </kbd>
-        </h1>
+        <div className="w-40 flex flex-row justify-between items-center">
+          <h1>Szukaj...</h1>
+          <div className="flex flex-row justify-center items-center gap-2  p-[5px] rounded-md">
+            <Command size={1} />
+            <p className="text-[13px]">K</p>
+          </div>
+        </div>
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
