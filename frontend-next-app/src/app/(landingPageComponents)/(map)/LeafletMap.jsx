@@ -88,14 +88,16 @@ export default function LeafletMap({
           }}
         >
           <LocateFixed />
-          <p>Zresetuj mapę</p>
+          <p className="font-bold">Zresetuj mapę</p>
         </Button>
         <Button
           className={`przystanki-btn w-48`}
           onClick={() => setPokazPrzystanki((prevState) => !prevState)}
         >
           <BusFront />
-          {pokazPrzystanki ? "Ukryj przystanki" : "Pokaż przystanki"}
+          <p className="font-bold">
+            {pokazPrzystanki ? "Ukryj przystanki" : "Pokaż przystanki"}
+          </p>
         </Button>
       </div>
 
@@ -171,9 +173,9 @@ export default function LeafletMap({
           </>
         )}
         <div className="absolute bottom-2 left-2 z-[1000] py-2 text-lg hidden sm:block md:hidden lg:block lg:text-md">
-          <Button className="font-bold">
+          <Button>
             <ZoomIn />
-            Zoomowanie mapy: Ctrl + Scroll
+            <p className="font-bold">Zoomowanie mapy: Ctrl + Scroll</p>
           </Button>
         </div>
       </MapContainer>
