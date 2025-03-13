@@ -66,7 +66,7 @@ export default function SchoolBrowser() {
     queryClient.invalidateQueries({ queryKey: ["listOfSchools"] });
   }, []);
   // console.log(listOfSchools)
-  console.log(newSchoolFocused);
+  // console.log(newSchoolFocused);
   return (
     <div className="">
       {isLoading && (

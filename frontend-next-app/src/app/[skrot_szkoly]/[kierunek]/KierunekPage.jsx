@@ -65,7 +65,9 @@ export default async function KierunekPage({ params }) {
 function HeadingAndDescription({ kierunek }) {
   return (
     <div className="flex flex-col w-full justify-center items-center">
-      <h1 className="text-4xl font-bold">{kierunek.nazwa_kierunku}</h1>
+      <h1 className="text-4xl font-bold text-center">
+        {kierunek.nazwa_kierunku}
+      </h1>
       {kierunek.opis_kierunku && (
         <div className="h-1/2 pt-10">
           <p

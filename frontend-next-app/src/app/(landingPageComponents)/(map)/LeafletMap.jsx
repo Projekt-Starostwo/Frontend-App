@@ -41,9 +41,9 @@ export default function LeafletMap({
     }
 
     if (!newSchoolFocused || !map.map) {
-      console.log("probelm");
-      console.log(newSchoolFocused);
-      console.log(map.map);
+      // console.log("probelm");
+      // console.log(newSchoolFocused);
+      // console.log(map.map);
       setShowMarkers(true);
       return;
     }
@@ -172,8 +172,8 @@ export default function LeafletMap({
             </MarkerClusterGroup>
           </>
         )}
-        <div className="absolute bottom-2 left-2 z-[1000] py-2 text-lg hidden sm:block md:hidden lg:block lg:text-md">
-          <Button>
+        <div className="absolute bottom-20 left-2 z-[9999999999] py-2 text-lg hidden sm:block md:hidden lg:block lg:text-md">
+          <Button className="cursor-default">
             <ZoomIn />
             <p className="font-bold">Zoomowanie mapy: Ctrl + Scroll</p>
           </Button>

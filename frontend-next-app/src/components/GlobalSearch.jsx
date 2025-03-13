@@ -37,7 +37,7 @@ export default function GlobalSearch() {
       const { data, error } = await tryCatch(getListOfSchool());
 
       if (error) throw new Error("Nie pobrano szkół");
-      console.log(data.data);
+      // console.log(data.data);
       return data.data;
     },
   });
