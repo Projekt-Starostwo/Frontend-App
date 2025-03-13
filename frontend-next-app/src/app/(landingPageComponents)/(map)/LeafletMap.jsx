@@ -41,6 +41,9 @@ export default function LeafletMap({
     }
 
     if (!newSchoolFocused || !map.map) {
+      console.log("probelm");
+      console.log(newSchoolFocused);
+      console.log(map.map);
       setShowMarkers(true);
       return;
     }

@@ -66,7 +66,7 @@ export default function SchoolBrowser() {
     queryClient.invalidateQueries({ queryKey: ["listOfSchools"] });
   }, []);
   // console.log(listOfSchools)
-
+  console.log(newSchoolFocused);
   return (
     <div className="">
       {isLoading && (
@@ -120,7 +120,7 @@ export default function SchoolBrowser() {
                       showPopup
                       showMarkers={showMarkers}
                       setShowMarkers={setShowMarkers}
-                      newSchoolFocued={newSchoolFocused}
+                      newSchoolFocused={newSchoolFocused}
                     />
                   </div>
                 </div>
@@ -128,7 +128,7 @@ export default function SchoolBrowser() {
             </Tabs>
           </div>
           {/* Desktop view */}
-          <div className="hidden lg:grid md:grid-cols-3 lg:grid-cols-5 gap-6 h-[80vh] xl:pt-10">
+          <div className="hidden lg:grid md:grid-cols-3 lg:grid-cols-5 gap-6 h-[85vh] xl:p-10">
             <div className="md:col-span-1 lg:col-span-2 rounded-lg overflow-hidden">
               <Filters
                 listOfSchools={listOfSchools}
@@ -142,8 +142,8 @@ export default function SchoolBrowser() {
                 setShowMarkers={setShowMarkers}
               />
             </div>
-            <div className="md:col-span-2 lg:col-span-3  rounded-lg overflow-hidden">
-              <div className="h-[80vh] w-full p-10 flex flex-col justify-center items-center gap-2">
+            <div className="md:col-span-2 lg:col-span-3  rounded-lg overflow-hidden ">
+              <div className="h-[85vh] w-full  flex flex-col justify-center items-center gap-2">
                 <LeafletMap
                   map={mapObj}
                   listOfSchools={listOfSchools}
