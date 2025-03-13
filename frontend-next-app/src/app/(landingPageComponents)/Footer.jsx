@@ -2,7 +2,7 @@ import { Clock9, Mail, MapPinned, Phone } from "lucide-react";
 
 export default function Footer() {
   return (
-    <div className="w-full border-t p-10 flex flex-col items-center gap-8 justify-center">
+    <div className=" w-full border-t p-10 flex flex-col items-center gap-8 justify-center">
       <h1 className="font-bold text-center">
         Starostwo Powiatowe w Mińsku Mazowieckim
       </h1>

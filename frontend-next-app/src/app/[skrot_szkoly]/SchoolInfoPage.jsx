@@ -15,7 +15,7 @@ export default async function SchoolPageInfo({ params }) {
   const school = data;
   // console.log(error)
   return (
-    <div className="h-auto w-full  flex flex-col justify-start items-center p-10">
+    <div className="h-auto w-full  flex flex-col justify-start items-center p-5">
       {error && (
         <ErrorPage errorMessage={"Nie znaleziono szkoły"} statusCode={404}>
           <LinkButton buttonStyle={"p-0"} linkHref={"/"} linkIcon={<Link2 />}>
@@ -25,7 +25,7 @@ export default async function SchoolPageInfo({ params }) {
       )}
 
       {!error && school && (
-        <div className="h-full w-2/3">
+        <div className="h-full sm:w-2/3">
           <BigSchoolCard school={school} />
 
           <IconInfo school={school} />
@@ -37,7 +37,7 @@ export default async function SchoolPageInfo({ params }) {
             containerDivStyles={'h-[50vh] w-full flex flex-col justify-center items-center'}
           /> */}
 
-          <div className="h-[50vh] p-4">
+          <div className="h-[50vh] p-4 pb-10">
             <h1 className="text-2xl font-bold">Tu nas znajdziesz</h1>
             <p>{school.adres_szkoly}</p>
             <SingleSchoolMap school={school} />
@@ -50,30 +50,58 @@ export default async function SchoolPageInfo({ params }) {
 
 function IconInfo({ school }) {
   return (
-    <div className="flex flex-row justify-between items-center p-8">
-      <Link href={`${school.adres_strony_szkoly}`} target="_blank">
-        <div className="flex flex-row justify-center items-center gap-4">
-          <Button variant="link">
-            <ExternalLink /> <p className="text-md">Strona Szkoły</p>
-          </Button>
+    <>
+      {/* // row */}
+      <div className="max-lg:hidden w-full flex flex-row justify-between items-center p-8 ">
+        <Link href={`${school.adres_strony_szkoly}`} target="_blank">
+          <div className="flex flex-row justify-center items-center gap-4">
+            <Button variant="link">
+              <ExternalLink /> <p className="text-md">Strona Szkoły</p>
+            </Button>
+          </div>
+        </Link>
+        <Link href={`${school.adres_facebooka_szkoly}`} target="_blank">
+          <div className="flex flex-row justify-center items-center gap-4">
+            <Button variant="link">
+              <ExternalLink /> <p className="text-md">Facebook</p>
+            </Button>
+          </div>
+        </Link>
+        <div className="flex flex-row justify-start items-center gap-4">
+          <Phone />
+          <p className="text-md">{school.numer_telefonu}</p>
         </div>
-      </Link>
-      <Link href={`${school.adres_facebooka_szkoly}`} target="_blank">
         <div className="flex flex-row justify-center items-center gap-4">
-          <Button variant="link">
-            <ExternalLink /> <p className="text-md">Facebook</p>
-          </Button>
+          <Mail />
+          <p className="text-md">{school.email_szkoly}</p>
         </div>
-      </Link>
-      <div className="flex flex-row justify-start items-center gap-4">
-        <Phone />
-        <p className="text-md">{school.numer_telefonu}</p>
       </div>
-      <div className="flex flex-row justify-center items-center gap-4">
-        <Mail />
-        <p className="text-md">{school.email_szkoly}</p>
+      {/* // column */}
+      <div className="lg:hidden w-full flex flex-col justify-center items-center p-5 ">
+        <Link href={`${school.adres_strony_szkoly}`} target="_blank">
+          <div className="flex flex-row justify-center items-center gap-4 h-10">
+            <Button variant="link">
+              <ExternalLink /> <p className="text-md">Strona Szkoły</p>
+            </Button>
+          </div>
+        </Link>
+        <Link href={`${school.adres_facebooka_szkoly}`} target="_blank">
+          <div className="flex flex-row justify-center items-center gap-4 h-10">
+            <Button variant="link">
+              <ExternalLink /> <p className="text-md">Facebook</p>
+            </Button>
+          </div>
+        </Link>
+        <div className="flex flex-row justify-start items-center gap-4 h-10">
+          <Phone />
+          <p className="text-md">{school.numer_telefonu}</p>
+        </div>
+        <div className="flex flex-row justify-center items-center gap-4 h-10">
+          <Mail />
+          <p className="text-md">{school.email_szkoly}</p>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 export function BigSchoolCard({ school }) {

@@ -1,3 +1,4 @@
+"use client";
 import {
   Accordion,
   AccordionContent,
@@ -8,10 +9,11 @@ import { Button } from "@/components/ui/button";
 import { Link2 } from "lucide-react";
 import Link from "next/link";
 import { appedDomain, slugify } from "@/lib/utils";
-export default async function OfertaEdukacyjna({ school }) {
+import { useState } from "react";
+export default function OfertaEdukacyjna({ school }) {
   // console.log(school)
   return (
-    <div className="p-4 flex flex-col justify-center items-center gap-8">
+    <div className="w-full p-4 flex flex-col justify-center items-center gap-8">
       {school.rodzaje_szkoly.liceum && (
         <SchoolType
           school={school}
@@ -44,15 +46,32 @@ export default async function OfertaEdukacyjna({ school }) {
 
 function SchoolType({ school, listaKierunkow, typ, schoolDescription }) {
   // console.log(school)
+  const [showFullDescription, setShowFullDescription] = useState(false);
   return (
     <div className="w-full flex flex-col">
       <h1 className="text-3xl font-bold">{typ}</h1>
+
       {schoolDescription && (
         <div>
           <p
-            className="pt-4"
-            dangerouslySetInnerHTML={{ __html: schoolDescription }}
-          ></p>
+            onClick={() => setShowFullDescription((prev) => !prev)}
+            className="underline cursor-pointer pt-4"
+          >
+            {showFullDescription ? "Schowaj opis" : "Rozwiń"}
+          </p>
+          {showFullDescription ? (
+            <p
+              className="pt-4"
+              dangerouslySetInnerHTML={{ __html: schoolDescription }}
+            ></p>
+          ) : (
+            <p
+              className="pt-4"
+              dangerouslySetInnerHTML={{
+                __html: `${schoolDescription.slice(0, 100)}...`,
+              }}
+            ></p>
+          )}
         </div>
       )}
 
@@ -61,7 +80,7 @@ function SchoolType({ school, listaKierunkow, typ, schoolDescription }) {
           <AccordionTrigger>
             <h2 className="text-lg">Lista wszystkich kierunków</h2>
           </AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-2">
+          <AccordionContent className="">
             {listaKierunkow?.map((kierunekValue, index) => {
               const { kierunek } = kierunekValue;
               return (
@@ -71,9 +90,10 @@ function SchoolType({ school, listaKierunkow, typ, schoolDescription }) {
                     kierunek.nazwa_kierunku
                   )}`}
                 >
-                  <Button variant="link">
-                    <Link2 />{" "}
-                    <p className="text-lg">{kierunek.nazwa_kierunku}</p>
+                  <Button variant="link" className="flex items-start h-fit ">
+                    <p className="text-lg text-left  text-wrap ">
+                      {kierunek.nazwa_kierunku}
+                    </p>
                   </Button>
                 </Link>
               );

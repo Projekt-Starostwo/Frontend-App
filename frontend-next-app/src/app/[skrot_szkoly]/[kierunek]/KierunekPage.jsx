@@ -23,7 +23,7 @@ export default async function KierunekPage({ params }) {
   // console.log(school)
 
   return (
-    <div className="h-auto w-full flex flex-col justify-start items-center p-10">
+    <div className="h-auto w-full flex flex-col justify-start items-center p-5">
       {kierunekData.error ||
         (schoolData.error && (
           <ErrorPage errorMessage={error.message} statusCode={error.statusCode}>
@@ -38,7 +38,7 @@ export default async function KierunekPage({ params }) {
         ))}
 
       {!kierunekData.error && kierunek && (
-        <div className="h-full w-2/3 flex flex-col justify-start items-start p-4 gap-10">
+        <div className="h-full sm:w-2/3 flex flex-col justify-start items-start  gap-10">
           <BigSchoolCard school={school} />
 
           <Slogan slogan={kierunek.slogan_start} />
