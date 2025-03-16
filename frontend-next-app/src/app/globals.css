@@ -78,18 +78,14 @@ body {
 .reset-map {
   z-index: 99999;
   position: absolute;
-  top: 40;
+  top: 120;
   right: 12;
 }
 .reset-map:hover {
   filter: drop-shadow(var(--main-mmz-blue) 0 0 25px);
 }
 .mmz-heading {
-  background: -webkit-linear-gradient(
-    45deg,
-    var(--main-mmz-blue),
-    var(--main-mmz-yellow)
-  );
+  background: -webkit-linear-gradient(45deg, var(--main-mmz-blue), var(--main-mmz-yellow));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -100,6 +96,12 @@ body {
 .btn-active {
   background-color: var(--main-mmz-blue);
 }
+.zoom-btn {
+  position: absolute;
+  right: 12;
+  top: 30;
+  z-index: 999999999;
+}
 .schoolItem {
   transition: filter 0.2s ease-out; /* Added transition */
 }
@@ -109,7 +111,7 @@ body {
 .przystanki-btn {
   z-index: 99999;
   position: absolute;
-  top: 90;
+  top: 80;
   right: 12;
   transition: filter 0.2s ease-out; /* Added transition */
 }
@@ -164,7 +166,7 @@ body {
   transform: translateX(-50%);
   width: 18px;
   height: 18px;
-  background-image: url("/bus-icon.png");
+  background-image: url('/bus-icon.png');
   background-size: contain;
   background-repeat: no-repeat;
 }
