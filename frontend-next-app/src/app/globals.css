@@ -100,7 +100,7 @@ body {
   position: absolute;
   right: 12;
   top: 30;
-  z-index: 999999999;
+  z-index: 99999;
 }
 .schoolItem {
   transition: filter 0.2s ease-out; /* Added transition */
