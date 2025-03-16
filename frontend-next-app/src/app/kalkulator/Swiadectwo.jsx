@@ -11,13 +11,13 @@ export default function Swiadectwo({ grades, setGrades }) {
   const handleGradeChange = (e) => {
     let value = e.target.value;
 
-    // Usuwamy nieprawidłowe znaki (np. litery)
+    
     if (!/^\d*$/.test(value)) return;
 
-    // Konwersja do liczby
+    
     value = parseInt(value, 10);
 
-    // Blokada wartości ujemnych i większych niż 6
+   
     if (isNaN(value) || value < 1) value = 0;
     if (value > 6) value = 6;
 

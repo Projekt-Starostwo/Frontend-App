@@ -1,16 +1,17 @@
 import React from "react";
 
 export default function E8({ examScores, setExamScores, exempted, setExempted }) {
-  const subjectNames = { polish: "języka polskiego", math: "matematyki", foreignLang: "języka obcego" };
-
-  const mathPointsMap = { 1: 0, 2: 10, 3: 15, 4: 25, 5: 30, 6: 35 };
-  const gradePointsMap = { 1: 0, 2: 10, 3: 15, 4: 25, 5: 30, 6: 35 }; // Tak samo dla polskiego!
+  const subjectNames = { 
+    polish: "z języka polskiego", 
+    math: "z matematyki", 
+    foreignLang: "z języka obcego" 
+  };
 
   const handleInputChange = (e) => {
     let value = e.target.value;
     const subject = e.target.name;
   
-    if (!/^\d*$/.test(value)) return; // Zapobiega wpisywaniu liter
+    if (!/^\d*$/.test(value)) return;
     value = parseInt(value, 10);
   
     if (isNaN(value)) value = "";
@@ -18,23 +19,16 @@ export default function E8({ examScores, setExamScores, exempted, setExempted })
     if (exempted[subject]) {
       if (value < 1) value = 0;
       if (value > 6) value = 6;
-  
-      // W inpucie pokazujemy wpisaną ocenę (1-6)
-      setExamScores({
-        ...examScores,
-        [subject]: value,
-      });
     } else {
       if (value < 0) value = 0;
       if (value > 100) value = 100;
-  
-      setExamScores({
-        ...examScores,
-        [subject]: value,
-      });
     }
+
+    setExamScores({
+      ...examScores,
+      [subject]: value,
+    });
   };
-  
 
   const handleExemptionChange = (e) => {
     const subject = e.target.name;
@@ -43,7 +37,7 @@ export default function E8({ examScores, setExamScores, exempted, setExempted })
     setExempted({ ...exempted, [subject]: isChecked });
 
     if (isChecked) {
-      setExamScores({ ...examScores, [subject]: "" }); // Ustawienie pustej wartości
+      setExamScores({ ...examScores, [subject]: "" });
     } else {
       setExamScores({ ...examScores, [subject]: 0 });
     }
@@ -54,12 +48,14 @@ export default function E8({ examScores, setExamScores, exempted, setExempted })
       <h3 className="font-bold text-2xl">Egzamin ósmoklasisty</h3>
       {Object.keys(subjectNames).map((subject) => (
         <div key={subject}>
-          <h1 className="text-xl font-bold">{subjectNames[subject]}</h1>
+          <label className="block text-xl font-bold">
+            {exempted[subject] ? `Ocena ${subjectNames[subject]}` : `Wynik % ${subjectNames[subject]}`}
+          </label>
 
           <input
             type="number"
             name={subject}
-            placeholder={exempted[subject] ? `Ocena z ${subjectNames[subject]} (1-6)` : `Wynik % z ${subjectNames[subject]}`}
+            placeholder={exempted[subject] ? `Ocena ${subjectNames[subject]} (1-6)` : `Wynik % ${subjectNames[subject]}`}
             value={examScores[subject] || ""}
             onChange={handleInputChange}
             className="block w-full p-2 border-2 rounded bg-transparent"

@@ -11,9 +11,9 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
         [name]: parseInt(value, 10),
       };
 
-      // Obliczamy sumę punktów z konkursów, ale nie przekraczamy 18
+      
       const totalPoints = Object.values(updatedPoints).reduce((sum, points) => sum + points, 0);
-      setTotalCompetitionPoints(Math.min(totalPoints, 18)); // Ograniczenie do 18 punktów
+      setTotalCompetitionPoints(Math.min(totalPoints, 18)); 
 
       return updatedPoints;
     });
@@ -24,6 +24,7 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
       <AccordionItem value="competitions">
         <AccordionTrigger className="font-bold text-2xl ">Konkursy</AccordionTrigger>
         <AccordionContent>
+          <p className="font-normal">Maksymalna ilość uzyskanych punktów z konkursów to 18pkt.*</p>
           {/* Konkursy ponadwojewódzkie */}
           <div className="mb-4 leading-7">
             <h4 className="font-bold text-xl">
