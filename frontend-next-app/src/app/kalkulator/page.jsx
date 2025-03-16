@@ -31,18 +31,23 @@ export default function Calculator() {
 
   const calculatePoints = () => {
     if (error) return;
-
+  
+    const gradePointsMap = { 1: 0, 2: 10, 3: 15, 4: 25, 5: 30, 6: 35 };
+  
     const examPoints =
-      (exempted.polish ? examScores.polish : examScores.polish * 0.35) + // Poprawione
-      (exempted.math ? examScores.math : examScores.math * 0.35) +
-      (exempted.foreignLang ? examScores.foreignLang : examScores.foreignLang * 0.3); // Poprawione
-
+      (exempted.polish ? gradePointsMap[examScores.polish] || 0 : examScores.polish * 0.35) +
+      (exempted.math ? gradePointsMap[examScores.math] || 0 : examScores.math * 0.35) +
+      (exempted.foreignLang ? gradePointsMap[examScores.foreignLang] || 0 : examScores.foreignLang * 0.3);
+  
     const gradeToPoints = { 6: 18, 5: 17, 4: 14, 3: 8, 2: 2, 1: 0 };
     const gradesPoints =
-      (gradeToPoints[grades.polish] || 0) + (gradeToPoints[grades.math] || 0) + (gradeToPoints[grades.extra1] || 0) + (gradeToPoints[grades.extra2] || 0);
-
+      (gradeToPoints[grades.polish] || 0) +
+      (gradeToPoints[grades.math] || 0) +
+      (gradeToPoints[grades.extra1] || 0) +
+      (gradeToPoints[grades.extra2] || 0);
+  
     const bonusPoints = (bonus.volunteer ? 3 : 0) + (bonus.distinction ? 7 : 0) + totalCompetitionPoints;
-
+  
     console.log(`Exam Points: ${examPoints}, Grades Points: ${gradesPoints}, Bonus Points: ${bonusPoints}`);
     setResult(Math.round(Math.min(200, examPoints + gradesPoints + bonusPoints)));
   };

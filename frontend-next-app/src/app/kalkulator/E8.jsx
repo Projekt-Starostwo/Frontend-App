@@ -9,28 +9,32 @@ export default function E8({ examScores, setExamScores, exempted, setExempted })
   const handleInputChange = (e) => {
     let value = e.target.value;
     const subject = e.target.name;
-
-    if (!/^\d*$/.test(value)) return;
+  
+    if (!/^\d*$/.test(value)) return; // Zapobiega wpisywaniu liter
     value = parseInt(value, 10);
-
-    if (isNaN(value)) value = 0;
-
+  
+    if (isNaN(value)) value = "";
+    
     if (exempted[subject]) {
-      if (value < 1) value = 0; // Zmiana wartości początkowej na 0
+      if (value < 1) value = 0;
       if (value > 6) value = 6;
+  
+      // W inpucie pokazujemy wpisaną ocenę (1-6)
       setExamScores({
         ...examScores,
-        [subject]: subject === "math" ? mathPointsMap[value] || 0 : gradePointsMap[value] || 0,
+        [subject]: value,
       });
     } else {
       if (value < 0) value = 0;
       if (value > 100) value = 100;
+  
       setExamScores({
         ...examScores,
         [subject]: value,
       });
     }
   };
+  
 
   const handleExemptionChange = (e) => {
     const subject = e.target.name;
