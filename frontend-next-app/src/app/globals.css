@@ -79,7 +79,7 @@ body {
   z-index: 99999;
   position: absolute;
   top: 120;
-  right: 12;
+  right: 1200;
 }
 .reset-map:hover {
   filter: drop-shadow(var(--main-mmz-blue) 0 0 25px);

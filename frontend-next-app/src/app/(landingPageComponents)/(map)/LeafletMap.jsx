@@ -76,30 +76,30 @@ export default function LeafletMap({
 
   return (
     <>
-      <div className='w-full flex flex-row justify-between items-center relative bg-black'>
-        <div className='zoom-btn py-2 text-lg hidden sm:block md:hidden lg:block lg:text-md'>
+      <div className='w-full flex flex-row justify-center items-center relative '>
+        <div className='w-4/5 z-[9999999] flex flex-row justify-center items-center gap-4 flex-wrap absolute top-[25]'>
           <Button className='cursor-default'>
             <ZoomIn />
             <p className='font-bold'>Zoomowanie mapy: Ctrl + Scroll</p>
+          </Button>{' '}
+          <Button
+            className='border-2 border-transparent'
+            onClick={() => {
+              setShowMarkers(false)
+              flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM)
+              setTimeout(() => {
+                setShowMarkers(true)
+              }, 500)
+            }}
+          >
+            <LocateFixed />
+            <p className='font-bold'>Zresetuj mapę</p>
+          </Button>{' '}
+          <Button className={``} onClick={() => setPokazPrzystanki((prevState) => !prevState)}>
+            <BusFront />
+            <p className='font-bold'>{pokazPrzystanki ? 'Ukryj przystanki' : 'Pokaż przystanki'}</p>
           </Button>
         </div>
-        <Button
-          className='border-2 border-transparent reset-map w-48'
-          onClick={() => {
-            setShowMarkers(false)
-            flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM)
-            setTimeout(() => {
-              setShowMarkers(true)
-            }, 500)
-          }}
-        >
-          <LocateFixed />
-          <p className='font-bold'>Zresetuj mapę</p>
-        </Button>
-        <Button className={`przystanki-btn w-48`} onClick={() => setPokazPrzystanki((prevState) => !prevState)}>
-          <BusFront />
-          <p className='font-bold'>{pokazPrzystanki ? 'Ukryj przystanki' : 'Pokaż przystanki'}</p>
-        </Button>
       </div>
 
       <MapContainer
@@ -109,7 +109,7 @@ export default function LeafletMap({
         className='w-full h-full z-10 rounded-xl '
         maxZoom={17}
         minZoom={DEFAULT_ZOOM}
-        maxBounds={GraniceMMZ}
+        // maxBounds={GraniceMMZ}
         ref={map.setMap}
         scrollWheelZoom={false}
       >
