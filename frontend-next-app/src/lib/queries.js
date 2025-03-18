@@ -1,10 +1,17 @@
 // tutaj wszystkie funkcje API
+'use server'
 const token = process.env.NEXT_PUBLIC_TOKEN
+const base_api_url = process.env.BASE_API_URL
+
 import qs from 'qs'
-import { normalizeString } from './utils'
+import { normalizeString, tryCatch } from './utils'
 import { marked } from 'marked'
 
 export async function getListOfSchool() {
+  console.log(process.env.BASE_API_URL)
+  console.log('base api url = ', base_api_url)
+
+  console.log('getListOfSchools')
   const queryParams = qs.stringify({
     populate: {
       glowne_zdjecie_szkoly: {
@@ -86,7 +93,7 @@ export async function getListOfSchool() {
     },
   })
 
-  const url = `http://localhost:1337/api/lista-szkols?${queryParams}`
+  const url = `http://${base_api_url}/api/lista-szkols?${queryParams}`
 
   const headers = {
     method: 'GET', // or "POST", "PUT", etc., depending on the API method
@@ -95,18 +102,30 @@ export async function getListOfSchool() {
       'Content-Type': 'application/json', // Set the content type to JSON (optional)
     },
   }
-  const res = await fetch(url, headers)
-  // console.log(res)
-  if (!res.ok) {
-    console.log('res !ok, queries.js listOfSchools')
-    throw new Error('Błąd połączenia z serwerem, spróbuj ponownie')
-  }
-  const jsonResponse = await res.json()
+  const res = await tryCatch(fetch(url, headers))
 
-  return jsonResponse
+  if (!res.data.ok) {
+    console.log('error fetching listOfSchools')
+    console.log(res.error)
+    let error = new Error('Błąd połączenia z serwerem')
+    error.statusCode = res.data.status
+    throw error
+  }
+
+  const jsonResponse = await tryCatch(res.data.json())
+
+  if (!jsonResponse.data) {
+    console.log('failed to parse response - ', jsonResponse.error)
+    let error = new Error('Błąd połączenia z serwerem')
+    error.statusCode = res.data.status
+    throw error
+  }
+
+  return jsonResponse.data
 }
 
 export async function getSchoolDetails(skrot_szkoly) {
+  console.log('fire getSchoolDetails for ', skrot_szkoly)
   const queryParams = qs.stringify({
     filters: {
       skrot_szkoly: {
@@ -194,7 +213,7 @@ export async function getSchoolDetails(skrot_szkoly) {
     },
   })
 
-  const url = `http://localhost:1337/api/lista-szkols?${queryParams}`
+  const url = `http:/${base_api_url}/api/lista-szkols?${queryParams}`
   const headers = {
     method: 'GET', // or "POST", "PUT", etc., depending on the API method
     headers: {
@@ -203,30 +222,40 @@ export async function getSchoolDetails(skrot_szkoly) {
     },
   }
 
-  const res = await fetch(url, headers)
-
-  if (!res.ok) {
+  const res = await tryCatch(fetch(url, headers))
+  // console.log(res)
+  if (!res.data.ok) {
+    console.log(res)
+    console.log(res.error)
     let error = new Error('Błąd połączenia z serwerem')
-    error.statusCode = res.status
+    error.statusCode = res.data.status
     throw error
   }
 
-  const jsonResponse = await res.json()
-  // console.log(jsonResponse)
-  const school = jsonResponse.data[0]
-  // await sleep(2000)
+  const jsonResponse = await tryCatch(res.data.json())
+
+  if (!jsonResponse.data) {
+    console.log('failed to parse response - ', jsonResponse.error)
+    let error = new Error('Błąd połączenia z serwerem')
+    error.statusCode = res.data.status
+    throw error
+  }
 
   if (jsonResponse.data.length === 0) {
+    console.log('404, nie znaleziono szkoly', res, jsonResponse, school)
     let error = new Error('Nie znaleziono szkoły')
     error.statusCode = 404
     throw error
   }
-
+  console.log('jsonResponse', jsonResponse.data)
+  const school = jsonResponse.data.data[0]
+  // await sleep(2000)
+  console.log('school', school)
   // optional formating md file from db, (needs improvments)
   if (school.rodzaje_szkoly.liceum && school.rodzaje_szkoly.liceum.opis_typu_szkoly) {
     school.rodzaje_szkoly.liceum.opis_typu_szkoly = marked.parse(school.rodzaje_szkoly.liceum.opis_typu_szkoly)
   }
-
+  console.log('school', school)
   return school
 }
 export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
@@ -294,7 +323,7 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
     },
   })
 
-  const url = `http://localhost:1337/api/lista-szkols?${queryParams}`
+  const url = `http://${base_api_url}/api/lista-szkols?${queryParams}`
 
   const headers = {
     method: 'GET', // or "POST", "PUT", etc., depending on the API method
@@ -304,18 +333,32 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
     },
   }
 
-  const res = await fetch(url, headers)
-  const jsonResponse = await res.json()
+  const res = await tryCatch(fetch(url, headers))
+
+  if (!res.data.ok) {
+    console.log('error fetching school details')
+    console.log(res.error)
+    let error = new Error('Błąd połączenia z serwerem')
+    error.statusCode = res.data.status
+    throw error
+  }
+
+  const jsonResponse = await tryCatch(res.data.json())
+
+  if (!jsonResponse.data) {
+    console.log('failed to parse response - ', jsonResponse.error)
+    let error = new Error('Błąd połączenia z serwerem')
+    error.statusCode = res.data.status
+    throw error
+  }
 
   // Ensure data structure is as expected
-  if (!jsonResponse?.data?.length || !jsonResponse.data[0]?.rodzaje_szkoly) {
+  if (!jsonResponse.data?.data?.length || !jsonResponse.data.data[0]?.rodzaje_szkoly) {
     let error = new Error('Nieprawidłowa odpowiedź z serwera')
     error.statusCode = 500
     throw error
   }
-
-  const rodzajeSzkoly = jsonResponse.data[0].rodzaje_szkoly
-  // console.log(jsonResponse.data)
+  const rodzajeSzkoly = jsonResponse.data.data[0].rodzaje_szkoly
 
   const foundKierunek = findKierunekByName(rodzajeSzkoly, nazwa_kierunku)
   console.log(foundKierunek)

@@ -13,7 +13,7 @@ import { useTheme } from 'next-themes'
 
 export default function CustomMarker({ school, showPopup }) {
   const { theme } = useTheme()
-  console.log(theme)
+  // console.log(theme)
   var myIcon = L.divIcon({
     html: ReactDOMServer.renderToStaticMarkup(<MarkerHtml school={school} theme={theme} />),
     className: 'custom-marker',
