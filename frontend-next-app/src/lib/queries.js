@@ -1,6 +1,6 @@
 // tutaj wszystkie funkcje API
 'use server'
-const token = process.env.NEXT_PUBLIC_TOKEN
+const token = process.env.TOKEN
 const base_api_url = process.env.BASE_API_URL
 
 import qs from 'qs'
@@ -8,7 +8,7 @@ import { normalizeString, tryCatch } from './utils'
 import { marked } from 'marked'
 
 export async function getListOfSchool() {
-  console.log(process.env.BASE_API_URL)
+  console.log('ENV STRAPI TOKEN', token)
   console.log('base api url = ', base_api_url)
 
   console.log('getListOfSchools')
@@ -104,11 +104,11 @@ export async function getListOfSchool() {
   }
   const res = await tryCatch(fetch(url, headers))
 
-  if (!res.data.ok) {
+  if (!res.data) {
     console.log('error fetching listOfSchools')
-    console.log(res.error)
+    console.log(res)
     let error = new Error('Błąd połączenia z serwerem')
-    error.statusCode = res.data.status
+    error.statusCode = 500
     throw error
   }
 
@@ -259,6 +259,9 @@ export async function getSchoolDetails(skrot_szkoly) {
   return school
 }
 export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
+  console.log('ENV STRAPI TOKEN', token)
+  console.log('base api url = ', base_api_url)
+
   const typySzkol = ['liceum', 'technikum', 'szkola_zawodowa']
 
   const typySzkolParams = typySzkol.map((typ) => {
