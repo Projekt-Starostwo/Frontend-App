@@ -1,0 +1,26 @@
+services:
+  front-app:
+    container_name: starostwo-frontend-prod
+    image: antost360/starostwo-frontend-prod
+    ports:
+      - 80:3000
+    environment:
+      TOKEN: ${TOKEN}
+    depends_on:
+      - cms
+  cms:
+    container_name: starostwo-cms-prod
+    image: antost360/starostwo-cms-prod
+    ports:
+      - 1337:1337
+    environment:
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      APP_KEYS: ${APP_KEYS}
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
+      API_TOKEN_SALT: ${API_TOKEN_SALT}
+      PORT: ${PORT}
+      HOST: ${HOST}
+    volumes:
+      - ${STRAPI_PROD_DB_DIR_PATH}:/opt/app/.tmp

@@ -1,7 +1,7 @@
 // tutaj wszystkie funkcje API
 'use server'
 const token = process.env.TOKEN
-const base_api_url = process.env.BASE_API_URL
+const base_api_url = 'cms:1337'
 
 import qs from 'qs'
 import { normalizeString, tryCatch } from './utils'

@@ -10,6 +10,13 @@ const nextConfig = {
         // pathname: '/**',
         // search: '',
       },
+      {
+        protocol: 'http',
+        hostname: 'cms',
+        // port: '',
+        // pathname: '/**',
+        // search: '',
+      },
     ],
   },
 }
