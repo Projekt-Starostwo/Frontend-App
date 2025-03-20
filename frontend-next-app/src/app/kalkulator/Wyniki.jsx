@@ -20,12 +20,14 @@ export default function Wynik({ result }) {
   }
 
   return (
-    <div className="flex flex-row justify-center items-center py-10 border-t p-10 w-full ">
-      <div className=" flex flex-row items-center justify-between  w-2/3">
-        <div className="w-[50%]">
-          <h1 className="text-xl font-semibold ">Suma uzyskanych punktów: {result}</h1>
+    <div className="flex flex-col sm:flex-row justify-center items-center py-10 border-t p-10 w-full">
+      <div className="flex flex-col sm:flex-row items-center justify-between w-full sm:w-2/3">
+        <div className="w-full sm:w-1/2">
+          <h1 className="text-xl sm:text-2xl font-semibold text-center sm:text-left">
+            Suma uzyskanych punktów: {result}
+          </h1>
         </div>
-        <h1>{getResultMessage(result)}</h1>
+        <h1 className="text-lg sm:text-xl mt-4 sm:mt-0 sm:text-center">{getResultMessage(result)}</h1>
       </div>
     </div>
   );

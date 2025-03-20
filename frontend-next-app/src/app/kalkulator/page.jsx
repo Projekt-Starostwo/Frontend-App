@@ -31,34 +31,34 @@ export default function Calculator() {
 
   const calculatePoints = () => {
     if (error) return;
-  
+
     const gradePointsMap = { 1: 0, 2: 10, 3: 15, 4: 25, 5: 30, 6: 35 };
-  
+
     const examPoints =
       (exempted.polish ? gradePointsMap[examScores.polish] || 0 : examScores.polish * 0.35) +
       (exempted.math ? gradePointsMap[examScores.math] || 0 : examScores.math * 0.35) +
       (exempted.foreignLang ? gradePointsMap[examScores.foreignLang] || 0 : examScores.foreignLang * 0.3);
-  
+
     const gradeToPoints = { 6: 18, 5: 17, 4: 14, 3: 8, 2: 2, 1: 0 };
     const gradesPoints =
       (gradeToPoints[grades.polish] || 0) +
       (gradeToPoints[grades.math] || 0) +
       (gradeToPoints[grades.extra1] || 0) +
       (gradeToPoints[grades.extra2] || 0);
-  
+
     const bonusPoints = (bonus.volunteer ? 3 : 0) + (bonus.distinction ? 7 : 0) + totalCompetitionPoints;
-  
+
     console.log(`Exam Points: ${examPoints}, Grades Points: ${gradesPoints}, Bonus Points: ${bonusPoints}`);
     setResult(Math.round(Math.min(200, examPoints + gradesPoints + bonusPoints)));
   };
 
   return (
     <>
-      <div className="flex justify-center items-center flex-col p-10">
-        <Card className="w-2/3 font-bold m-10 p-10 text-sm/8">
+      <div className="flex flex-col items-center justify-center p-6 sm:p-10">
+        <Card className="w-full sm:w-2/3 font-bold m-4 sm:m-10 p-6 sm:p-10 text-sm sm:text-base">
           <CardHeader>
             <CardTitle>
-              <h1 className="font-bold text-4xl py-8">Kalkulator punktów rekrutacyjnych</h1>
+              <h1 className="text-2xl sm:text-4xl font-bold py-4 sm:py-8">Kalkulator punktów rekrutacyjnych</h1>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -69,8 +69,10 @@ export default function Calculator() {
             <Konkursy competitionPoints={competitionPoints} setCompetitionPoints={setCompetitionPoints} setTotalCompetitionPoints={setTotalCompetitionPoints} />
           </CardContent>
           <CardFooter>
-            Kalkulator ósmoklasisty spełnia jedynie rolę informacyjną, nie może być stosowany do wyliczeń w procesie rekrutacji do szkół. Kalkulator nie gwarantuje
-            poprawności wyników oraz nie ponosi odpowiedzialności za użycie kalkulatora.
+            <p className="text-xs sm:text-sm">
+              Kalkulator ósmoklasisty spełnia jedynie rolę informacyjną, nie może być stosowany do wyliczeń w procesie rekrutacji do szkół. Kalkulator nie gwarantuje
+              poprawności wyników oraz nie ponosi odpowiedzialności za użycie kalkulatora.
+            </p>
           </CardFooter>
         </Card>
       </div>

@@ -44,11 +44,11 @@ export default function E8({ examScores, setExamScores, exempted, setExempted })
   };
 
   return (
-    <div>
-      <h3 className="font-bold text-2xl">Egzamin ósmoklasisty</h3>
+    <div className="w-full p-4 sm:p-6">
+      <h3 className="font-bold text-xl sm:text-2xl mb-4">Egzamin ósmoklasisty</h3>
       {Object.keys(subjectNames).map((subject) => (
-        <div key={subject}>
-          <label className="block text-xl font-bold">
+        <div key={subject} className="mb-4">
+          <label className="block text-lg sm:text-xl font-bold">
             {exempted[subject] ? `Ocena ${subjectNames[subject]}` : `Wynik % ${subjectNames[subject]}`}
           </label>
 
@@ -58,12 +58,12 @@ export default function E8({ examScores, setExamScores, exempted, setExempted })
             placeholder={exempted[subject] ? `Ocena ${subjectNames[subject]} (1-6)` : `Wynik % ${subjectNames[subject]}`}
             value={examScores[subject] || ""}
             onChange={handleInputChange}
-            className="block w-full p-2 border-2 rounded bg-transparent"
+            className="block w-full p-2 sm:p-3 border-2 rounded bg-transparent text-base sm:text-lg"
           />
 
-          <label className="flex items-center space-x-2 mb-2">
+          <label className="flex items-center space-x-2 mt-2">
             <input type="checkbox" name={subject} onChange={handleExemptionChange} checked={exempted[subject] || false} />
-            <span>Zwolniony z egzaminu ({subjectNames[subject]})</span>
+            <span className="text-base sm:text-lg">Zwolniony z egzaminu ({subjectNames[subject]})</span>
           </label>
         </div>
       ))}

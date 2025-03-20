@@ -32,9 +32,9 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
             </h4>
             {[
               { label: " brak (0 pkt)", value: 0 },
-              { label: " tytuł finalisty konkursu przedmiotowego (10 pkt)", value: 10 },
-              { label: " tytuł laureata konkursu tematycznego lub interdyscyplinarnego (7 pkt)", value: 7 },
-              { label: " tytuł finalisty konkursu tematycznego lub interdyscyplinarnego (5 pkt)", value: 5 },
+              { label: " Tytuł finalisty konkursu przedmiotowego (10 pkt)", value: 10 },
+              { label: " Tytuł laureata konkursu tematycznego lub interdyscyplinarnego (7 pkt)", value: 7 },
+              { label: " Tytuł finalisty konkursu tematycznego lub interdyscyplinarnego (5 pkt)", value: 5 },
             ].map((option, index) => (
               <label key={`competition1-${index}`} className="block font-normal">
                 <input
