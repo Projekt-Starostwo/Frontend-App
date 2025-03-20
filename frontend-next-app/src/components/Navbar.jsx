@@ -30,7 +30,7 @@ export default function Navbar() {
           </Link>
           <Link href='/kalkulator' legacyBehavior passHref>
             <a onClick={handleLinkClick} className={`${navigationMenuTriggerStyle()} text-lg sm:text-2xl font-bold`}>
-              Kalkulator
+              Kalkulator punktów
             </a>
           </Link>
           <Link href='/rekrutacja-vulcan' legacyBehavior passHref>

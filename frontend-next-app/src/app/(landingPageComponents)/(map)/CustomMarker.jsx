@@ -10,12 +10,27 @@ import { BookOpen, MapPinned } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Tooltip as ShadcnTooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useTheme } from 'next-themes'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import { getCmsUrl } from '@/lib/queries'
 
 export default function CustomMarker({ school, showPopup }) {
   const { theme } = useTheme()
+  // console.log(school)
+  const [link, setLink] = useState(null)
+  useEffect(() => {
+    // console.log(school)
+    async function getData() {
+      const res = await getCmsUrl()
+
+      // console.log(res)
+      setLink(res)
+    }
+    getData()
+  }, [school])
   // console.log(theme)
   var myIcon = L.divIcon({
-    html: ReactDOMServer.renderToStaticMarkup(<MarkerHtml school={school} theme={theme} />),
+    html: ReactDOMServer.renderToStaticMarkup(<MarkerHtml school={school} cmsUrl={link} theme={theme} />),
     className: 'custom-marker',
     iconSize: [50, 50],
   })
@@ -77,25 +92,27 @@ export default function CustomMarker({ school, showPopup }) {
   )
 }
 
-export function MarkerHtml({ school, theme }) {
+export function MarkerHtml({ school, cmsUrl, theme }) {
   return (
-    <div className={`flex items-center justify-center ${school.isActive ? 'opcatity-100' : 'opacity-50'}`}>
-      <div className='relative flex flex-col justify-start items-center'>
-        <Image
-          src={appedDomain(school.glowne_zdjecie_szkoly.url)}
-          width={50}
-          height={50}
-          alt='logo szkoly'
-          className='top-[10px] w-7 h-7  absolute rounded-full z-[30]'
-        />
-        <Image
-          src={theme === 'dark' ? '/test-white.png' : '/test.png'}
-          width={50}
-          height={50}
-          alt='logo szkoly'
-          className='w-15 h-15 rounded-sm z-[10]'
-        />
-      </div>
+    <div className={` flex items-center justify-center ${school.isActive ? 'opcatity-100' : 'opacity-50'}`}>
+      {cmsUrl && (
+        <div className='relative flex flex-col justify-start items-center'>
+          <Image
+            src={`${cmsUrl}${school.glowne_zdjecie_szkoly.url}`}
+            width={50}
+            height={50}
+            alt='logo szkoly'
+            className='top-[10px] w-7 h-7  absolute rounded-full z-[30]'
+          />
+          <Image
+            src={theme === 'dark' ? '/test-white.png' : '/test.png'}
+            width={50}
+            height={50}
+            alt='logo szkoly'
+            className='w-15 h-15 rounded-sm z-[10]'
+          />
+        </div>
+      )}
     </div>
   )
 }

@@ -76,8 +76,8 @@ export default function LeafletMap({
 
   return (
     <>
-      <div className='w-full flex flex-row justify-center items-center relative '>
-        <div className='w-4/5 z-[9999] flex flex-row justify-center items-center gap-4 flex-wrap absolute top-[25]'>
+      <div className='w-full flex flex-row justify-center items-center relative py-4 max-sm:pb-10'>
+        <div className='w-full z-[9999] flex flex-row justify-center items-center gap-4 flex-wrap  '>
           <Button className='cursor-default'>
             <ZoomIn />
             <p className='font-bold'>Zoomowanie mapy: Ctrl + Scroll</p>

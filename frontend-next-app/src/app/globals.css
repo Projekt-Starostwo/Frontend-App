@@ -96,10 +96,10 @@ body {
   filter: drop-shadow(var(--main-mmz-blue) 0 0 45px);
 }
 .schoolPhotoDark {
-  filter: drop-shadow(var(--gray) 0px 5px 20px);
+  filter: drop-shadow(var(--gray) 0px 5px 8px);
 }
 .schoolPhotoLight {
-  filter: drop-shadow(black 0px 5px 20px);
+  filter: drop-shadow(black 0px 5px 8px);
 }
 .btn-active {
   background-color: var(--main-mmz-blue);

@@ -1,11 +1,14 @@
 import { clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { getCmsUrl } from './queries'
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs))
 }
-export function appedDomain(url) {
-  return `http://cms:1337${url}`
+export async function appedDomain(url) {
+  const cms = await getCmsUrl()
+  console.log('CMS RES ', cms)
+  return `http://${cms}${url}`
 }
 
 export function slugify(text) {

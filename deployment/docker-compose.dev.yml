@@ -1,6 +1,6 @@
 services:
   front-app:
-    container_name: starostwo-frontend-dev
+    container_name: frontend-dev
     pull_policy: build
     build:
       context: ../frontend-next-app
@@ -8,7 +8,8 @@ services:
     ports:
       - 3000:3000
     environment:
-      TOKEN: ${TOKEN}
+      - TOKEN=${TOKEN}
+      - CMS_URL=http://cms:1337
     volumes:
       - ${DEV_SRC_CODE}:/app
     depends_on:

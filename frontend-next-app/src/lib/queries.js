@@ -1,11 +1,15 @@
 // tutaj wszystkie funkcje API
 'use server'
 const token = process.env.TOKEN
-const base_api_url = 'cms:1337'
+const base_api_url = process.env.CMS_URL
 
 import qs from 'qs'
 import { normalizeString, tryCatch } from './utils'
 import { marked } from 'marked'
+
+export async function getCmsUrl() {
+  return base_api_url
+}
 
 export async function getListOfSchool() {
   console.log('ENV STRAPI TOKEN', token)
@@ -93,7 +97,7 @@ export async function getListOfSchool() {
     },
   })
 
-  const url = `http://${base_api_url}/api/lista-szkols?${queryParams}`
+  const url = `${base_api_url}/api/lista-szkols?${queryParams}`
 
   const headers = {
     method: 'GET', // or "POST", "PUT", etc., depending on the API method
@@ -213,7 +217,7 @@ export async function getSchoolDetails(skrot_szkoly) {
     },
   })
 
-  const url = `http:/${base_api_url}/api/lista-szkols?${queryParams}`
+  const url = `${base_api_url}/api/lista-szkols?${queryParams}`
   const headers = {
     method: 'GET', // or "POST", "PUT", etc., depending on the API method
     headers: {
@@ -326,7 +330,7 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
     },
   })
 
-  const url = `http://${base_api_url}/api/lista-szkols?${queryParams}`
+  const url = `${base_api_url}/api/lista-szkols?${queryParams}`
 
   const headers = {
     method: 'GET', // or "POST", "PUT", etc., depending on the API method

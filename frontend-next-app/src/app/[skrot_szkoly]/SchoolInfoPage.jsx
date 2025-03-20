@@ -1,5 +1,5 @@
 import SingleSchoolMap from './SingleSchoolMap'
-import { getSchoolDetails } from '@/lib/queries'
+import { getCmsUrl, getSchoolDetails } from '@/lib/queries'
 import OfertaEdukacyjna from './OfertaEdukacyjna'
 import ErrorPage from '@/components/ErrorPage'
 import LinkButton from '@/components/LinkButton'
@@ -15,6 +15,8 @@ export default async function SchoolPageInfo({ params }) {
   const school = data
 
   console.log(error)
+
+  const cmsUrl = await getCmsUrl()
   return (
     <div className='h-auto w-full  flex flex-col justify-start items-center p-5'>
       {error && (
@@ -27,7 +29,7 @@ export default async function SchoolPageInfo({ params }) {
 
       {!error && school && (
         <div className='h-full sm:w-2/3'>
-          <BigSchoolCard school={school} />
+          <BigSchoolCard school={school} cmsUrl={cmsUrl} />
 
           <IconInfo school={school} />
 
@@ -108,18 +110,21 @@ function IconInfo({ school }) {
     </>
   )
 }
-export function BigSchoolCard({ school }) {
+export function BigSchoolCard({ school, cmsUrl }) {
   return (
     <div className='w-full'>
-      <div className='flex justify-center items-cente pb-4'>
-        <Image
-          src={appedDomain(school.glowne_zdjecie_szkoly.url)}
-          width={100}
-          height={100}
-          alt='Logo Szkoły'
-          className='w-52'
-        />
-      </div>
+      {cmsUrl && (
+        <div className='flex justify-center items-cente pb-4'>
+          <Image
+            src={`${cmsUrl}${school.glowne_zdjecie_szkoly.url}`}
+            width={100}
+            height={100}
+            alt='Logo Szkoły'
+            className='w-52'
+          />
+        </div>
+      )}
+
       <div>
         <h1 className='text-4xl font-bold pt-4 text-center'>{school.nazwa_szkoly}</h1>
       </div>

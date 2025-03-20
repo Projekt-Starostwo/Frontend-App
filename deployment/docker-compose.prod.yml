@@ -1,18 +1,18 @@
 services:
   front-app:
-    container_name: starostwo-frontend-prod
+    container_name: frontend-prod
     pull_policy: build
     build:
       context: ../frontend-next-app
       target: production
     ports:
       - 80:3000
-    environment:
-      TOKEN: ${TOKEN}
+    env_file:
+      - .env
     depends_on:
       - cms
   cms:
-    container_name: starostwo-cms-prod
+    container_name: cms-prod
     pull_policy: build
     build:
       context: ../../CMS-app
