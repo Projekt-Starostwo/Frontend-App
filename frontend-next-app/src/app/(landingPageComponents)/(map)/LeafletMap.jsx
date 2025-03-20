@@ -76,34 +76,33 @@ export default function LeafletMap({
 
   return (
     <>
-      <div className='w-full flex flex-row justify-center items-center relative py-4 max-sm:pb-10'>
-        <div className='w-full z-[9999] flex flex-row justify-center items-center gap-4 flex-wrap  '>
-          <Button className='cursor-default'>
-            <ZoomIn />
-            <p className='font-bold'>Zoomowanie mapy: Ctrl + Scroll</p>
-          </Button>{' '}
-          <Button
-            className='border-2 border-transparent'
-            onClick={() => {
-              setShowMarkers(false)
-              flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM)
-              setTimeout(() => {
-                setShowMarkers(true)
-              }, 500)
-            }}
-          >
-            <LocateFixed />
-            <p className='font-bold'>Zresetuj mapę</p>
-          </Button>{' '}
-          <Button className={``} onClick={() => setPokazPrzystanki((prevState) => !prevState)}>
-            <BusFront />
-            <p className='font-bold'>{pokazPrzystanki ? 'Ukryj przystanki' : 'Pokaż przystanki'}</p>
-          </Button>
-        </div>
+      {/* <div className='flex flex-col justify-end items-center w-full h-full'> */}
+      {/* <div className='w-full  flex flex-col justify-end items-center  '> */}
+      <div className='w-full z-[9999] flex flex-row justify-center items-center gap-4 flex-wrap absolute bottom-6  '>
+        <Button className='cursor-default max-sm:hidden'>
+          <ZoomIn />
+          <p className='font-bold'>Zoomowanie mapy: Ctrl + Scroll</p>
+        </Button>{' '}
+        <Button
+          className='border-2 border-transparent'
+          onClick={() => {
+            setShowMarkers(false)
+            flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM)
+            setTimeout(() => {
+              setShowMarkers(true)
+            }, 500)
+          }}
+        >
+          <LocateFixed />
+          <p className='font-bold'>Zresetuj mapę</p>
+        </Button>{' '}
+        <Button className={``} onClick={() => setPokazPrzystanki((prevState) => !prevState)}>
+          <BusFront />
+          <p className='font-bold'>{pokazPrzystanki ? 'Ukryj przystanki' : 'Pokaż przystanki'}</p>
+        </Button>
       </div>
-
       <MapContainer
-        div
+        // div
         center={initialMapCenter ? initialMapCenter : MAP_CENTER}
         zoom={DEFAULT_ZOOM}
         className='w-full h-full z-10 rounded-xl '
@@ -159,6 +158,7 @@ export default function LeafletMap({
           </>
         )}
       </MapContainer>
+      {/* </div> */}
     </>
   )
 }
