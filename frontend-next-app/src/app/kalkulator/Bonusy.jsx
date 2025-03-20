@@ -6,7 +6,7 @@ export default function Bonusy({ bonus, setBonus }) {
     <div className="w-full p-4 sm:p-6">
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="item-1">
-          <AccordionTrigger className="font-bold text-xl sm:text-2xl">Bonusy</AccordionTrigger>
+          <AccordionTrigger className="font-bold text-xl sm:text-2xl mb-2">Bonusy</AccordionTrigger>
           <AccordionContent>
             {[
               { name: "volunteer", label: "Wolontariat (3pkt)" },

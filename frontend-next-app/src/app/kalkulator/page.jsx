@@ -54,11 +54,11 @@ export default function Calculator() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center p-6 sm:p-10">
-        <Card className="w-full sm:w-2/3 font-bold m-4 sm:m-10 p-6 sm:p-10 text-sm sm:text-base">
+      <div className="flex flex-col items-center justify-center p-6">
+        <Card className="w-full sm:w-2/3 font-bold m-4 sm:m-10 sm:p-10 text-sm sm:text-base">
           <CardHeader>
             <CardTitle>
-              <h1 className="text-2xl sm:text-4xl font-bold py-4 sm:py-8">Kalkulator punktów rekrutacyjnych</h1>
+              <h1 className="text-2xl sm:text-4xl font-bold py-4 sm:py-8 p-5">Kalkulator punktów rekrutacyjnych</h1>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -69,7 +69,7 @@ export default function Calculator() {
             <Konkursy competitionPoints={competitionPoints} setCompetitionPoints={setCompetitionPoints} setTotalCompetitionPoints={setTotalCompetitionPoints} />
           </CardContent>
           <CardFooter>
-            <p className="text-xs sm:text-sm">
+            <p className="text-xs sm:text-sm p-5">
               Kalkulator ósmoklasisty spełnia jedynie rolę informacyjną, nie może być stosowany do wyliczeń w procesie rekrutacji do szkół. Kalkulator nie gwarantuje
               poprawności wyników oraz nie ponosi odpowiedzialności za użycie kalkulatora.
             </p>

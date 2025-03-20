@@ -45,10 +45,10 @@ export default function E8({ examScores, setExamScores, exempted, setExempted })
 
   return (
     <div className="w-full p-4 sm:p-6">
-      <h3 className="font-bold text-xl sm:text-2xl mb-4">Egzamin ósmoklasisty</h3>
+      <h3 className="font-bold text-xl sm:text-3xl mb-10">Egzamin ósmoklasisty</h3>
       {Object.keys(subjectNames).map((subject) => (
-        <div key={subject} className="mb-4">
-          <label className="block text-lg sm:text-xl font-bold">
+        <div key={subject} className="mb-8">
+          <label className="mb-2 block text-lg sm:text-xl font-bold">
             {exempted[subject] ? `Ocena ${subjectNames[subject]}` : `Wynik % ${subjectNames[subject]}`}
           </label>
 
