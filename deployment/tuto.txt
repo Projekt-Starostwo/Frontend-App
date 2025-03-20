@@ -3,6 +3,3 @@ docker compose -f docker-compose.dev.yml up
 
 for prod run 
 docker compose -f docker-compose.prod.yml up
-
-
-nie zapomnic wypelnic env!

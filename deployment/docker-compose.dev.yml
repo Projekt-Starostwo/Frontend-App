@@ -1,7 +1,10 @@
 services:
   front-app:
     container_name: starostwo-frontend-dev
-    image: antost360/starostwo-frontend-dev
+    pull_policy: build
+    build:
+      context: ../frontend-next-app
+      target: development
     ports:
       - 3000:3000
     environment:
@@ -12,17 +15,13 @@ services:
       - cms
   cms:
     container_name: starostwo-cms-dev
-    image: antost360/starostwo-cms-dev
+    pull_policy: build
+    build:
+      context: ../../CMS-app
+      dockerfile: Dockerfile.dev
     ports:
       - 1337:1337
-    environment:
-      DATABASE_CLIENT: ${DATABASE_CLIENT}
-      APP_KEYS: ${APP_KEYS}
-      JWT_SECRET: ${JWT_SECRET}
-      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
-      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
-      API_TOKEN_SALT: ${API_TOKEN_SALT}
-      PORT: ${PORT}
-      HOST: ${HOST}
+    env_file:
+      - .env
     volumes:
       - ${STRAPI_DEV_DB_DIR_PATH}:/opt/app/.tmp/
