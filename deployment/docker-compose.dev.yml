@@ -1,0 +1,27 @@
+services:
+  front-app:
+    container_name: starostwo-frontend-dev
+    pull_policy: build
+    build:
+      context: ../frontend-next-app
+      target: development
+    ports:
+      - 3000:3000
+    environment:
+      TOKEN: ${TOKEN}
+    volumes:
+      - ${DEV_SRC_CODE}:/app
+    depends_on:
+      - cms
+  cms:
+    container_name: starostwo-cms-dev
+    pull_policy: build
+    build:
+      context: ../../CMS-app
+      dockerfile: Dockerfile.dev
+    ports:
+      - 1337:1337
+    env_file:
+      - .env
+    volumes:
+      - ${STRAPI_DEV_DB_DIR_PATH}:/opt/app/.tmp/
