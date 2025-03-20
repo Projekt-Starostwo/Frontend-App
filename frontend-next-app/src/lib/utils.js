@@ -5,7 +5,7 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs))
 }
 export function appedDomain(url) {
-  return `http://localhost:1337${url}`
+  return `http://cms:1337${url}`
 }
 
 export function slugify(text) {

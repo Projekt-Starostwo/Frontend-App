@@ -5,6 +5,9 @@
 :root {
   --main-mmz-blue: #008cd8;
   --main-mmz-yellow: #fcf403;
+  /* --gray: black; */
+
+  --gray: #a1a1a9;
 }
 
 body {
@@ -78,27 +81,34 @@ body {
 .reset-map {
   z-index: 99999;
   position: absolute;
-  top: 40;
-  right: 12;
+  top: 120;
+  right: 1200;
 }
 .reset-map:hover {
   filter: drop-shadow(var(--main-mmz-blue) 0 0 25px);
 }
 .mmz-heading {
-  background: -webkit-linear-gradient(
-    45deg,
-    var(--main-mmz-blue),
-    var(--main-mmz-yellow)
-  );
+  background: -webkit-linear-gradient(45deg, var(--main-mmz-blue), var(--main-mmz-yellow));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .heading-pic {
   filter: drop-shadow(var(--main-mmz-blue) 0 0 45px);
 }
-
+.schoolPhotoDark {
+  filter: drop-shadow(var(--gray) 0px 5px 20px);
+}
+.schoolPhotoLight {
+  filter: drop-shadow(black 0px 5px 20px);
+}
 .btn-active {
   background-color: var(--main-mmz-blue);
+}
+.zoom-btn {
+  position: absolute;
+  right: 12;
+  top: 30;
+  z-index: 99999;
 }
 .schoolItem {
   transition: filter 0.2s ease-out; /* Added transition */
@@ -109,10 +119,69 @@ body {
 .przystanki-btn {
   z-index: 99999;
   position: absolute;
-  top: 40;
-  right: 180;
+  top: 80;
+  right: 12;
   transition: filter 0.2s ease-out; /* Added transition */
 }
 .przystanki-btn:hover {
   filter: drop-shadow(var(--main-mmz-blue) 0 0 25px);
+}
+.leaflet-marker-icon.leaflet-zoom-animated {
+  transition: transform 0.3s ease-in-out;
+}
+
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  background: var(--main-mmz-blue) !important;
+  color: white;
+  box-shadow: 0px 0px 10px var(--main-mmz-blue);
+}
+
+.custom-bus-cluster-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-bus-cluster {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  background-color: rgba(30, 60, 90, 0.9);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 5px rgba(30, 60, 90, 0.7);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.bus-icon {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 18px;
+  background-image: url('/bus-icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.bus-count {
+  margin-top: 10px;
+}
+.navbar {
+  z-index: 999999;
 }

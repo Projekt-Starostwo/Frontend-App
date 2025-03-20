@@ -5,7 +5,7 @@ import Footer from '@/app/(landingPageComponents)/Footer'
 import ReactQueryProvider from '@/lib/ReactQueryProvider'
 import Navbar from '@/components/Navbar'
 import { BlurFade } from '@/components/magicui/blur-fade'
-import PostHogProvider from '@/lib/PostHogProvider'
+// import PostHogProvider from '@/lib/PostHogProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
@@ -16,16 +16,19 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang='en' suppressHydrationWarning>
+      <head>
+        <link rel='icon' type='image/png' href='/Herb-miasta.png' />
+      </head>
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
           <ReactQueryProvider>
-            <PostHogProvider>
-              <BlurFade>
-                <Navbar />
-                {children}
-                <Footer />
-              </BlurFade>
-            </PostHogProvider>
+            {/* <PostHogProvider> */}
+            <BlurFade>
+              <Navbar />
+              {children}
+              <Footer />
+            </BlurFade>
+            {/* </PostHogProvider> */}
           </ReactQueryProvider>
         </ThemeProvider>
       </body>
