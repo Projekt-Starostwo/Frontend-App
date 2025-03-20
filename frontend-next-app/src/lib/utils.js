@@ -6,8 +6,9 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs))
 }
 export async function appedDomain(url) {
-  const cms = await getCmsUrl()
+  const cms = await getCmsUrl(url)
   console.log('CMS RES ', cms)
+  console.log('FETCHING', `http://${cms}${url}`)
   return `http://${cms}${url}`
 }
 

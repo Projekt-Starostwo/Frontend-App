@@ -1,6 +1,6 @@
 import ErrorPage from '@/components/ErrorPage'
 import LinkButton from '@/components/LinkButton'
-import getKierunekInfo, { getSchoolDetails } from '@/lib/queries'
+import getKierunekInfo, { getCmsUrl, getSchoolDetails } from '@/lib/queries'
 import { deslugify, tryCatch } from '@/lib/utils'
 import { Link2, User, Users } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
@@ -15,6 +15,9 @@ export default async function KierunekPage({ params }) {
   const school = schoolData.data
   console.log(schoolData.error)
   console.log(schoolData.data)
+
+  const cmsUrl = await getCmsUrl()
+
   return (
     <div className='h-auto w-full flex flex-col justify-start items-center p-5'>
       {kierunekData.error ||
@@ -28,7 +31,7 @@ export default async function KierunekPage({ params }) {
 
       {!kierunekData.error && kierunek && (
         <div className='h-full sm:w-2/3 flex flex-col justify-start items-start  gap-10'>
-          <BigSchoolCard school={school} />
+          {cmsUrl && <BigSchoolCard school={school} cmsUrl={cmsUrl} />}
 
           <Slogan slogan={kierunek.slogan_start} />
 
@@ -36,11 +39,6 @@ export default async function KierunekPage({ params }) {
 
           <RenderAccordionOfListedInfo kierunek={kierunek} />
 
-          {/* <div className='flex flex-col gap-2'>
-            <Przedmioty title={'Przedmioty rozszerzone'} przedmioty={kierunek.rozszerzone_przedmioty} />
-
-            <Przedmioty title={'Przedmioty punktowane'} przedmioty={kierunek.punktowane_przedmioty} />
-          </div> */}
           <Przedmioty kierunek={kierunek} />
 
           <Stats kierunek={kierunek} />

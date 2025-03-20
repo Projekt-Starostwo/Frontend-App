@@ -38,6 +38,7 @@ export function SchoolListItem({ school, map, setShowMarkers, setSelectedTab, se
     queryKey: ['cms-url'],
     queryFn: async () => {
       const cms = await getCmsUrl()
+      console.log(`${data}${school.glowne_zdjecie_szkoly.url}`)
       return cms
     },
   })

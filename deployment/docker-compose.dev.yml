@@ -1,28 +1,20 @@
 services:
   front-app:
-    container_name: frontend-dev
-    pull_policy: build
-    build:
-      context: ../frontend-next-app
-      target: development
+    container_name: frontend-prod
+    image: antost360/starostwo-frontend-prod
     ports:
       - 3000:3000
     environment:
       - TOKEN=${TOKEN}
-      - CMS_URL=http://cms:1337
-    volumes:
-      - ${DEV_SRC_CODE}:/app
-    depends_on:
-      - cms
-  cms:
-    container_name: starostwo-cms-dev
-    pull_policy: build
-    build:
-      context: ../../CMS-app
-      dockerfile: Dockerfile.dev
-    ports:
-      - 1337:1337
-    env_file:
-      - .env
-    volumes:
-      - ${STRAPI_DEV_DB_DIR_PATH}:/opt/app/.tmp/
+      - CMS_URL=https://starostwo-cms-prod-262337281137.us-central1.run.app
+    # depends_on:
+    #   - cms
+  # cms:
+  #   container_name: starostwo-cms-prod
+  #   image: antost360/starostwo-cms-prod
+  #   ports:
+  #     - 1337:1337
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ${STRAPI_DEV_DB_DIR_PATH}:/opt/app/.tmp/

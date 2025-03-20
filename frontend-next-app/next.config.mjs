@@ -17,6 +17,13 @@ const nextConfig = {
         // pathname: '/**',
         // search: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'starostwo-cms-prod-262337281137.us-central1.run.app',
+        // port: '',
+        // pathname: '',
+        // search: '',
+      },
     ],
   },
 }
