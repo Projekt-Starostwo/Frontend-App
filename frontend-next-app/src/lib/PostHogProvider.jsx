@@ -3,28 +3,49 @@
 import posthog from 'posthog-js'
 import { PostHogProvider as PHProvider } from 'posthog-js/react'
 import { useEffect, Suspense } from 'react'
-
-export default function PostHogProvider({ children }) {
-  useEffect(() => {
-    console.log(process.env.NEXT_PUBLIC_POSTHOG_HOST)
-    console.log(process.env.NEXT_PUBLIC_POSTHOG_KEY)
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-      capture_pageview: false,
-    })
-  }, [])
-
-  return (
-    <PHProvider client={posthog}>
-      <SuspendedPostHogPageView />
-      {children}
-    </PHProvider>
-  )
-}
-
 import { usePathname, useSearchParams } from 'next/navigation'
 
 import { usePostHog } from 'posthog-js/react'
+
+import { useQuery } from '@tanstack/react-query'
+import { getPosthogEnv } from './queries'
+
+export default function PostHogProvider({ children }) {
+  const { data } = useQuery({
+    queryKey: ['posthog-env'],
+    queryFn: async () => {
+      const { posthogKey, posthogHost } = await getPosthogEnv()
+      // console.log('posthogKey', posthogKey)
+      // console.log('posthogHost', posthogHost)
+      return { posthogKey, posthogHost }
+    },
+  })
+
+  useEffect(() => {
+    // console.log(process.env.NEXT_PUBLIC_POSTHOG_HOST)
+    // console.log(process.env.NEXT_PUBLIC_POSTHOG_KEY)
+
+    // console.log(data?.posthogHost)
+    // console.log(data?.posthogKey)
+    if (data) {
+      posthog.init(data?.posthogKey, {
+        api_host: data?.posthogHost,
+        capture_pageview: false,
+      })
+    }
+  }, [data])
+
+  return (
+    <>
+      {data && (
+        <PHProvider client={posthog}>
+          <SuspendedPostHogPageView />
+          {children}
+        </PHProvider>
+      )}
+    </>
+  )
+}
 
 function PostHogPageView() {
   const pathname = usePathname()

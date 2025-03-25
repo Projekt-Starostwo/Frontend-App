@@ -5,7 +5,9 @@ import Footer from '@/app/(landingPageComponents)/Footer'
 import ReactQueryProvider from '@/lib/ReactQueryProvider'
 import Navbar from '@/components/Navbar'
 import { BlurFade } from '@/components/magicui/blur-fade'
-// import PostHogProvider from '@/lib/PostHogProvider'
+import PostHogProvider from '@/lib/PostHogProvider'
+import { EnvProvider } from '@/lib/EnvProvider'
+import GetEnvs from '@/lib/GetEnvs'
 
 const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
@@ -22,13 +24,16 @@ export default function RootLayout({ children }) {
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
           <ReactQueryProvider>
-            {/* <PostHogProvider> */}
-            <BlurFade>
-              <Navbar />
-              {children}
-              <Footer />
-            </BlurFade>
-            {/* </PostHogProvider> */}
+            <EnvProvider>
+              <PostHogProvider>
+                <BlurFade>
+                  <Navbar />
+                  <GetEnvs />
+                  {children}
+                  <Footer />
+                </BlurFade>
+              </PostHogProvider>
+            </EnvProvider>
           </ReactQueryProvider>
         </ThemeProvider>
       </body>

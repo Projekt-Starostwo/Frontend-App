@@ -62,8 +62,7 @@ export default function SchoolBrowser() {
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ['listOfSchools'] })
   }, [])
-  // console.log(listOfSchools)
-  // console.log(newSchoolFocused);
+
   return (
     <div className=''>
       {isLoading && (

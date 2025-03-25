@@ -1,36 +1,23 @@
 'use client'
 
-import { Marker, Popup, Tooltip } from 'react-leaflet'
+import { Marker, Popup } from 'react-leaflet'
 import ReactDOMServer from 'react-dom/server'
 import Image from 'next/image'
-import { appedDomain } from '@/lib/utils'
 import { CheckSchoolSupportedTypes } from '../(sidebarList)/ListOfSchools'
 import Link from 'next/link'
 import { BookOpen, MapPinned } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Tooltip as ShadcnTooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useTheme } from 'next-themes'
-import { useQuery } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
-import { getCmsUrl } from '@/lib/queries'
+import { useEnv } from '@/lib/EnvProvider'
 
 export default function CustomMarker({ school, showPopup }) {
   const { theme } = useTheme()
-  // console.log(school)
-  const [link, setLink] = useState(null)
-  useEffect(() => {
-    // console.log(school)
-    async function getData() {
-      const res = await getCmsUrl()
 
-      // console.log(res)
-      setLink(res)
-    }
-    getData()
-  }, [school])
-  // console.log(theme)
+  const { cmsUrl } = useEnv()
+
   var myIcon = L.divIcon({
-    html: ReactDOMServer.renderToStaticMarkup(<MarkerHtml school={school} cmsUrl={link} theme={theme} />),
+    html: ReactDOMServer.renderToStaticMarkup(<MarkerHtml school={school} cmsUrl={cmsUrl} theme={theme} />),
     className: 'custom-marker',
     iconSize: [50, 50],
   })

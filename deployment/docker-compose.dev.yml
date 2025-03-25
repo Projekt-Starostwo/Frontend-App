@@ -6,15 +6,15 @@ services:
       - 3000:3000
     environment:
       - TOKEN=${TOKEN}
-      - CMS_URL=https://starostwo-cms-prod-262337281137.us-central1.run.app
-    # depends_on:
-    #   - cms
-  # cms:
-  #   container_name: starostwo-cms-prod
-  #   image: antost360/starostwo-cms-prod
-  #   ports:
-  #     - 1337:1337
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - ${STRAPI_DEV_DB_DIR_PATH}:/opt/app/.tmp/
+      - CMS_URL=http://cms:1337
+    depends_on:
+      - cms
+  cms:
+    container_name: starostwo-cms-prod
+    image: antost360/starostwo-cms-prod
+    ports:
+      - 1337:1337
+    env_file:
+      - .env
+    volumes:
+      - ${STRAPI_DEV_DB_DIR_PATH}:/opt/app/.tmp/

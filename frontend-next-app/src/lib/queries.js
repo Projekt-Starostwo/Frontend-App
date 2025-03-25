@@ -1,5 +1,14 @@
 // tutaj wszystkie funkcje API
 'use server'
+export async function getPosthogEnv() {
+  const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
+  const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST
+
+  console.log('POSTHOG KEY', posthogKey)
+  console.log('POSTHOG HOST', posthogHost)
+  return { posthogKey, posthogHost }
+}
+
 const token = process.env.TOKEN
 const base_api_url = process.env.CMS_URL
 

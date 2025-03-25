@@ -1,6 +1,7 @@
 'use client'
 
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
+import { useEnv } from '@/lib/EnvProvider'
 import { getCmsUrl } from '@/lib/queries'
 import { appedDomain } from '@/lib/utils'
 import { useQuery } from '@tanstack/react-query'
@@ -9,13 +10,7 @@ import Image from 'next/image'
 // works with array of images from strapi
 export default function PhotoGallery({ photos, containerDivStyles }) {
   const { theme } = useTheme()
-  const { data } = useQuery({
-    queryKey: ['cms-url'],
-    queryFn: async () => {
-      const cms = await getCmsUrl()
-      return cms
-    },
-  })
+  const { cmsUrl } = useEnv()
 
   return (
     <div className={containerDivStyles}>
@@ -27,7 +22,7 @@ export default function PhotoGallery({ photos, containerDivStyles }) {
         }}
       >
         <CarouselContent>
-          {data &&
+          {cmsUrl &&
             photos?.map((zdjecie) => {
               if (!zdjecie.formats.large) {
                 return null
@@ -40,7 +35,7 @@ export default function PhotoGallery({ photos, containerDivStyles }) {
                     } p-14 px-5 h-full w-full flex flex-row justify-center items-center `}
                   >
                     <Image
-                      src={`${data}${zdjecie.formats.large.url}`}
+                      src={`${cmsUrl}${zdjecie.formats.large.url}`}
                       alt={'Fdjks'}
                       // quality={100}
                       width={540}

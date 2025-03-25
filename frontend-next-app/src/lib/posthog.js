@@ -1,9 +1,11 @@
 // app/posthog.js
 import { PostHog } from 'posthog-node'
+import { getPosthogEnv } from './queries'
 
-export default function PostHogClient() {
-  const posthogClient = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-    host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+export default async function PostHogClient() {
+  const { posthogKey, posthogHost } = await getPosthogEnv()
+  const posthogClient = new PostHog(posthogKey, {
+    host: posthogHost,
     flushAt: 1,
     flushInterval: 0,
   })

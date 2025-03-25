@@ -5,10 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import Link from 'next/link'
 import Image from 'next/image'
-import { appedDomain, performFlyTo } from '@/lib/utils'
-import { animate } from 'framer-motion'
-import { useQuery } from '@tanstack/react-query'
-import { getCmsUrl } from '@/lib/queries'
+import { useEnv } from '@/lib/EnvProvider'
 
 export default function ListOfSchools({ map, listOfSchools, setShowMarkers, setSelectedTab, setNewSchoolFocused }) {
   return (
@@ -34,15 +31,7 @@ export default function ListOfSchools({ map, listOfSchools, setShowMarkers, setS
 }
 
 export function SchoolListItem({ school, map, setShowMarkers, setSelectedTab, setNewSchoolFocused }) {
-  const { data } = useQuery({
-    queryKey: ['cms-url'],
-    queryFn: async () => {
-      const cms = await getCmsUrl()
-      console.log(`${data}${school.glowne_zdjecie_szkoly.url}`)
-      return cms
-    },
-  })
-
+  const { cmsUrl } = useEnv()
   return (
     <Card
       className={`schoolItem w-full max-w-lg min-w-lg  mx-auto shadow-lg ${
@@ -50,10 +39,10 @@ export function SchoolListItem({ school, map, setShowMarkers, setSelectedTab, se
       }`}
     >
       <div className='w-full flex flex-row justify-center items-center pt-6'>
-        {data && (
+        {cmsUrl && (
           <div className='h-20 flex justify-center items-center'>
             <Image
-              src={`${data}${school.glowne_zdjecie_szkoly.url}`}
+              src={`${cmsUrl}${school.glowne_zdjecie_szkoly.url}`}
               width={100}
               height={100}
               alt='Logo Szkoły'
