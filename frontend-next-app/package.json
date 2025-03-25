@@ -29,6 +29,7 @@
     "embla-carousel-react": "^8.5.2",
     "framer-motion": "^12.4.10",
     "leaflet": "^1.9.4",
+    "leaflet-routing-machine": "^3.2.12",
     "lucide-react": "^0.473.0",
     "marked": "^15.0.7",
     "motion": "^12.4.1",
