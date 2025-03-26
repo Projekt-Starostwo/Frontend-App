@@ -26,7 +26,7 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
       <AccordionItem value="competitions">
         <AccordionTrigger className="font-bold text-xl sm:text-2xl mb-2">Konkursy</AccordionTrigger>
         <AccordionContent>
-          <p className="font-normal mb-6">Maksymalna ilość uzyskanych punktów z konkursów to 18pkt.*</p>
+          <p className="font-normal mb-6">*Maksymalna ilość uzyskanych punktów z konkursów to 18pkt.</p>
           {/* Konkursy ponadwojewódzkie */}
           <div className="mb-6 leading-7">
             <h4 className="font-bold text-[15px] sm:text-xl">
@@ -45,7 +45,7 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
                   value={option.value}
                   onChange={handleCompetitionChange}
                   checked={competitionPoints["competition1"] === option.value}
-                  className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[#fcf403]  transition-colors hover:bg-[#008cd8]"
+                  className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[--main-mmz-secondary]  transition-colors hover:bg-[--main-mmz-blue]"
                 />
                 {option.label}
               </label>
@@ -79,7 +79,7 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
                   value={option.value}
                   onChange={handleCompetitionChange}
                   checked={competitionPoints["competition2"] === option.value}
-                  className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[#fcf403]  transition-colors hover:bg-[#008cd8]"
+                  className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[--main-mmz-secondary]  transition-colors hover:bg-[--main-mmz-blue]"
                 />
                 {option.label}
               </label>
@@ -105,7 +105,7 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
                   value={option.value}
                   onChange={handleCompetitionChange}
                   checked={competitionPoints["competition3"] === option.value}
-                  className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[#fcf403]  transition-colors hover:bg-[#008cd8]"
+                  className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[--main-mmz-secondary]  transition-colors hover:bg-[--main-mmz-blue]"
                 />
                 {option.label}
               </label>
@@ -131,7 +131,7 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
                   value={option.value}
                   onChange={handleCompetitionChange}
                   checked={competitionPoints["competition4"] === option.value}
-                  className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[#fcf403]  transition-colors hover:bg-[#008cd8]"
+                  className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[--main-mmz-secondary]  transition-colors hover:bg-[--main-mmz-blue]"
                 />
                 {option.label}
               </label>
@@ -158,7 +158,7 @@ const Konkursy = ({ competitionPoints, setCompetitionPoints, setTotalCompetition
                   value={option.value}
                   onChange={handleCompetitionChange}
                   checked={competitionPoints["competition5"] === option.value}
-                  className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[#fcf403]  transition-colors hover:bg-[#008cd8]"
+                  className="w-3 h-3 border-2 border-gray-300 rounded-full cursor-pointer peer appearance-none checked:bg-[--main-mmz-secondary]  transition-colors hover:bg-[--main-mmz-blue]"
                 />
                 {option.label}
               </label>

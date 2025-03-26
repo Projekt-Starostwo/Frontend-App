@@ -62,7 +62,7 @@ export default function E8({ examScores, setExamScores, exempted, setExempted })
           />
 
           <label className="flex items-center space-x-2 mt-2">
-            <input type="checkbox" name={subject} onChange={handleExemptionChange} checked={exempted[subject] || false} />
+            <input className="cursor-pointer"  type="checkbox" name={subject} onChange={handleExemptionChange} checked={exempted[subject] || false} />
             <span className="text-base sm:text-lg">Zwolniony z egzaminu ({subjectNames[subject]})</span>
           </label>
         </div>
