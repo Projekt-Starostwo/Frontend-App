@@ -356,7 +356,7 @@ export default function LeafletMap({
                 <b>${lineDisplayName}</b><br/>
                 ${name}<br/>
                 <button id="openPdfButton_${id}_${i}"
-                  style="margin-top:5px; padding:5px 10px; border:none; background:#007bff; color:white; border-radius:5px; cursor:pointer; font-size: 14px;" >
+                  style="margin-top:5px; padding:5px 10px; border:none; background:#0099e9; color:white; border-radius:5px; cursor:pointer; font-size: 14px;" >
                   Otwórz rozkład
                 </button>
               </div>
