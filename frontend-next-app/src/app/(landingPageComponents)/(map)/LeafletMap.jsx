@@ -1,193 +1,22 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import CustomMarker from './CustomMarker'
 import { Button } from '@/components/ui/button'
 import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import L from 'leaflet'
-import 'leaflet-routing-machine'
-import 'leaflet-routing-machine/dist/leaflet-routing-machine.css'
-import { LocateFixed, ZoomIn } from 'lucide-react'
-import { BusSelection } from './BusLines'
-
-import {
-  przystankiAutobusowe,
-  LiniaBagsB1,
-  LiniaBagsB3,
-  LiniaBagsB4,
-  LiniaMiejskaM1_1,
-  LiniaMiejskaM1_2,
-  LiniaMiejskaM2_1,
-  LiniaMiejskaM2_2,
-  LiniaMiejskaM3_1,
-  LiniaMiejskaM3_2,
-  LiniaMiejskaM4_1,
-  LiniaMiejskaM4_2,
-} from './daneDojazdow'
+import { BusFront, ExternalLink, LocateFixed } from 'lucide-react'
+import ReactDOMServer from 'react-dom/server'
+import Link from 'next/link'
+import { ZoomIn } from 'lucide-react'
+import { BusLines, BusSelection } from './BusLines'
+import { useQuery } from '@tanstack/react-query'
+import { getBusList } from '@/lib/queries'
 
 export const MAP_CENTER = [52.179, 21.57211]
 const DEFAULT_ZOOM = 14
-const MAX_ZOOM = 17
-const MIN_ZOOM = 13
-
-const pdfLinks = {
-  M1: 'https://www.minsk-maz.pl/plik,8749,linia-m1.pdf',
-  M2: 'https://www.minsk-maz.pl/plik,8753,linia-m2.pdf',
-  M3: 'https://www.minsk-maz.pl/plik,8758,linia-m3.pdf',
-  M4: 'https://www.minsk-maz.pl/plik,8762,linia-m4.pdf',
-  B1: 'https://bags.com.pl/linie-regularne/',
-  B3: 'https://bags.com.pl/linie-regularne/',
-  B4: 'https://bags.com.pl/linie-regularne/',
-}
-
-const specificBagsLinks = {
-  'Dębe Wielkie 01': 'https://bags.com.pl/rozklady/debe-wielkie-i/',
-  'Dębe Wielkie 02': 'https://bags.com.pl/rozklady/debe-wielkie-ii/',
-  'Dębe Wielkie 03': 'https://bags.com.pl/rozklady/debe-wielkie-iii/',
-}
-
-const pinImg = {
-  M1: '/pictures/m1pin.png',
-  M2: '/pictures/m2pin.png',
-  M3: '/pictures/m3pin.png',
-  M4: '/pictures/m4pin.png',
-  B1: '/pictures/b1kwpin.png',
-  B3: '/pictures/b3pin.png',
-  B4: '/pictures/b4pin.png',
-}
-
-const colorLine = {
-  M1: '#d01526',
-  M2: '#97b62c',
-  M3: '#50c1e9',
-  M4: '#e68042',
-  B1: '#009d57',
-  B3: '#757575',
-  B4: '#db4436',
-}
-
-const initialBusLinesState = [
-  {
-    id: 'M1_1',
-    name: 'M1 (Kurs 1)',
-    internalId: 'M1',
-    color: colorLine.M1,
-    stops: LiniaMiejskaM1_1,
-    pdfUrl: pdfLinks.M1,
-    pinUrl: pinImg.M1,
-    isActive: false,
-  },
-  {
-    id: 'M1_2',
-    name: 'M1 (Kurs 2)',
-    internalId: 'M1',
-    color: colorLine.M1,
-    stops: LiniaMiejskaM1_2,
-    pdfUrl: pdfLinks.M1,
-    pinUrl: pinImg.M1,
-    isActive: false,
-  },
-  {
-    id: 'M2_1',
-    name: 'M2 (Kurs 1)',
-    internalId: 'M2',
-    color: colorLine.M2,
-    stops: LiniaMiejskaM2_1,
-    pdfUrl: pdfLinks.M2,
-    pinUrl: pinImg.M2,
-    isActive: false,
-  },
-  {
-    id: 'M2_2',
-    name: 'M2 (Kurs 2)',
-    internalId: 'M2',
-    color: colorLine.M2,
-    stops: LiniaMiejskaM2_2,
-    pdfUrl: pdfLinks.M2,
-    pinUrl: pinImg.M2,
-    isActive: false,
-  },
-  {
-    id: 'M3_1',
-    name: 'M3 (Kurs 1)',
-    internalId: 'M3',
-    color: colorLine.M3,
-    stops: LiniaMiejskaM3_1,
-    pdfUrl: pdfLinks.M3,
-    pinUrl: pinImg.M3,
-    isActive: false,
-  },
-  {
-    id: 'M3_2',
-    name: 'M3 (Kurs 2)',
-    internalId: 'M3',
-    color: colorLine.M3,
-    stops: LiniaMiejskaM3_2,
-    pdfUrl: pdfLinks.M3,
-    pinUrl: pinImg.M3,
-    isActive: false,
-  },
-  {
-    id: 'M4_1',
-    name: 'M4 (Kurs 1)',
-    internalId: 'M4',
-    color: colorLine.M4,
-    stops: LiniaMiejskaM4_1,
-    pdfUrl: pdfLinks.M4,
-    pinUrl: pinImg.M4,
-    isActive: false,
-  },
-  {
-    id: 'M4_2',
-    name: 'M4 (Kurs 2)',
-    internalId: 'M4',
-    color: colorLine.M4,
-    stops: LiniaMiejskaM4_2,
-    pdfUrl: pdfLinks.M4,
-    pinUrl: pinImg.M4,
-    isActive: false,
-  },
-  {
-    id: 'B1',
-    name: 'B1',
-    internalId: 'B1',
-    color: colorLine.B1,
-    stops: LiniaBagsB1,
-    pdfUrl: pdfLinks.B1,
-    pinUrl: pinImg.B1,
-    isActive: false,
-  },
-  {
-    id: 'B3',
-    name: 'B3',
-    internalId: 'B3',
-    color: colorLine.B3,
-    stops: LiniaBagsB3,
-    pdfUrl: pdfLinks.B3,
-    pinUrl: pinImg.B3,
-    isActive: false,
-  },
-  {
-    id: 'B4',
-    name: 'B4',
-    internalId: 'B4',
-    color: colorLine.B4,
-    stops: LiniaBagsB4,
-    pdfUrl: pdfLinks.B4,
-    pinUrl: pinImg.B4,
-    isActive: false,
-  },
-]
-
-const handleOpenPdf = (url) => {
-  if (typeof window !== 'undefined' && url && url !== '#') {
-    window.open(url, '_blank')
-  } else {
-    console.warn('No valid PDF URL provided or window is undefined.')
-  }
-}
 
 export default function LeafletMap({
   map,
@@ -199,9 +28,19 @@ export default function LeafletMap({
   newSchoolFocused,
 }) {
   const { theme } = useTheme()
-  const [busLines, setBusLines] = useState(initialBusLinesState)
-  const routingControlsRef = useRef({})
-  const markerRefs = useRef([]) // Ref to store marker elements
+
+  useEffect(() => {
+    if (!setShowMarkers) {
+      return
+    }
+
+    if (!newSchoolFocused || !map.map) {
+      setShowMarkers(true)
+      return
+    }
+
+    map.map.setView([newSchoolFocused[0], newSchoolFocused[1]], 16)
+  }, [newSchoolFocused, map.map])
 
   useEffect(() => {
     if (!map.map) return
@@ -222,245 +61,102 @@ export default function LeafletMap({
     }
   }, [map.map])
 
-  useEffect(() => {
-    if (!setShowMarkers) {
-      return
-    }
-
-    if (!newSchoolFocused || !map.map) {
-      return
-    }
-
-    map.map.setView([newSchoolFocused[0], newSchoolFocused[1]], 16)
-  }, [newSchoolFocused, map.map, setShowMarkers])
-
-  useEffect(() => {
-    if (!map.map) return
-
-    const currentControls = routingControlsRef.current
-
-    const removeRoutingContainers = () => {
-      document.querySelectorAll('.leaflet-routing-container').forEach((el) => el.remove())
-    }
-
-    busLines.forEach((line) => {
-      const { id, isActive, stops, color, pinUrl, pdfUrl, name: lineDisplayName, internalId } = line
-      const controlExists = !!currentControls[id]
-
-      if (isActive && !controlExists) {
-        if (!Array.isArray(stops) || stops.length === 0) {
-          console.warn(`Brak przystanków lub niepoprawny format dla linii ${id}.`)
-          return
-        }
-
-        const waypoints = stops
-          .map(({ name, coords }) => {
-            if (!Array.isArray(coords) || coords.length !== 2 || isNaN(coords[0]) || isNaN(coords[1])) {
-              console.warn(`Invalid coordinates for stop "${name}" in line ${id}:`, coords)
-              return null
-            }
-            return L.latLng(coords[0], coords[1])
-          })
-          .filter((wp) => wp !== null)
-
-        if (waypoints.length < 2) {
-          console.warn(`Not enough valid waypoints (${waypoints.length}) for line ${id}. Cannot draw route.`)
-          return
-        }
-
-        console.log(`Drawing route for ${id} with waypoints:`, waypoints)
-
-        const routingControl = L.Routing.control({
-          waypoints,
-          lineOptions: {
-            styles: [{ color: color || '#3388ff', weight: 5, opacity: 1 }],
-            addWaypoints: false,
-          },
-          routeWhileDragging: false,
-          draggableWaypoints: false,
-          show: false,
-          serviceUrl: 'http://51.38.130.72:5000/route/v1',
-          createMarker: function (i, waypoint, n) {
-            let originalStopIndex = -1
-            let count = 0
-            for (let j = 0; j < stops.length; j++) {
-              const stop = stops[j]
-              if (stop.coords && !isNaN(stop.coords[0]) && !isNaN(stop.coords[1])) {
-                if (count === i) {
-                  originalStopIndex = j
-                  break
-                }
-                count++
-              }
-            }
-
-            const stopData = originalStopIndex !== -1 ? stops[originalStopIndex] : null
-            const name = stopData?.name || `Przystanek ${i + 1}`
-            let urlToOpen = pdfUrl
-
-            if (internalId.startsWith('B') && stopData?.name && specificBagsLinks[stopData.name]) {
-              urlToOpen = specificBagsLinks[stopData.name]
-              console.log(`Using specific BAGS link for ${stopData.name}: ${urlToOpen}`)
-            }
-
-            return L.marker(waypoint.latLng, {
-              icon: L.icon({
-                iconUrl: pinUrl || '/pictures/default-pin.png',
-                iconSize: [40, 40],
-                iconAnchor: [20, 40],
-                popupAnchor: [0, -35],
-                className: 'bus-stop-marker-icon',
-              }),
-            })
-              .bindPopup(
-                `
-              <div>
-                <b>${lineDisplayName}</b><br/>
-                ${name}<br/>
-                <button id="openPdfButton_${id}_${i}"
-                  style=" margin-top:5px; padding:5px 10px; border:none; background:#0099e9; color:white; border-radius:5px; cursor:pointer; font-size: 14px;" >
-                  Otwórz rozkład
-                </button>
-              </div>
-            `
-              )
-              .on('popupopen', (e) => {
-                const button = e.popup._contentNode.querySelector(`#openPdfButton_${id}_${i}`)
-                if (button) {
-                  button.onclick = null
-                  button.onclick = () => handleOpenPdf(urlToOpen)
-                } else {
-                  console.error(`Button not found for popup: #openPdfButton_${id}_${i}`)
-                }
-              })
-          },
-        }).addTo(map.map)
-
-        currentControls[id] = routingControl
-
-        removeRoutingContainers()
-      } else if (!isActive && controlExists) {
-        console.log(`Removing route for ${id}`)
-        map.map.removeControl(currentControls[id])
-        delete currentControls[id]
-      }
-    })
-
-    const observer = new MutationObserver(removeRoutingContainers)
-    observer.observe(document.body, { childList: true, subtree: true })
-
-    return () => {
-      observer.disconnect()
-      console.log('Cleaning up routing controls...')
-      Object.keys(currentControls).forEach((key) => {
-        if (map.map && currentControls[key]) {
-          try {
-            map.map.removeControl(currentControls[key])
-            console.log(`Cleaned up control ${key}`)
-          } catch (error) {
-            console.warn(`Error removing control ${key} during cleanup:`, error)
-          }
-        }
-      })
-      routingControlsRef.current = {}
-    }
-  }, [busLines, map.map])
-
-  useEffect(() => {
-    if (!map.map) return // Ensure map is initialized
-
-    const mapContainer = map.map.getContainer() // Get the map's root HTML element
-
-    if (showMarkers) {
-      // If showMarkers is true, remove the hiding class
-      mapContainer.classList.remove('hide-bus-stop-markers')
-    } else {
-      // If showMarkers is false, add the hiding class
-      mapContainer.classList.add('hide-bus-stop-markers')
-    }
-
-    // Optional cleanup: Remove the class if the component unmounts
-    // or if showMarkers becomes true before unmounting.
-    return () => {
-      if (mapContainer) {
-        // Check if container still exists
-        mapContainer.classList.remove('hide-bus-stop-markers')
-      }
-    }
-  }, [showMarkers, map.map])
   const flyToLocation = (lat, lng, zoom) => {
-    if (map.map) {
-      // Get current map position
-      const currentPos = map.map.getCenter()
-      // Get the container
-      const mapContainer = map.map.getContainer()
-      // Calculate the position offset based on the initial and final coordinates
-      const x = mapContainer.offsetWidth / (lat - currentPos.lat)
-      const y = mapContainer.offsetHeight / (lng - currentPos.lng)
-
-      // Access the markers via ref and set the position to fixed during flyTo
-      markerRefs.current.forEach((marker) => {
-        if (marker) {
-          const element = marker.getElement()
-          if (element) {
-            element.style.transition = 'none'
-            element.style.position = 'fixed'
-            element.style.left = `${lat}px`
-            element.style.top = `${lng}px`
-            console.log('Marker fixed')
-          }
-        }
-      })
-      map.map.flyTo([lat, lng], zoom, {
-        duration: 0.5,
-        easeLinearity: 0.25,
-      })
-    } else {
-      console.warn('Mapa nie została jeszcze zainicjalizowana.')
-    }
+    map.map.flyTo([lat, lng], zoom, { animate: true, duration: 0.5 })
   }
-
+  // const [busLines, setBusLines] = useState([
+  //   {
+  //     name: 'M1_PlacDworcowy_Serbinow',
+  //     color: 'red',
+  //     isActive: false,
+  //   },
+  //   {
+  //     name: 'M1_Serbinow_PlacDworcowy',
+  //     color: 'blue',
+  //     isActive: false,
+  //   },
+  //   {
+  //     name: 'M2_PlacDworcowy_Serbinow',
+  //     color: 'blue',
+  //     isActive: false,
+  //   },
+  //   {
+  //     id: 1,
+  //     name: 'M2_Serbinow_PlacDworcowy',
+  //     color: 'blue',
+  //     isActive: false,
+  //   },
+  //   {
+  //     name: 'M3_Osiedlowa_RondoZolnierzyWykletych',
+  //     color: 'blue',
+  //     isActive: false,
+  //   },
+  //   {
+  //     name: 'M3_RondoZolnierzyWykletych_Osiedlowa',
+  //     color: 'blue',
+  //     isActive: false,
+  //   },
+  //   {
+  //     name: 'M4_PlacDworcowy_Spacerowa',
+  //     color: 'blue',
+  //     isActive: false,
+  //   },
+  //   {
+  //     name: 'M4_Spacerowa_PlacDworcowy',
+  //     color: 'blue',
+  //     isActive: false,
+  //   },
+  //   ,
+  // ])
+  const [busLines, setBusLines] = useState([])
+  const { data } = useQuery({
+    queryKey: ['busLinesList'],
+    queryFn: async () => {
+      const res = await getBusList()
+      console.log(res)
+      setBusLines(res)
+      return res
+    },
+  })
+  useEffect(() => {
+    setBusLines(data)
+  }, [data])
   return (
     <>
-      <div className='w-full z-[9999] flex flex-row justify-center items-center gap-2 sm:gap-4 flex-wrap absolute bottom-4 px-2 '>
-        <Button className='cursor-default max-sm:hidden border-2 border-transparent' aria-label='Zoom with Ctrl+Scroll'>
-          <ZoomIn size={18} />
-          <p className='font-bold ml-1 text-xs sm:text-sm'>Zoom: Ctrl + Scroll</p>
+      <div className='w-full z-[9999] flex flex-row justify-center items-center gap-4 flex-wrap absolute bottom-6  '>
+        <Button className='cursor-default max-sm:hidden'>
+          <ZoomIn />
+          <p className='font-bold'>Zoomowanie mapy: Ctrl + Scroll</p>
         </Button>
-
         <Button
-          className='border-2 border-transparent px-2 sm:px-4'
+          className='border-2 border-transparent'
           onClick={() => {
-            if (setShowMarkers) setShowMarkers(false)
+            setShowMarkers(false)
             flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM)
-            if (setShowMarkers) {
-              setTimeout(() => {
-                setShowMarkers(true)
-              }, 500)
-            }
+            setTimeout(() => {
+              setShowMarkers(true)
+            }, 500)
           }}
-          aria-label='Zresetuj widok mapy'
         >
-          <LocateFixed size={18} />
-          <p className='font-bold ml-1 text-xs sm:text-sm'>Resetuj</p>
+          <LocateFixed />
+          <p className='font-bold'>Zresetuj mapę</p>
         </Button>
 
-        <BusSelection busLines={busLines} setBusLines={setBusLines} />
+        {busLines && <BusSelection busLines={busLines} setBusLines={setBusLines} />}
       </div>
-
       <MapContainer
+        // div
         center={initialMapCenter ? initialMapCenter : MAP_CENTER}
         zoom={DEFAULT_ZOOM}
         className='w-full h-full z-10 rounded-xl '
-        maxZoom={MAX_ZOOM}
-        minZoom={MIN_ZOOM}
+        maxZoom={17}
+        minZoom={DEFAULT_ZOOM}
+        // maxBounds={GraniceMMZ}
         ref={map.setMap}
         scrollWheelZoom={false}
       >
-        <div
-          className={`w-full h-full absolute top-0 left-0 ${theme === 'dark' ? 'bg-[#333333]' : 'bg-background'} -z-10`}
-        ></div>
-
+        {/* map bg color */}
+        <div className={`w-full h-full ${theme === 'dark' ? 'bg-[#333333]' : 'bg-background'}`}></div>
         <TileLayer
           attribution={
             theme === 'dark'
@@ -473,17 +169,72 @@ export default function LeafletMap({
               : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           }
         />
-
-        {showMarkers &&
-          listOfSchools?.map((school, index) => (
-            <CustomMarker
-              key={school.id}
-              school={school}
-              showPopup={showPopup}
-              ref={(el) => (markerRefs.current[index] = el)}
-            />
-          ))}
+        {showMarkers && (
+          <>
+            {listOfSchools?.map((school) => (
+              <CustomMarker key={school.id} school={school} showPopup={showPopup} />
+            ))}
+            <BusLines busLines={busLines} />
+          </>
+        )}
       </MapContainer>
     </>
+  )
+}
+
+function Przystanek({ przystanek }) {
+  return (
+    <Marker
+      position={[przystanek.lat, przystanek.lon]}
+      icon={L.divIcon({
+        iconSize: [0, 0],
+        html: ReactDOMServer.renderToString(
+          <div className='bg-transparent'>
+            <BusFront size={20} color='var(--main-mmz-blue)' />
+          </div>
+        ),
+      })}
+    >
+      <Popup>
+        <h1 className='font-bold text-lg py-1'>{przystanek.name}</h1>
+        <div>
+          {przystanek.oznaczenia.map((oznaczenie) => (
+            <div key={crypto.randomUUID()}>{getCorrectBusTableUrl(oznaczenie)}</div>
+          ))}
+        </div>
+      </Popup>
+    </Marker>
+  )
+}
+
+function getCorrectBusTableUrl(oznaczenie) {
+  if (oznaczenie === 'M1') {
+    return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/718,linia-m1' />
+  }
+
+  if (oznaczenie === 'M2') {
+    return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/719,linia-m2' />
+  }
+
+  if (oznaczenie === 'M3') {
+    return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/720,linia-m3' />
+  }
+
+  if (oznaczenie === 'M4') {
+    return <OznaczenieLink oznaczenie={oznaczenie} link='https://www.minsk-maz.pl/1154,linia-m4' />
+  }
+}
+
+function OznaczenieLink({ oznaczenie, link }) {
+  return (
+    <div className='flex flex-row justify-between gap-5'>
+      <h1 className='font-bold'>{oznaczenie}</h1>
+      <Link target='_blank' href={link}>
+        <div className='flex flex-row gap-1'>
+          <ExternalLink size={15} />
+          <h1> Rozkład</h1>
+        </div>
+      </Link>
+    </div>
   )
 }

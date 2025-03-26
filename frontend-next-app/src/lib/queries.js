@@ -1,5 +1,13 @@
 // tutaj wszystkie funkcje API
 'use server'
+const token = process.env.TOKEN
+const base_api_url = process.env.CMS_URL
+
+import qs from 'qs'
+import { normalizeString, tryCatch } from './utils'
+import { marked } from 'marked'
+import { polylines } from './polylines'
+
 export async function getPosthogEnv() {
   const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
   const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST
@@ -8,13 +16,6 @@ export async function getPosthogEnv() {
   console.log('POSTHOG HOST', posthogHost)
   return { posthogKey, posthogHost }
 }
-
-const token = process.env.TOKEN
-const base_api_url = process.env.CMS_URL
-
-import qs from 'qs'
-import { normalizeString, tryCatch } from './utils'
-import { marked } from 'marked'
 
 export async function getCmsUrl() {
   return base_api_url
@@ -415,3 +416,38 @@ function findKierunekByName(rodzajeSzkoly, nazwa_kierunku) {
 }
 
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+
+export async function getBusStopLine(lineName) {
+  console.log('req for ', lineName)
+  console.log(polylines[lineName])
+  return polylines[lineName]
+}
+export async function getBusList() {
+  // Use Object.entries to get [key, value] pairs and map over them
+  const busLinesStateArray = Object.entries(polylines)
+    .map(([routeId, routeData]) => {
+      // Check if routeData is valid object before destructuring
+      if (!routeData || typeof routeData !== 'object') {
+        console.warn(`Skipping invalid data for routeId: ${routeId}`)
+        return null // Skip this entry
+      }
+
+      // Destructure to get the properties we want to keep
+      const { isActive, markerImageName, label, metadata } = routeData
+
+      // Return a new object with the desired structure
+      return {
+        name: routeId, // Use the original key as the 'name'
+        isActive,
+        markerImageName,
+        label,
+        metadata,
+        // polyline and stops are intentionally excluded
+      }
+    })
+    .filter((item) => item !== null) // Filter out any null entries if invalid data was skipped
+
+  // Now 'busLinesStateArray' contains the data in the desired format
+  console.log(JSON.stringify(busLinesStateArray, null, 2))
+  return busLinesStateArray
+}

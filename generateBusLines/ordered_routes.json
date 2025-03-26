@@ -1,0 +1,942 @@
+{
+  "M1_PlacDworcowy_Serbinow": [
+    {
+      "id": "000024",
+      "name": "Plac Dworcowy 01",
+      "lat": 52.17654,
+      "lon": 21.55398
+    },
+    {
+      "id": "000016",
+      "name": "Rondo Bitwy Warszawskiej 1920 r. 01",
+      "lat": 52.178125,
+      "lon": 21.559041
+    },
+    {
+      "id": "000026",
+      "name": "Kazikowskiego 03",
+      "lat": 52.1799,
+      "lon": 21.56105
+    },
+    {
+      "id": "000078",
+      "name": "Urząd Miasta 03",
+      "lat": 52.180998,
+      "lon": 21.559419
+    },
+    {
+      "id": "000038",
+      "name": "11 Listopada 02",
+      "lat": 52.184048,
+      "lon": 21.559538
+    },
+    {
+      "id": "000007",
+      "name": "Boczna 02",
+      "lat": 52.186941,
+      "lon": 21.559569
+    },
+    {
+      "id": "000018",
+      "name": "Szkoła Podstawowa nr 5 02",
+      "lat": 52.188554,
+      "lon": 21.555344
+    },
+    {
+      "id": "000036",
+      "name": "Jagiellońska 04",
+      "lat": 52.1904,
+      "lon": 21.552313
+    },
+    {
+      "id": "000120",
+      "name": "Nowy Świat 06",
+      "lat": 52.192729,
+      "lon": 21.553985
+    },
+    {
+      "id": "000079",
+      "name": "Kwiatowa 02",
+      "lat": 52.19242,
+      "lon": 21.55624
+    },
+    {
+      "id": "000034",
+      "name": "Bagnista 04",
+      "lat": 52.191357,
+      "lon": 21.560762
+    },
+    {
+      "id": "000032",
+      "name": "Leśna 06",
+      "lat": 52.193368,
+      "lon": 21.562712
+    },
+    {
+      "id": "000081",
+      "name": "Krasickiego 01",
+      "lat": 52.196173,
+      "lon": 21.564403
+    },
+    {
+      "id": "000005",
+      "name": "Małaszczyckiej 01",
+      "lat": 52.195587,
+      "lon": 21.570593
+    },
+    {
+      "id": "000001",
+      "name": "Karolina 03",
+      "lat": 52.191855,
+      "lon": 21.572317
+    },
+    {
+      "id": "000011",
+      "name": "Jasna 01",
+      "lat": 52.186701,
+      "lon": 21.570239
+    },
+    {
+      "id": "000029",
+      "name": "Budowlana 01",
+      "lat": 52.184214,
+      "lon": 21.5717
+    },
+    {
+      "id": "000027",
+      "name": "Cmentarz 06",
+      "lat": 52.183869,
+      "lon": 21.579605
+    },
+    {
+      "id": "000116",
+      "name": "Żwirowa 01",
+      "lat": 52.182068,
+      "lon": 21.583786
+    },
+    {
+      "id": "000115",
+      "name": "Chrobrego 03",
+      "lat": 52.179414,
+      "lon": 21.583996
+    },
+    {
+      "id": "000055",
+      "name": "Mickiewicza 02",
+      "lat": 52.177067,
+      "lon": 21.584269
+    },
+    {
+      "id": "000064",
+      "name": "Łupińskiego 01",
+      "lat": 52.172796,
+      "lon": 21.587783
+    },
+    {
+      "id": "000068",
+      "name": "Serbinów 03",
+      "lat": 52.177351,
+      "lon": 21.588812
+    }
+  ],
+  "M1_Serbinow_PlacDworcowy": [
+    {
+      "id": "000068",
+      "name": "Serbinów 03",
+      "lat": 52.177351,
+      "lon": 21.588812
+    },
+    {
+      "id": "000118",
+      "name": "Chrobrego 02",
+      "lat": 52.179352,
+      "lon": 21.584125
+    },
+    {
+      "id": "000117",
+      "name": "Żwirowa 04",
+      "lat": 52.182108,
+      "lon": 21.583915
+    },
+    {
+      "id": "000028",
+      "name": "Cmentarz 05",
+      "lat": 52.184214,
+      "lon": 21.578473
+    },
+    {
+      "id": "000030",
+      "name": "Budowlana 02",
+      "lat": 52.184186,
+      "lon": 21.574583
+    },
+    {
+      "id": "000012",
+      "name": "Jasna 02",
+      "lat": 52.186717,
+      "lon": 21.570438
+    },
+    {
+      "id": "000002",
+      "name": "Karolina 04",
+      "lat": 52.191697,
+      "lon": 21.572525
+    },
+    {
+      "id": "000006",
+      "name": "Małaszczyckiej 02",
+      "lat": 52.195989,
+      "lon": 21.57012
+    },
+    {
+      "id": "000082",
+      "name": "Krasickiego 04",
+      "lat": 52.196209,
+      "lon": 21.564017
+    },
+    {
+      "id": "000031",
+      "name": "Leśna 03",
+      "lat": 52.193141,
+      "lon": 21.562536
+    },
+    {
+      "id": "000033",
+      "name": "Bagnista 01",
+      "lat": 52.19147,
+      "lon": 21.560545
+    },
+    {
+      "id": "000080",
+      "name": "Kwiatowa 03",
+      "lat": 52.192369,
+      "lon": 21.556656
+    },
+    {
+      "id": "000119",
+      "name": "Nowy Świat 01",
+      "lat": 52.192765,
+      "lon": 21.55391
+    },
+    {
+      "id": "000035",
+      "name": "Jagiellońska 03",
+      "lat": 52.190421,
+      "lon": 21.552235
+    },
+    {
+      "id": "000017",
+      "name": "Szkoła Podstawowa nr 5 01",
+      "lat": 52.188548,
+      "lon": 21.55514
+    },
+    {
+      "id": "000008",
+      "name": "Boczna 07",
+      "lat": 52.187033,
+      "lon": 21.559429
+    },
+    {
+      "id": "000037",
+      "name": "11 Listopada 01",
+      "lat": 52.184463,
+      "lon": 21.559062
+    },
+    {
+      "id": "000009",
+      "name": "Kościuszki 02",
+      "lat": 52.18162,
+      "lon": 21.5587
+    },
+    {
+      "id": "000039",
+      "name": "Okrzei 04",
+      "lat": 52.180136,
+      "lon": 21.557795
+    },
+    {
+      "id": "000024",
+      "name": "Plac Dworcowy 01",
+      "lat": 52.17654,
+      "lon": 21.55398
+    }
+  ],
+  "M2_PlacDworcowy_Serbinow": [
+    {
+      "id": "000024",
+      "name": "Plac Dworcowy 01",
+      "lat": 52.17654,
+      "lon": 21.55398
+    },
+    {
+      "id": "000083",
+      "name": "Piękna 01",
+      "lat": 52.176947,
+      "lon": 21.549884
+    },
+    {
+      "id": "000114",
+      "name": "Licealna 03",
+      "lat": 52.180203,
+      "lon": 21.54896
+    },
+    {
+      "id": "000074",
+      "name": "Tartaczna 01",
+      "lat": 52.181193,
+      "lon": 21.549632
+    },
+    {
+      "id": "000085",
+      "name": "Jana Pawła II 02",
+      "lat": 52.182726,
+      "lon": 21.552462
+    },
+    {
+      "id": "000088",
+      "name": "Miejska Szkoła Artystyczna 04",
+      "lat": 52.181823,
+      "lon": 21.555806
+    },
+    {
+      "id": "000061",
+      "name": "Przedszkole Miejskie nr 5 02",
+      "lat": 52.179771,
+      "lon": 21.563309
+    },
+    {
+      "id": "000089",
+      "name": "Mireckiego 01",
+      "lat": 52.176664,
+      "lon": 21.566793
+    },
+    {
+      "id": "000051",
+      "name": "Chemik 02",
+      "lat": 52.1752,
+      "lon": 21.57263
+    },
+    {
+      "id": "000041",
+      "name": "Szpital 04",
+      "lat": 52.174316,
+      "lon": 21.577815
+    },
+    {
+      "id": "000092",
+      "name": "Cmentarz Żydowski 06",
+      "lat": 52.173155,
+      "lon": 21.583914
+    },
+    {
+      "id": "000064",
+      "name": "Łupińskiego 01",
+      "lat": 52.172796,
+      "lon": 21.587783
+    },
+    {
+      "id": "000068",
+      "name": "Serbinów 03",
+      "lat": 52.177351,
+      "lon": 21.588812
+    }
+  ],
+  "M2_Serbinow_PlacDworcowy": [
+    {
+      "id": "000068",
+      "name": "Serbinów 03",
+      "lat": 52.177351,
+      "lon": 21.588812
+    },
+    {
+      "id": "000055",
+      "name": "Mickiewicza 02",
+      "lat": 52.177067,
+      "lon": 21.584269
+    },
+    {
+      "id": "000042",
+      "name": "Dąbrówki 01",
+      "lat": 52.17514,
+      "lon": 21.58153
+    },
+    {
+      "id": "000053",
+      "name": "Szkoła Podstawowa nr 2 02",
+      "lat": 52.176946,
+      "lon": 21.57657
+    },
+    {
+      "id": "000052",
+      "name": "Chemik 05",
+      "lat": 52.175204,
+      "lon": 21.573012
+    },
+    {
+      "id": "000090",
+      "name": "Mireckiego 02",
+      "lat": 52.176571,
+      "lon": 21.568159
+    },
+    {
+      "id": "000060",
+      "name": "Przedszkole Miejskie nr 5 01",
+      "lat": 52.18027,
+      "lon": 21.56256
+    },
+    {
+      "id": "000078",
+      "name": "Urząd Miasta 03",
+      "lat": 52.180998,
+      "lon": 21.559419
+    },
+    {
+      "id": "000087",
+      "name": "Miejska Szkoła Artystyczna 01",
+      "lat": 52.181702,
+      "lon": 21.556756
+    },
+    {
+      "id": "000086",
+      "name": "Jana Pawła II 03",
+      "lat": 52.182949,
+      "lon": 21.551974
+    },
+    {
+      "id": "000075",
+      "name": "Tartaczna 02",
+      "lat": 52.181299,
+      "lon": 21.549572
+    },
+    {
+      "id": "000113",
+      "name": "Licealna 02",
+      "lat": 52.179486,
+      "lon": 21.548827
+    },
+    {
+      "id": "000084",
+      "name": "Piękna 04",
+      "lat": 52.177296,
+      "lon": 21.549669
+    },
+    {
+      "id": "000024",
+      "name": "Plac Dworcowy 01",
+      "lat": 52.17654,
+      "lon": 21.55398
+    }
+  ],
+  "M3_Osiedlowa_RondoZolnierzyWykletych": [
+    {
+      "id": "000044",
+      "name": "Osiedlowa 12",
+      "lat": 52.165211,
+      "lon": 21.52465
+    },
+    {
+      "id": "000070",
+      "name": "Sosnkowskiego 14",
+      "lat": 52.16921,
+      "lon": 21.53637
+    },
+    {
+      "id": "000050",
+      "name": "Mechanik 16",
+      "lat": 52.171838,
+      "lon": 21.54458
+    },
+    {
+      "id": "000057",
+      "name": "Widok 18",
+      "lat": 52.173687,
+      "lon": 21.55014
+    },
+    {
+      "id": "000063",
+      "name": "Szkoła Podstawowa nr 6 20",
+      "lat": 52.175008,
+      "lon": 21.554149
+    },
+    {
+      "id": "000108",
+      "name": "FUD 02",
+      "lat": 52.173806,
+      "lon": 21.557942
+    },
+    {
+      "id": "000107",
+      "name": "Rudzkiego 04",
+      "lat": 52.173318,
+      "lon": 21.562109
+    },
+    {
+      "id": "000106",
+      "name": "Dźwigowa 02",
+      "lat": 52.172433,
+      "lon": 21.564266
+    },
+    {
+      "id": "000112",
+      "name": "Łąkowa 01",
+      "lat": 52.170752,
+      "lon": 21.564823
+    },
+    {
+      "id": "000104",
+      "name": "Langiewicza 01",
+      "lat": 52.170478,
+      "lon": 21.568014
+    },
+    {
+      "id": "000045",
+      "name": "Spacerowa 04",
+      "lat": 52.165884,
+      "lon": 21.568127
+    },
+    {
+      "id": "000071",
+      "name": "Klonowa Osiedle 03",
+      "lat": 52.166099,
+      "lon": 21.571904
+    },
+    {
+      "id": "000046",
+      "name": "Klonowa 45",
+      "lat": 52.167251,
+      "lon": 21.56848
+    },
+    {
+      "id": "000048",
+      "name": "Szpitalna 02",
+      "lat": 52.173407,
+      "lon": 21.569635
+    },
+    {
+      "id": "000093",
+      "name": "Śniadeckich 01",
+      "lat": 52.174061,
+      "lon": 21.574812
+    },
+    {
+      "id": "000052",
+      "name": "Chemik 05",
+      "lat": 52.175204,
+      "lon": 21.573012
+    },
+    {
+      "id": "000090",
+      "name": "Mireckiego 02",
+      "lat": 52.176571,
+      "lon": 21.568159
+    },
+    {
+      "id": "000060",
+      "name": "Przedszkole Miejskie nr 5 01",
+      "lat": 52.18027,
+      "lon": 21.56256
+    },
+    {
+      "id": "000078",
+      "name": "Urząd Miasta 03",
+      "lat": 52.180998,
+      "lon": 21.559419
+    },
+    {
+      "id": "000038",
+      "name": "11 Listopada 02",
+      "lat": 52.184048,
+      "lon": 21.559538
+    },
+    {
+      "id": "000073",
+      "name": "Targowisko 06",
+      "lat": 52.185468,
+      "lon": 21.556281
+    },
+    {
+      "id": "000076",
+      "name": "Sienkiewicza 01",
+      "lat": 52.186549,
+      "lon": 21.55225
+    },
+    {
+      "id": "000019",
+      "name": "Warszawskie Przedmieście 03",
+      "lat": 52.187409,
+      "lon": 21.549055
+    },
+    {
+      "id": "000015",
+      "name": "Warszawska 01",
+      "lat": 52.186687,
+      "lon": 21.543835
+    },
+    {
+      "id": "000095",
+      "name": "Rondo Żołnierzy Wyklętych 02",
+      "lat": 52.188071,
+      "lon": 21.542577
+    }
+  ],
+  "M3_RondoZolnierzyWykletych_Osiedlowa": [
+    {
+      "id": "000095",
+      "name": "Rondo Żołnierzy Wyklętych 02",
+      "lat": 52.188071,
+      "lon": 21.542577
+    },
+    {
+      "id": "000021",
+      "name": "Warszawskie Przedmieście - Osiedle 02",
+      "lat": 52.188565,
+      "lon": 21.5444
+    },
+    {
+      "id": "000020",
+      "name": "Warszawskie Przedmieście 04",
+      "lat": 52.187264,
+      "lon": 21.549199
+    },
+    {
+      "id": "000077",
+      "name": "Sienkiewicza 06",
+      "lat": 52.18626,
+      "lon": 21.553017
+    },
+    {
+      "id": "000072",
+      "name": "Targowisko 01",
+      "lat": 52.185443,
+      "lon": 21.556141
+    },
+    {
+      "id": "000037",
+      "name": "11 Listopada 01",
+      "lat": 52.184463,
+      "lon": 21.559062
+    },
+    {
+      "id": "000009",
+      "name": "Kościuszki 02",
+      "lat": 52.18162,
+      "lon": 21.5587
+    },
+    {
+      "id": "000061",
+      "name": "Przedszkole Miejskie nr 5 02",
+      "lat": 52.179771,
+      "lon": 21.563309
+    },
+    {
+      "id": "000089",
+      "name": "Mireckiego 01",
+      "lat": 52.176664,
+      "lon": 21.566793
+    },
+    {
+      "id": "000051",
+      "name": "Chemik 02",
+      "lat": 52.1752,
+      "lon": 21.57263
+    },
+    {
+      "id": "000094",
+      "name": "Śniadeckich 04",
+      "lat": 52.173599,
+      "lon": 21.574456
+    },
+    {
+      "id": "000047",
+      "name": "Szpitalna 01",
+      "lat": 52.173555,
+      "lon": 21.570236
+    },
+    {
+      "id": "000045",
+      "name": "Spacerowa 04",
+      "lat": 52.165884,
+      "lon": 21.568127
+    },
+    {
+      "id": "000071",
+      "name": "Klonowa Osiedle 03",
+      "lat": 52.166099,
+      "lon": 21.571904
+    },
+    {
+      "id": "000046",
+      "name": "Klonowa 45",
+      "lat": 52.167251,
+      "lon": 21.56848
+    },
+    {
+      "id": "000103",
+      "name": "Langiewicza 02",
+      "lat": 52.170488,
+      "lon": 21.567875
+    },
+    {
+      "id": "000105",
+      "name": "Łąkowa 02",
+      "lat": 52.170825,
+      "lon": 21.564882
+    },
+    {
+      "id": "000111",
+      "name": "Dźwigowa 01",
+      "lat": 52.172466,
+      "lon": 21.564419
+    },
+    {
+      "id": "000110",
+      "name": "Rudzkiego 01",
+      "lat": 52.173417,
+      "lon": 21.562133
+    },
+    {
+      "id": "000109",
+      "name": "FUD 03",
+      "lat": 52.173864,
+      "lon": 21.558107
+    },
+    {
+      "id": "000062",
+      "name": "Szkoła Podstawowa nr 6 19",
+      "lat": 52.174682,
+      "lon": 21.552777
+    },
+    {
+      "id": "000056",
+      "name": "Widok 17",
+      "lat": 52.173509,
+      "lon": 21.549089
+    },
+    {
+      "id": "000049",
+      "name": "Mechanik 15",
+      "lat": 52.171542,
+      "lon": 21.543262
+    },
+    {
+      "id": "000069",
+      "name": "Sosnkowskiego 13",
+      "lat": 52.16904,
+      "lon": 21.53656
+    },
+    {
+      "id": "000044",
+      "name": "Osiedlowa 12",
+      "lat": 52.165211,
+      "lon": 21.52465
+    }
+  ],
+  "M4_PlacDworcowy_Spacerowa": [
+    {
+      "id": "000024",
+      "name": "Plac Dworcowy 01",
+      "lat": 52.17654,
+      "lon": 21.55398
+    },
+    {
+      "id": "000016",
+      "name": "Rondo Bitwy Warszawskiej 1920 r. 01",
+      "lat": 52.178125,
+      "lon": 21.559041
+    },
+    {
+      "id": "000026",
+      "name": "Kazikowskiego 03",
+      "lat": 52.1799,
+      "lon": 21.56105
+    },
+    {
+      "id": "000059",
+      "name": "Urząd Skarbowy 02",
+      "lat": 52.183942,
+      "lon": 21.562274
+    },
+    {
+      "id": "000101",
+      "name": "Urząd Gminy 03",
+      "lat": 52.183651,
+      "lon": 21.565423
+    },
+    {
+      "id": "000004",
+      "name": "Chełmońskiego 05",
+      "lat": 52.184127,
+      "lon": 21.567912
+    },
+    {
+      "id": "000029",
+      "name": "Budowlana 01",
+      "lat": 52.184214,
+      "lon": 21.5717
+    },
+    {
+      "id": "000099",
+      "name": "Rondo Dziąga 03",
+      "lat": 52.18333,
+      "lon": 21.576473
+    },
+    {
+      "id": "000013",
+      "name": "Kościelna 01",
+      "lat": 52.180858,
+      "lon": 21.573843
+    },
+    {
+      "id": "000096",
+      "name": "Zespół Szkolno-Przedszkolny nr 1 02",
+      "lat": 52.177448,
+      "lon": 21.576127
+    },
+    {
+      "id": "000043",
+      "name": "Dąbrówki 04",
+      "lat": 52.17501,
+      "lon": 21.58142
+    },
+    {
+      "id": "000054",
+      "name": "Mickiewicza 01",
+      "lat": 52.176722,
+      "lon": 21.584469
+    },
+    {
+      "id": "000067",
+      "name": "Serbinów 02",
+      "lat": 52.177354,
+      "lon": 21.588721
+    },
+    {
+      "id": "000065",
+      "name": "Łupińskiego 02",
+      "lat": 52.172256,
+      "lon": 21.587891
+    },
+    {
+      "id": "000023",
+      "name": "PKP Anielina 02",
+      "lat": 52.16838,
+      "lon": 21.586077
+    },
+    {
+      "id": "000097",
+      "name": "Ludowa 01",
+      "lat": 52.166263,
+      "lon": 21.57861
+    },
+    {
+      "id": "000071",
+      "name": "Klonowa Osiedle 03",
+      "lat": 52.166099,
+      "lon": 21.571904
+    },
+    {
+      "id": "000045",
+      "name": "Spacerowa 04",
+      "lat": 52.165884,
+      "lon": 21.568127
+    }
+  ],
+  "M4_Spacerowa_PlacDworcowy": [
+    {
+      "id": "000045",
+      "name": "Spacerowa 04",
+      "lat": 52.165884,
+      "lon": 21.568127
+    },
+    {
+      "id": "000098",
+      "name": "Ludowa 04",
+      "lat": 52.166204,
+      "lon": 21.578717
+    },
+    {
+      "id": "000022",
+      "name": "PKP Anielina 01",
+      "lat": 52.16864,
+      "lon": 21.586307
+    },
+    {
+      "id": "000066",
+      "name": "Łupińskiego 03",
+      "lat": 52.172655,
+      "lon": 21.587097
+    },
+    {
+      "id": "000091",
+      "name": "Cmentarz Żydowski 01",
+      "lat": 52.173201,
+      "lon": 21.584188
+    },
+    {
+      "id": "000040",
+      "name": "Szpital 03",
+      "lat": 52.174221,
+      "lon": 21.578786
+    },
+    {
+      "id": "000052",
+      "name": "Chemik 05",
+      "lat": 52.175204,
+      "lon": 21.573012
+    },
+    {
+      "id": "000010",
+      "name": "Siennicka 47",
+      "lat": 52.177935,
+      "lon": 21.570866
+    },
+    {
+      "id": "000014",
+      "name": "Kościelna 02",
+      "lat": 52.179766,
+      "lon": 21.572802
+    },
+    {
+      "id": "000100",
+      "name": "Rondo Dziąga 04",
+      "lat": 52.182833,
+      "lon": 21.57583
+    },
+    {
+      "id": "000030",
+      "name": "Budowlana 02",
+      "lat": 52.184186,
+      "lon": 21.574583
+    },
+    {
+      "id": "000003",
+      "name": "Chełmońskiego 02",
+      "lat": 52.184311,
+      "lon": 21.568304
+    },
+    {
+      "id": "000102",
+      "name": "Urząd Gminy 04",
+      "lat": 52.18396,
+      "lon": 21.564146
+    },
+    {
+      "id": "000058",
+      "name": "Urząd Skarbowy 01",
+      "lat": 52.183616,
+      "lon": 21.562263
+    },
+    {
+      "id": "000025",
+      "name": "Kazikowskiego 02",
+      "lat": 52.179655,
+      "lon": 21.560556
+    },
+    {
+      "id": "000024",
+      "name": "Plac Dworcowy 01",
+      "lat": 52.17654,
+      "lon": 21.55398
+    }
+  ]
+}
