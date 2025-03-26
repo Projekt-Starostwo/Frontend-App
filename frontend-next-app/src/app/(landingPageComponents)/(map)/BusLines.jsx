@@ -14,9 +14,7 @@ import { Polyline } from 'react-leaflet'
  *
  * @param {object} props
  * @param {Array<object>} props.busLines - Array of bus line objects.
- * Each object should have at least: id, name, isActive, coordinates.
- * Optional: color.
- * Example: { id: '1', name: 'Line 101', isActive: true, coordinates: [[52.2, 21.0], [52.21, 21.01]], color: 'blue' }
+ * @param {Function} props.setBusLines - State setter function from the parent component.
  */
 export function BusLines({ busLines }) {
   // Filter to get only the active bus lines that have coordinate data
@@ -55,16 +53,43 @@ export function BusLines({ busLines }) {
  * @param {Function} props.setBusLines - State setter function from the parent component.
  */
 export function BusSelection({ busLines, setBusLines }) {
-  // Toggles the isActive status for a specific bus line
-  function handleCheckboxChange(checkedState, line) {
-    // checkedState is boolean | 'indeterminate'
-    // We only care about the boolean state
-    const newIsActive = Boolean(checkedState)
-    console.log(`Toggling ${line.name} to ${newIsActive}`)
 
-    setBusLines((prevBusLines) =>
-      prevBusLines.map((busLine) => (busLine.id === line.id ? { ...busLine, isActive: newIsActive } : busLine))
-    )
+  // Sprawdza, czy linia jest typu Kurs 1
+  const isKurs1 = (lineName) => lineName.includes('(Kurs 1)');
+
+  // Sprawdza, czy linia jest typu Kurs 2
+  const isKurs2 = (lineName) => lineName.includes('(Kurs 2)');
+
+  // Określa bazową nazwę linii (np. "M1")
+  const getBaseLineName = (lineName) => lineName.split(' (')[0];
+
+  // Obsługa zmiany stanu checkboxa
+  function handleCheckboxChange(checkedState, line) {
+    const newIsActive = Boolean(checkedState);
+    console.log(`Toggling ${line.name} to ${newIsActive}`);
+
+    setBusLines((prevBusLines) => {
+      return prevBusLines.map((busLine) => {
+        if (busLine.id === line.id) {
+          return { ...busLine, isActive: newIsActive }; // Zaktualizuj stan aktualnej linii
+        }
+
+        const baseLineName = getBaseLineName(line.name);
+        const isSameBaseLine = getBaseLineName(busLine.name) === baseLineName;
+
+        // Jeśli zaznaczono Kurs 1, wyłącz Kurs 2 dla tej samej linii
+        if (isKurs1(line.name) && isKurs2(busLine.name) && isSameBaseLine && newIsActive) {
+          return { ...busLine, isActive: false };
+        }
+
+        // Jeśli zaznaczono Kurs 2, wyłącz Kurs 1 dla tej samej linii
+        if (isKurs2(line.name) && isKurs1(busLine.name) && isSameBaseLine && newIsActive) {
+          return { ...busLine, isActive: false };
+        }
+
+        return busLine;
+      });
+    });
   }
 
   return (
@@ -76,25 +101,40 @@ export function BusSelection({ busLines, setBusLines }) {
       </PopoverTrigger>
       <PopoverContent className='flex flex-col gap-3 w-fit p-4'>
         {busLines.map((line) => {
-          // Generate a unique ID for the checkbox input if line.id might not be suitable
-          const checkboxId = `busline-checkbox-${line.id}`
+          const checkboxId = `busline-checkbox-${line.id}`;
+          const isKurs1Line = isKurs1(line.name);
+          const isKurs2Line = isKurs2(line.name);
+          const baseLineName = getBaseLineName(line.name);
+
+          let checkboxDisabled = false;
+
+          if (isKurs1Line) {
+            // Jeśli to linia Kurs 1, sprawdź, czy odpowiadający Kurs 2 jest zaznaczony
+            const correspondingKurs2Line = busLines.find(otherLine => isKurs2(otherLine.name) && getBaseLineName(otherLine.name) === baseLineName);
+            checkboxDisabled = correspondingKurs2Line ? correspondingKurs2Line.isActive : false;
+          } else if (isKurs2Line) {
+            // Jeśli to linia Kurs 2, sprawdź, czy odpowiadający Kurs 1 jest zaznaczony
+            const correspondingKurs1Line = busLines.find(otherLine => isKurs1(otherLine.name) && getBaseLineName(otherLine.name) === baseLineName);
+            checkboxDisabled = correspondingKurs1Line ? correspondingKurs1Line.isActive : false;
+          }
+
           return (
             <div key={line.id} className='flex items-center space-x-2'>
               <Checkbox
-                id={checkboxId} // Use generated ID for the input
+                id={checkboxId}
                 checked={line.isActive}
                 onCheckedChange={(checkedState) => {
-                  handleCheckboxChange(checkedState, line)
+                  handleCheckboxChange(checkedState, line);
                 }}
+                disabled={checkboxDisabled}
               />
-              {/* Associate Label with Checkbox using htmlFor */}
-              <Label htmlFor={checkboxId} className='cursor-pointer text-sm font-medium leading-none'>
+              <Label htmlFor={checkboxId} className='cursor-pointer text-sm font-medium leading-none' style={checkboxDisabled ? { color: 'gray' } : {}}>
                 {line.name}
               </Label>
             </div>
-          )
+          );
         })}
       </PopoverContent>
     </Popover>
-  )
+  );
 }
