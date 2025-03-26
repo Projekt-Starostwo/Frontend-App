@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import CustomMarker from './CustomMarker'
 import { Button } from '@/components/ui/button'
@@ -9,19 +9,13 @@ import { useTheme } from 'next-themes'
 import L from 'leaflet'
 import 'leaflet-routing-machine'
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css'
-import { BusFront, ExternalLink, LocateFixed, ZoomIn } from 'lucide-react'
+import { BusFront, LocateFixed, ZoomIn } from 'lucide-react'
 import ReactDOMServer from 'react-dom/server'
-import Link from 'next/link'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
-// Assuming MarkerClusterGroup CSS is imported globally or via _app.js/layout.js
-// import 'react-leaflet-markercluster/dist/styles.min.css';
+import { BusSelection } from './BusLines'
 
-import { BusSelection } from './BusLines' // Keep your BusSelection component
-
-// Import the data - acknowledge this loads everything on the client
 import {
   przystankiAutobusowe,
-  // przystankiPociagowe, // Not used in LeafletMap currently, add if needed
   LiniaBagsB1,
   LiniaBagsB3,
   LiniaBagsB4,
@@ -33,36 +27,31 @@ import {
   LiniaMiejskaM3_2,
   LiniaMiejskaM4_1,
   LiniaMiejskaM4_2,
-  // boundaryCoordinates, // Not used in LeafletMap currently, add if needed
-} from './daneDojazdow' // Adjust path if needed
+} from './daneDojazdow'
 
-// --- Constants for Map ---
 export const MAP_CENTER = [52.179, 21.57211]
 const DEFAULT_ZOOM = 14
 const MAX_ZOOM = 17
-const MIN_ZOOM = 13 // Adjusted from source
+const MIN_ZOOM = 13
 
-// --- Helper Data from Source Component ---
 const pdfLinks = {
   M1: 'https://www.minsk-maz.pl/plik,8749,linia-m1.pdf',
   M2: 'https://www.minsk-maz.pl/plik,8753,linia-m2.pdf',
   M3: 'https://www.minsk-maz.pl/plik,8758,linia-m3.pdf',
   M4: 'https://www.minsk-maz.pl/plik,8762,linia-m4.pdf',
-  B1: 'https://bags.com.pl/linie-regularne/', // General Bags Link (fallback)
-  B3: 'https://bags.com.pl/linie-regularne/', // General Bags Link (fallback)
-  B4: 'https://bags.com.pl/linie-regularne/', // General Bags Link (fallback)
+  B1: 'https://bags.com.pl/linie-regularne/',
+  B3: 'https://bags.com.pl/linie-regularne/',
+  B4: 'https://bags.com.pl/linie-regularne/',
 }
 
-// TODO: Implement specific BAGS links per stop as per original comment
 const specificBagsLinks = {
   'Dębe Wielkie 01': 'https://bags.com.pl/rozklady/debe-wielkie-i/',
   'Dębe Wielkie 02': 'https://bags.com.pl/rozklady/debe-wielkie-ii/',
   'Dębe Wielkie 03': 'https://bags.com.pl/rozklady/debe-wielkie-iii/',
-  // Add more specific links if available
 }
 
 const pinImg = {
-  M1: '/pictures/m1pin.png', // Make sure these paths are correct relative to your public folder
+  M1: '/pictures/m1pin.png',
   M2: '/pictures/m2pin.png',
   M3: '/pictures/m3pin.png',
   M4: '/pictures/m4pin.png',
@@ -81,7 +70,6 @@ const colorLine = {
   B4: '#db4436',
 }
 
-// --- Initial State for Bus Lines ---
 const initialBusLinesState = [
   {
     id: 'M1_1',
@@ -195,32 +183,29 @@ const initialBusLinesState = [
   },
 ]
 
-// --- Helper Function to Open PDF ---
 const handleOpenPdf = (url) => {
   if (typeof window !== 'undefined' && url && url !== '#') {
     window.open(url, '_blank')
   } else {
     console.warn('No valid PDF URL provided or window is undefined.')
-    // Optionally show a user notification
   }
 }
 
-// --- Main Map Component ---
 export default function LeafletMap({
   map,
   listOfSchools,
   showPopup,
   initialMapCenter,
-  showMarkers, // Keep this prop
-  setShowMarkers, // Keep this prop
+  showMarkers,
+  setShowMarkers,
   newSchoolFocused,
 }) {
   const { theme } = useTheme()
   const [pokazPrzystanki, setPokazPrzystanki] = useState(false)
   const [busLines, setBusLines] = useState(initialBusLinesState)
-  const routingControlsRef = useRef({}) // Use ref to store controls to avoid state update issues in effect cleanup
+  const routingControlsRef = useRef({})
+  const markerRefs = useRef([]) // Ref to store marker elements
 
-  // Effect for Ctrl+Scroll Zoom (Existing)
   useEffect(() => {
     if (!map.map) return
 
@@ -230,7 +215,6 @@ export default function LeafletMap({
         const zoom = map.map.getZoom()
         map.map.setZoom(e.deltaY < 0 ? zoom + 1 : zoom - 1)
       }
-      // else: default scroll behavior (pan map)
     }
 
     const mapContainer = map.map.getContainer()
@@ -241,30 +225,23 @@ export default function LeafletMap({
     }
   }, [map.map])
 
-  // Effect to fly to new school (Existing)
   useEffect(() => {
     if (!setShowMarkers) {
       return
     }
 
     if (!newSchoolFocused || !map.map) {
-      // Don't automatically set showMarkers to true here if it wasn't passed
-      // setShowMarkers(true)
       return
     }
 
     map.map.setView([newSchoolFocused[0], newSchoolFocused[1]], 16)
-    // Optional: setShowMarkers(false) // Temporarily hide during flight?
-    // setTimeout(() => setShowMarkers(true), 500); // Show after flight
-  }, [newSchoolFocused, map.map, setShowMarkers]) // Added setShowMarkers dependency
+  }, [newSchoolFocused, map.map, setShowMarkers])
 
-  // --- Effect for Drawing/Removing Bus Routes ---
   useEffect(() => {
     if (!map.map) return
 
     const currentControls = routingControlsRef.current
 
-    // Function to remove default routing UI
     const removeRoutingContainers = () => {
       document.querySelectorAll('.leaflet-routing-container').forEach((el) => el.remove())
     }
@@ -274,7 +251,6 @@ export default function LeafletMap({
       const controlExists = !!currentControls[id]
 
       if (isActive && !controlExists) {
-        // --- Create and Add New Route ---
         if (!Array.isArray(stops) || stops.length === 0) {
           console.warn(`Brak przystanków lub niepoprawny format dla linii ${id}.`)
           return
@@ -282,17 +258,15 @@ export default function LeafletMap({
 
         const waypoints = stops
           .map(({ name, coords }) => {
-            // Assuming coords are already [lat, lng] array
             if (!Array.isArray(coords) || coords.length !== 2 || isNaN(coords[0]) || isNaN(coords[1])) {
               console.warn(`Invalid coordinates for stop "${name}" in line ${id}:`, coords)
               return null
             }
             return L.latLng(coords[0], coords[1])
           })
-          .filter((wp) => wp !== null) // Filter out nulls from invalid coords
+          .filter((wp) => wp !== null)
 
         if (waypoints.length < 2) {
-          // Need at least 2 waypoints for a route
           console.warn(`Not enough valid waypoints (${waypoints.length}) for line ${id}. Cannot draw route.`)
           return
         }
@@ -303,21 +277,13 @@ export default function LeafletMap({
           waypoints,
           lineOptions: {
             styles: [{ color: color || '#3388ff', weight: 5, opacity: 1 }],
-            addWaypoints: false, // Don't allow adding waypoints via map click
-            // extendToWaypoints: true, // Causes issues with OSRM if start/end aren't routable
+            addWaypoints: false,
           },
           routeWhileDragging: false,
           draggableWaypoints: false,
-          show: false, // Hide default itinerary panel
-          // serviceUrl: 'http://router.project-osrm.org/route/v1', // Public OSRM Demo Server (Rate Limited!)
-          serviceUrl: 'http://51.38.130.72:5000/route/v1', // Your OSRM server
+          show: false,
+          serviceUrl: 'http://51.38.130.72:5000/route/v1',
           createMarker: function (i, waypoint, n) {
-            // Find the corresponding stop object to get the name
-            // Note: 'i' is the index in the waypoints array, n is total waypoints
-            // The 'stops' array might have had invalid entries filtered out,
-            // so matching index 'i' directly to 'stops[i]' can be wrong.
-            // We need a more robust way if stops had invalid entries.
-            // Assuming 'waypoints' directly corresponds to valid entries in 'stops' for now.
             let originalStopIndex = -1
             let count = 0
             for (let j = 0; j < stops.length; j++) {
@@ -332,22 +298,20 @@ export default function LeafletMap({
             }
 
             const stopData = originalStopIndex !== -1 ? stops[originalStopIndex] : null
-            const name = stopData?.name || `Przystanek ${i + 1}` // Fallback name
-            let urlToOpen = pdfUrl // Default to the general line PDF
+            const name = stopData?.name || `Przystanek ${i + 1}`
+            let urlToOpen = pdfUrl
 
-            // --- TODO: Specific BAGS Link Logic ---
             if (internalId.startsWith('B') && stopData?.name && specificBagsLinks[stopData.name]) {
               urlToOpen = specificBagsLinks[stopData.name]
               console.log(`Using specific BAGS link for ${stopData.name}: ${urlToOpen}`)
             }
-            // --- End Specific BAGS Link ---
 
             return L.marker(waypoint.latLng, {
               icon: L.icon({
-                iconUrl: pinUrl || '/pictures/default-pin.png', // Provide a fallback pin
-                iconSize: [40, 40], // Adjusted size
-                iconAnchor: [20, 40], // Adjust anchor point to bottom center
-                popupAnchor: [0, -35], // Adjust popup position
+                iconUrl: pinUrl || '/pictures/default-pin.png',
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+                popupAnchor: [0, -35],
               }),
             })
               .bindPopup(
@@ -356,17 +320,15 @@ export default function LeafletMap({
                 <b>${lineDisplayName}</b><br/>
                 ${name}<br/>
                 <button id="openPdfButton_${id}_${i}"
-                  style="margin-top:5px; padding:5px 10px; border:none; background:#0099e9; color:white; border-radius:5px; cursor:pointer; font-size: 14px;" >
+                  style=" margin-top:5px; padding:5px 10px; border:none; background:#0099e9; color:white; border-radius:5px; cursor:pointer; font-size: 14px;" >
                   Otwórz rozkład
                 </button>
               </div>
             `
               )
               .on('popupopen', (e) => {
-                // Add listener inside popupopen to ensure the button exists in the DOM
                 const button = e.popup._contentNode.querySelector(`#openPdfButton_${id}_${i}`)
                 if (button) {
-                  // Remove potential old listeners before adding new one
                   button.onclick = null
                   button.onclick = () => handleOpenPdf(urlToOpen)
                 } else {
@@ -376,25 +338,21 @@ export default function LeafletMap({
           },
         }).addTo(map.map)
 
-        currentControls[id] = routingControl // Store reference
+        currentControls[id] = routingControl
 
-        // Immediately try removing the container (might reappear, hence the observer)
         removeRoutingContainers()
       } else if (!isActive && controlExists) {
-        // --- Remove Existing Route ---
         console.log(`Removing route for ${id}`)
         map.map.removeControl(currentControls[id])
-        delete currentControls[id] // Remove reference
+        delete currentControls[id]
       }
     })
 
-    // Observer to keep removing the routing UI container if it reappears
     const observer = new MutationObserver(removeRoutingContainers)
     observer.observe(document.body, { childList: true, subtree: true })
 
-    // --- Cleanup Effect ---
     return () => {
-      observer.disconnect() // Stop observing
+      observer.disconnect()
       console.log('Cleaning up routing controls...')
       Object.keys(currentControls).forEach((key) => {
         if (map.map && currentControls[key]) {
@@ -406,11 +364,10 @@ export default function LeafletMap({
           }
         }
       })
-      routingControlsRef.current = {} // Clear the ref
+      routingControlsRef.current = {}
     }
-  }, [busLines, map.map]) // Re-run when busLines selection or map instance changes
+  }, [busLines, map.map])
 
-  // Function to parse coordinate string "lat, lng"
   const parseCoords = (coordString, stopName = 'Unknown') => {
     if (!coordString || typeof coordString !== 'string') {
       console.error(`Invalid coordinate string type for ${stopName}:`, coordString)
@@ -424,27 +381,55 @@ export default function LeafletMap({
     return [coords[0], coords[1]]
   }
 
+  const flyToLocation = (lat, lng, zoom) => {
+    if (map.map) {
+      // Get current map position
+      const currentPos = map.map.getCenter()
+      // Get the container
+      const mapContainer = map.map.getContainer()
+      // Calculate the position offset based on the initial and final coordinates
+      const x = mapContainer.offsetWidth / (lat - currentPos.lat)
+      const y = mapContainer.offsetHeight / (lng - currentPos.lng)
+
+      // Access the markers via ref and set the position to fixed during flyTo
+      markerRefs.current.forEach((marker) => {
+        if (marker) {
+          const element = marker.getElement()
+          if (element) {
+            element.style.transition = 'none'
+            element.style.position = 'fixed'
+            element.style.left = `${lat}px`
+            element.style.top = `${lng}px`
+            console.log('Marker fixed')
+          }
+        }
+      })
+      map.map.flyTo([lat, lng], zoom, {
+        duration: 0.5,
+        easeLinearity: 0.25,
+      })
+    } else {
+      console.warn('Mapa nie została jeszcze zainicjalizowana.')
+    }
+  }
+
   return (
     <>
-      {/* --- Buttons --- */}
       <div className='w-full z-[9999] flex flex-row justify-center items-center gap-2 sm:gap-4 flex-wrap absolute bottom-4 px-2 '>
-        {/* Zoom Info (Hidden on small screens) */}
         <Button className='cursor-default max-sm:hidden border-2 border-transparent' aria-label='Zoom with Ctrl+Scroll'>
           <ZoomIn size={18} />
           <p className='font-bold ml-1 text-xs sm:text-sm'>Zoom: Ctrl + Scroll</p>
         </Button>
 
-        {/* Reset Map Button */}
         <Button
           className='border-2 border-transparent px-2 sm:px-4'
           onClick={() => {
-            // Use setShowMarkers if available
             if (setShowMarkers) setShowMarkers(false)
             flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM)
             if (setShowMarkers) {
               setTimeout(() => {
                 setShowMarkers(true)
-              }, 500) // Delay showing markers slightly after flight
+              }, 500)
             }
           }}
           aria-label='Zresetuj widok mapy'
@@ -453,36 +438,22 @@ export default function LeafletMap({
           <p className='font-bold ml-1 text-xs sm:text-sm'>Resetuj</p>
         </Button>
 
-        {/* Toggle Bus Stops Button */}
-        {/* <Button
-          onClick={() => setPokazPrzystanki((prevState) => !prevState)}
-          className='border-2 border-transparent px-2 sm:px-4'
-          aria-label={pokazPrzystanki ? 'Ukryj przystanki autobusowe' : 'Pokaż przystanki autobusowe'}
-        >
-          <BusFront size={18} />
-          <p className='font-bold ml-1 text-xs sm:text-sm'>{pokazPrzystanki ? 'Ukryj przystanki' : 'Pokaż przystanki'}</p>
-        </Button> */}
-
-        {/* Bus Line Selection */}
         <BusSelection busLines={busLines} setBusLines={setBusLines} />
       </div>
 
-      {/* --- Map Container --- */}
       <MapContainer
         center={initialMapCenter ? initialMapCenter : MAP_CENTER}
         zoom={DEFAULT_ZOOM}
         className='w-full h-full z-10 rounded-xl '
         maxZoom={MAX_ZOOM}
         minZoom={MIN_ZOOM}
-        ref={map.setMap} // Use the passed ref setter
-        scrollWheelZoom={false} // Controlled by effect with Ctrl key
+        ref={map.setMap}
+        scrollWheelZoom={false}
       >
-        {/* map bg color */}
         <div
           className={`w-full h-full absolute top-0 left-0 ${theme === 'dark' ? 'bg-[#333333]' : 'bg-background'} -z-10`}
         ></div>
 
-        {/* Tile Layer (Theme Aware) */}
         <TileLayer
           attribution={
             theme === 'dark'
@@ -494,61 +465,55 @@ export default function LeafletMap({
               ? 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png'
               : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           }
-          // noWrap={true} // Added from source, prevents map repeating horizontally
         />
 
-        {/* School Markers (Conditional) */}
         {showMarkers &&
-          listOfSchools?.map((school) => <CustomMarker key={school.id} school={school} showPopup={showPopup} />)}
+          listOfSchools?.map((school, index) => (
+            <CustomMarker
+              key={school.id}
+              school={school}
+              showPopup={showPopup}
+              ref={(el) => (markerRefs.current[index] = el)}
+            />
+          ))}
 
-        {/* Bus Stop Markers (Clustered & Conditional) */}
         {pokazPrzystanki && (
           <MarkerClusterGroup
-            key={'bus-cluster-visible'} // Key changes when toggled
+            key={'bus-cluster-visible'}
             chunkedLoading
             animate={true}
             spiderfyOnMaxZoom={true}
             showCoverageOnHover={false}
-            // Custom Cluster Icon (Existing)
             iconCreateFunction={(cluster) => {
               const count = cluster.getChildCount()
               return L.divIcon({
                 html: `
                         <div class="custom-bus-cluster">
-                          <div class="bus-icon"></div> {/* Ensure CSS for this exists */}
+                          <div class="bus-icon"></div>
                           <span class="bus-count">${count}</span>
                         </div>
                     `,
-                className: 'custom-bus-cluster-wrapper', // Ensure CSS for this exists
-                iconSize: [45, 45], // Or your desired size
-                iconAnchor: [22.5, 22.5], // Centered anchor
+                className: 'custom-bus-cluster-wrapper',
+                iconSize: [45, 45],
+                iconAnchor: [22.5, 22.5],
               })
             }}
           >
-            {/* Iterate over przystankiAutobusowe from imported data */}
             {przystankiAutobusowe?.map((przystanek, index) => {
               const coords = parseCoords(przystanek.koordynaty, przystanek.nazwa)
-              if (!coords) return null // Skip if coords are invalid
-              // Ensure unique key using index or a better ID if available
+              if (!coords) return null
               return <Przystanek key={`stop-${przystanek.nazwa}-${index}`} przystanek={przystanek} coords={coords} />
             })}
           </MarkerClusterGroup>
         )}
-
-        {/* Note: Route lines and their specific markers are now added dynamically via the useEffect hook */}
-        {/* Remove: <BusLines busLines={busLines} /> */}
       </MapContainer>
     </>
   )
 }
 
-// --- Przystanek Component (for general bus stops) ---
-// Modified to use data from przystankiAutobusowe and parsed coords
 function Przystanek({ przystanek, coords }) {
-  // Basic icon using Lucide, customize as needed
   const iconHtml = ReactDOMServer.renderToString(
     <div className='bg-transparent flex justify-center items-center'>
-      {/* Use a simple blue icon, different from route pins */}
       <BusFront size={20} color='var(--main-mmz-blue)' />
     </div>
   )
@@ -558,20 +523,14 @@ function Przystanek({ przystanek, coords }) {
       position={coords}
       icon={L.divIcon({
         html: iconHtml,
-        className: 'leaflet-div-icon-bus', // Add a class for potential styling
-        iconSize: [24, 24], // Adjust size
-        iconAnchor: [12, 12], // Center anchor
+        className: 'leaflet-div-icon-bus',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12],
       })}
     >
       <Popup>
         <h1 className='font-bold text-lg py-1'>{przystanek.nazwa || 'Przystanek'}</h1>
-        {/* TODO: Add relevant info here? Maybe list lines that *might* stop here? */}
-        {/* The getCorrectBusTableUrl logic was specific to M lines and might need rethinking */}
-        {/* For now, just display the name */}
-        <div>
-          {/* Example: <p>Współrzędne: {coords[0].toFixed(5)}, {coords[1].toFixed(5)}</p> */}
-          {/* Add links or other info if applicable for general stops */}
-        </div>
+        <div></div>
       </Popup>
     </Marker>
   )
