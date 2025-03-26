@@ -185,3 +185,9 @@ body {
 .navbar {
   z-index: 999999;
 }
+
+.hide-bus-stop-markers .bus-stop-marker-icon {
+  display: none;
+  /* Alternatively, use visibility: hidden; if you want */
+  /* the space to be preserved */
+}

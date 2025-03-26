@@ -9,9 +9,7 @@ import { useTheme } from 'next-themes'
 import L from 'leaflet'
 import 'leaflet-routing-machine'
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css'
-import { BusFront, LocateFixed, ZoomIn } from 'lucide-react'
-import ReactDOMServer from 'react-dom/server'
-import MarkerClusterGroup from 'react-leaflet-markercluster'
+import { LocateFixed, ZoomIn } from 'lucide-react'
 import { BusSelection } from './BusLines'
 
 import {
@@ -201,7 +199,6 @@ export default function LeafletMap({
   newSchoolFocused,
 }) {
   const { theme } = useTheme()
-  const [pokazPrzystanki, setPokazPrzystanki] = useState(false)
   const [busLines, setBusLines] = useState(initialBusLinesState)
   const routingControlsRef = useRef({})
   const markerRefs = useRef([]) // Ref to store marker elements
@@ -312,6 +309,7 @@ export default function LeafletMap({
                 iconSize: [40, 40],
                 iconAnchor: [20, 40],
                 popupAnchor: [0, -35],
+                className: 'bus-stop-marker-icon',
               }),
             })
               .bindPopup(
@@ -368,19 +366,28 @@ export default function LeafletMap({
     }
   }, [busLines, map.map])
 
-  const parseCoords = (coordString, stopName = 'Unknown') => {
-    if (!coordString || typeof coordString !== 'string') {
-      console.error(`Invalid coordinate string type for ${stopName}:`, coordString)
-      return null
-    }
-    const coords = coordString.split(',').map((coord) => parseFloat(coord.trim()))
-    if (coords.length !== 2 || isNaN(coords[0]) || isNaN(coords[1])) {
-      console.error(`Błędne współrzędne dla przystanku ${stopName}:`, coordString)
-      return null
-    }
-    return [coords[0], coords[1]]
-  }
+  useEffect(() => {
+    if (!map.map) return // Ensure map is initialized
 
+    const mapContainer = map.map.getContainer() // Get the map's root HTML element
+
+    if (showMarkers) {
+      // If showMarkers is true, remove the hiding class
+      mapContainer.classList.remove('hide-bus-stop-markers')
+    } else {
+      // If showMarkers is false, add the hiding class
+      mapContainer.classList.add('hide-bus-stop-markers')
+    }
+
+    // Optional cleanup: Remove the class if the component unmounts
+    // or if showMarkers becomes true before unmounting.
+    return () => {
+      if (mapContainer) {
+        // Check if container still exists
+        mapContainer.classList.remove('hide-bus-stop-markers')
+      }
+    }
+  }, [showMarkers, map.map])
   const flyToLocation = (lat, lng, zoom) => {
     if (map.map) {
       // Get current map position
@@ -476,62 +483,7 @@ export default function LeafletMap({
               ref={(el) => (markerRefs.current[index] = el)}
             />
           ))}
-
-        {pokazPrzystanki && (
-          <MarkerClusterGroup
-            key={'bus-cluster-visible'}
-            chunkedLoading
-            animate={true}
-            spiderfyOnMaxZoom={true}
-            showCoverageOnHover={false}
-            iconCreateFunction={(cluster) => {
-              const count = cluster.getChildCount()
-              return L.divIcon({
-                html: `
-                        <div class="custom-bus-cluster">
-                          <div class="bus-icon"></div>
-                          <span class="bus-count">${count}</span>
-                        </div>
-                    `,
-                className: 'custom-bus-cluster-wrapper',
-                iconSize: [45, 45],
-                iconAnchor: [22.5, 22.5],
-              })
-            }}
-          >
-            {przystankiAutobusowe?.map((przystanek, index) => {
-              const coords = parseCoords(przystanek.koordynaty, przystanek.nazwa)
-              if (!coords) return null
-              return <Przystanek key={`stop-${przystanek.nazwa}-${index}`} przystanek={przystanek} coords={coords} />
-            })}
-          </MarkerClusterGroup>
-        )}
       </MapContainer>
     </>
-  )
-}
-
-function Przystanek({ przystanek, coords }) {
-  const iconHtml = ReactDOMServer.renderToString(
-    <div className='bg-transparent flex justify-center items-center'>
-      <BusFront size={20} color='var(--main-mmz-blue)' />
-    </div>
-  )
-
-  return (
-    <Marker
-      position={coords}
-      icon={L.divIcon({
-        html: iconHtml,
-        className: 'leaflet-div-icon-bus',
-        iconSize: [24, 24],
-        iconAnchor: [12, 12],
-      })}
-    >
-      <Popup>
-        <h1 className='font-bold text-lg py-1'>{przystanek.nazwa || 'Przystanek'}</h1>
-        <div></div>
-      </Popup>
-    </Marker>
   )
 }
