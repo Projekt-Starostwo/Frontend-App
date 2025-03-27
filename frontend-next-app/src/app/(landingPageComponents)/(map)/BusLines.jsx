@@ -9,18 +9,9 @@ import { Marker, Polyline, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import Image from 'next/image'
 import ReactDOMServer from 'react-dom/server'
+import 'leaflet-arrowheads';
 
-// Mapowanie kolorów dla linii
-const lineColors = {
-  'Linia M1: Plac Dworcowy -> Serbinów': '#fe0200',
-  'Linia M1: Serbinów -> Plac Dworcowy': '#fe0200',
-  'Linia M2: Plac Dworcowy -> Serbinów': '#79e000',
-  'Linia M2: Serbinów -> Plac Dworcowy': '#79e000',
-  'Linia M3: Osiedlowa -> Rondo Żołnierzy Wyklętych': '#00d9ff',
-  'Linia M3: Rondo Żołnierzy Wyklętych -> Osiedlowa': '#00d9ff',
-  'Linia M4: Plac Dworcowy -> Spacerowa': '#ff6601',
-  'Linia M4: Spacerowa -> Plac Dworcowy': '#ff6601',
-}
+
 
 export function BusLines({ busLines }) {
   return (
@@ -46,6 +37,7 @@ function BusLine({ busLine }) {
 
   if (data) {
     console.log(data)
+    console.log(data.color)
 
     var myIcon = L.divIcon({
       html: ReactDOMServer.renderToStaticMarkup(
@@ -60,11 +52,13 @@ function BusLine({ busLine }) {
     })
 
     // Pobieramy odpowiedni kolor z mapowania
-    const lineColor = lineColors[busLine.label] || '#000000'; // Domyślny kolor: czarny
+ 
+
+console.log(data.color)
 
     return (
       <>
-        <Polyline positions={data.polyline} color={lineColor} />
+        <Polyline positions={data.polyline} color={data.color} />
         {data.stops.map((stop) => {
           return (
             <Marker key={stop.name} position={[stop.lat, stop.lon]} icon={myIcon}>
