@@ -4,17 +4,13 @@ import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { getBusStopLine } from '@/lib/queries'
 import { useQuery } from '@tanstack/react-query'
-import { Bus } from 'lucide-react'
+import { Bus, ExternalLink, Spline } from 'lucide-react'
 import { Marker, Polyline, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import Image from 'next/image'
 import ReactDOMServer from 'react-dom/server'
-import 'leaflet-arrowheads';
+import 'leaflet-arrowheads'
 import LinkButton from '@/components/LinkButton'
-
-import Link from 'next/link'
-
-
 
 export function BusLines({ busLines }) {
   return (
@@ -40,7 +36,6 @@ function BusLine({ busLine }) {
 
   if (data) {
     console.log(data)
-    
 
     var myIcon = L.divIcon({
       html: ReactDOMServer.renderToStaticMarkup(
@@ -54,26 +49,24 @@ function BusLine({ busLine }) {
       iconSize: [10, 10],
     })
 
-    // Pobieramy odpowiedni kolor z mapowania
- 
-
     return (
       <>
         <Polyline positions={data.polyline} color={data.color} />
         {data.stops.map((stop) => {
           return (
             <Marker key={stop.name} position={[stop.lat, stop.lon]} icon={myIcon}>
-              <Popup className='font-bold leading-3'>
-                {stop.name}<br/>
-                <LinkButton
-          linkHref={data.rozkladLink}
-          linkTarget={'_blank'}
-          buttonStyle={'p-2 font-bold bg-[--main-mmz-blue]'}
-          
-        >
-          Otwórz Rozkład
-        </LinkButton>
-                
+              <Popup className='font-bold '>
+                <div className='flex flex-col justify-center items-center'>
+                  <h2>{stop.name}</h2>
+                  <LinkButton
+                    linkHref={data.rozkladLink}
+                    linkTarget={'_blank'}
+                    linkIcon={<ExternalLink />}
+                    buttonStyle={'p-2 text-black '}
+                  >
+                    Otwórz Rozkład
+                  </LinkButton>
+                </div>
               </Popup>
             </Marker>
           )
@@ -114,7 +107,8 @@ export function BusSelection({ busLines, setBusLines }) {
     <Popover>
       <PopoverTrigger asChild>
         <Button className='font-bold bg-primary'>
-          <Bus className='mr-2 h-4 w-4' /> Linie autobusowe
+          <Bus className='mr-2 h-4 w-4' />
+          <p>Linie autobusowe</p>
         </Button>
       </PopoverTrigger>
       <PopoverContent className='flex flex-col gap-3 w-fit p-4'>

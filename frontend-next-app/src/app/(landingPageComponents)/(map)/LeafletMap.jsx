@@ -26,6 +26,7 @@ export default function LeafletMap({
   showMarkers,
   setShowMarkers,
   newSchoolFocused,
+  mapButtonsClassname,
 }) {
   const { theme } = useTheme()
 
@@ -64,50 +65,6 @@ export default function LeafletMap({
   const flyToLocation = (lat, lng, zoom) => {
     map.map.flyTo([lat, lng], zoom, { animate: true, duration: 0.5 })
   }
-  // const [busLines, setBusLines] = useState([
-  //   {
-  //     name: 'M1_PlacDworcowy_Serbinow',
-  //     color: 'red',
-  //     isActive: false,
-  //   },
-  //   {
-  //     name: 'M1_Serbinow_PlacDworcowy',
-  //     color: 'blue',
-  //     isActive: false,
-  //   },
-  //   {
-  //     name: 'M2_PlacDworcowy_Serbinow',
-  //     color: 'blue',
-  //     isActive: false,
-  //   },
-  //   {
-  //     id: 1,
-  //     name: 'M2_Serbinow_PlacDworcowy',
-  //     color: 'blue',
-  //     isActive: false,
-  //   },
-  //   {
-  //     name: 'M3_Osiedlowa_RondoZolnierzyWykletych',
-  //     color: 'blue',
-  //     isActive: false,
-  //   },
-  //   {
-  //     name: 'M3_RondoZolnierzyWykletych_Osiedlowa',
-  //     color: 'blue',
-  //     isActive: false,
-  //   },
-  //   {
-  //     name: 'M4_PlacDworcowy_Spacerowa',
-  //     color: 'blue',
-  //     isActive: false,
-  //   },
-  //   {
-  //     name: 'M4_Spacerowa_PlacDworcowy',
-  //     color: 'blue',
-  //     isActive: false,
-  //   },
-  //   ,
-  // ])
   const [busLines, setBusLines] = useState([])
   const { data } = useQuery({
     queryKey: ['busLinesList'],
@@ -123,13 +80,14 @@ export default function LeafletMap({
   }, [data])
   return (
     <>
-      <div className='w-full z-[9999] flex flex-row justify-center items-center gap-4 flex-wrap absolute bottom-6  '>
-        <Button className='cursor-default max-sm:hidden'>
+      {/* <div className=' '> */}
+      <div className={mapButtonsClassname}>
+        <Button className='cursor-default max-sm:hidden '>
           <ZoomIn />
           <p className='font-bold'>Zoomowanie mapy: Ctrl + Scroll</p>
         </Button>
         <Button
-          className='border-2 border-transparent'
+          className='border-2 border-transparent w-[11.5rem]'
           onClick={() => {
             setShowMarkers(false)
             flyToLocation(MAP_CENTER[0], MAP_CENTER[1], DEFAULT_ZOOM)

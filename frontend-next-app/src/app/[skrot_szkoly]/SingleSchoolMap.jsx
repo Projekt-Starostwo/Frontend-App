@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic'
 const LeafletMap = dynamic(() => import('../(landingPageComponents)/(map)/LeafletMap'), {
   ssr: false,
 })
-// import LeafletMap from '@/app/(landingPageComponents)/(map)/LeafletMap'
 import { useState } from 'react'
 export default function SingleSchoolMap({ school }) {
   const [map, setMap] = useState(null)
@@ -27,6 +26,7 @@ export default function SingleSchoolMap({ school }) {
         ]}
         showMarkers={showMarkers}
         setShowMarkers={setShowMarkers}
+        mapButtonsClassname={'w-2/3 z-[9999] flex flex-row justify-center items-center gap-4 flex-wrap absolute bottom-6  '}
       />
     </div>
   )

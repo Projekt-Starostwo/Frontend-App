@@ -117,6 +117,9 @@ export default function SchoolBrowser() {
                       showMarkers={showMarkers}
                       setShowMarkers={setShowMarkers}
                       newSchoolFocused={newSchoolFocused}
+                      mapButtonsClassname={
+                        'w-2/3 z-[9999] flex flex-row justify-center items-center gap-4 flex-wrap absolute bottom-16  '
+                      }
                     />
                   </div>
                 </div>
@@ -142,6 +145,9 @@ export default function SchoolBrowser() {
                   showPopup
                   showMarkers={showMarkers}
                   setShowMarkers={setShowMarkers}
+                  mapButtonsClassname={
+                    'w-full z-[9999] flex flex-row justify-center items-center gap-4 flex-wrap absolute bottom-6  '
+                  }
                 />
               </div>
             </div>

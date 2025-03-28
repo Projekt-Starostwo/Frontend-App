@@ -43,7 +43,7 @@ export default async function SchoolPageInfo({ params }) {
             containerDivStyles={'h-[50vh] w-full flex flex-col justify-center items-center'}
           />
 
-          <div className='h-[50vh] p-4 pb-10'>
+          <div className='h-[70vh] p-4 pb-10'>
             <h1 className='text-2xl font-bold'>Tu nas znajdziesz</h1>
             <p>{school.adres_szkoly}</p>
             <SingleSchoolMap school={school} />
