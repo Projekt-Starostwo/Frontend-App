@@ -36,8 +36,9 @@ export default function Hero() {
             src={'/herb-powiatu.png'}
             width={300}
             height={300}
-            className='w-40 sm:w-64 heading-pic'
+            className='w-28 sm:w-64 heading-pic'
           />
+          {/* W MOZNA TEZ DAC 32 */}
         </div>
       </div>
     </>
