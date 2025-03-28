@@ -10,6 +10,9 @@ import L from 'leaflet'
 import Image from 'next/image'
 import ReactDOMServer from 'react-dom/server'
 import 'leaflet-arrowheads';
+import LinkButton from '@/components/LinkButton'
+
+import Link from 'next/link'
 
 
 
@@ -37,7 +40,7 @@ function BusLine({ busLine }) {
 
   if (data) {
     console.log(data)
-    console.log(data.color)
+    
 
     var myIcon = L.divIcon({
       html: ReactDOMServer.renderToStaticMarkup(
@@ -54,15 +57,24 @@ function BusLine({ busLine }) {
     // Pobieramy odpowiedni kolor z mapowania
  
 
-console.log(data.color)
-
     return (
       <>
         <Polyline positions={data.polyline} color={data.color} />
         {data.stops.map((stop) => {
           return (
             <Marker key={stop.name} position={[stop.lat, stop.lon]} icon={myIcon}>
-              <Popup>{stop.name}</Popup>
+              <Popup className='font-bold leading-3'>
+                {stop.name}<br/>
+                <LinkButton
+          linkHref={data.rozkladLink}
+          linkTarget={'_blank'}
+          buttonStyle={'p-2 font-bold bg-[--main-mmz-blue]'}
+          
+        >
+          Otwórz Rozkład
+        </LinkButton>
+                
+              </Popup>
             </Marker>
           )
         })}
