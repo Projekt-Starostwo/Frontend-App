@@ -159,7 +159,7 @@ export function CheckSchoolSupportedTypes({ school }) {
       )}
       {school.rodzaje_szkoly.szkola_zawodowa?.lista_kierunkow.length > 0 && (
         <div className='flex flex-row gap-2 justify-start items-center  py-2'>
-          <Badge variant='secondary'>Szkoła Zawodowa</Badge>
+          <Badge variant='secondary'>Branżowa Szkoła I Stopnia</Badge>
         </div>
       )}
     </>

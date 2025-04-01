@@ -14,7 +14,7 @@ export default function OfertaEdukacyjna({ school }) {
           school={school}
           schoolDescription={school.rodzaje_szkoly.liceum?.opis_typu_szkoly}
           listaKierunkow={school.rodzaje_szkoly.liceum?.lista_kierunkow}
-          typ='Liceum'
+          typ='Liceum Ogólnokształcące'
         />
       )}
       {school.rodzaje_szkoly.technikum && (
@@ -30,7 +30,7 @@ export default function OfertaEdukacyjna({ school }) {
           school={school}
           schoolDescription={school.rodzaje_szkoly.szkola_zawodowa?.opis}
           listaKierunkow={school.rodzaje_szkoly.szkola_zawodowa?.lista_kierunkow}
-          typ='Szkoła Zawodowa'
+          typ='Branżowa Szkoła I Stopnia'
         />
       )}
     </div>

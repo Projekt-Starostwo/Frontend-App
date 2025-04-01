@@ -31,12 +31,12 @@ export default function CustomMarker({ school, showPopup }) {
       icon={myIcon}
     >
       {showPopup && school.isActive && (
-        <Popup offset={[0, -20]} className='p-0'>
+        <Popup offset={[0, -10]} className='p-0'>
           <div className='pb-2'>
             <div className='text-lg font-bold text-center leading-tight'>{school.nazwa_szkoly}</div>
           </div>
           <div>
-            <div className='flex justify-center space-x-2 overflow-x-auto py-1 no-scrollbar'>
+            <div className='flex justify-center flex-wrap  space-x-2 overflow-x-auto py-1 no-scrollbar'>
               <CheckSchoolSupportedTypes school={school} />
             </div>
           </div>

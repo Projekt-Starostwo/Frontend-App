@@ -3,8 +3,8 @@ import Image from 'next/image'
 export default function Hero() {
   return (
     <>
-      <section className='w-full flex flex-row justify-center items-center'>
-        <div className='hidden lg:h-[50vh] lg:w-[70%] lg:flex lg:flex-row lg:justify-center lg:flex-wrap lg:items-center lg:border-b'>
+      <section className='w-full flex flex-row justify-center items-center lg:border-b'>
+        <div className='hidden lg:h-[50vh] lg:w-[70%] lg:flex lg:flex-row lg:justify-center lg:flex-wrap lg:items-center '>
           <div className='h-full w-3/5 flex flex-col justify-center items-center'>
             <div className='text-5xl text-center flex flex-col p-0 gap-4 m-0'>
               <h1 className=' font-bold'>Szkoły ponadpodstawowe</h1>

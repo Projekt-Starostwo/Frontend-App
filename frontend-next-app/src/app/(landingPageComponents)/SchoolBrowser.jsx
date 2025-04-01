@@ -35,7 +35,7 @@ export default function SchoolBrowser() {
     },
     {
       id: 'szkola_zawodowa',
-      label: 'Szkoła zawodowa',
+      label: 'Branżowa Szkoła I Stopnia',
       checked: true,
     },
   ])
@@ -215,7 +215,7 @@ function Filters({ listOfSchools, setListOfSchools, currentFilters, setCurrentFi
       <div className='relative flex justify-center items-start gap-6 flex-wrap'>
         {currentFilters.map((item, index) => {
           return (
-            <div key={item.id} className='flex flex-row justify-center items-center gap-4'>
+            <div key={item.id} className='flex flex-row justify-center items-center gap-2'>
               <Checkbox
                 id={`${item.id}`}
                 checked={item.checked}
