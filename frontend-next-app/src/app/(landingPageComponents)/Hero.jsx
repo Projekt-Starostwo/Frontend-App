@@ -3,24 +3,30 @@ import Image from 'next/image'
 export default function Hero() {
   return (
     <>
-      <div className='hidden lg:h-[50vh] lg:w-full lg:flex lg:flex-row lg:justify-center lg:flex-wrap lg:items-center lg:border-b'>
-        <div className='h-full w-2/5 flex flex-col justify-center items-center'>
-          <div className='text-5xl flex flex-col gap-4 '>
-            <h1 className=' font-bold'>Szkoły ponadpodstawowe w</h1>
-            <h1 className=' font-bold mmz-heading '>Mińsku Mazowieckim</h1>
+      <section className='w-full flex flex-row justify-center items-center'>
+        <div className='hidden lg:h-[50vh] lg:w-[70%] lg:flex lg:flex-row lg:justify-center lg:flex-wrap lg:items-center lg:border-b'>
+          <div className='h-full w-3/5 flex flex-col justify-center items-center'>
+            <div className='text-5xl text-center flex flex-col p-0 gap-4 m-0'>
+              <h1 className=' font-bold'>Szkoły ponadpodstawowe</h1>
+              <h1 className=' font-bold '>
+                <span className='text-black'>w </span>
+                <span className='mmz-heading'>Mińsku Mazowieckim</span>
+              </h1>
+            </div>
+          </div>
+          <div className='h-full w-2/5 flex flex-col justify-center items-center'>
+            <Image
+              priority={true}
+              alt='Herb miasta Mińsk Mazowiecki'
+              src={'/herb-powiatu.png'}
+              width={300}
+              height={300}
+              className='w-64 heading-pic'
+            />
           </div>
         </div>
-        <div className='h-full w-2/5 flex flex-col justify-center items-center'>
-          <Image
-            priority={true}
-            alt='Herb miasta Mińsk Mazowiecki'
-            src={'/herb-powiatu.png'}
-            width={300}
-            height={300}
-            className='w-64 heading-pic'
-          />
-        </div>
-      </div>
+      </section>
+
       {/* mobile */}
       <div className='lg:hidden h-[50vh] sm:h-[80vh] w-full flex flex-col justify-center items-center border-b'>
         <div className='h-1/2 w-4/5 flex flex-col justify-center items-center'>

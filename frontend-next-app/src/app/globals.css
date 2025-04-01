@@ -92,6 +92,9 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+.mmz-heading span {
+  color: black;
+}
 .heading-pic {
   filter: drop-shadow(var(--main-mmz-blue) 0 0 45px);
 }
