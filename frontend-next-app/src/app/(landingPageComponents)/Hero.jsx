@@ -30,7 +30,7 @@ export default function Hero() {
       {/* mobile */}
       <div className='lg:hidden h-[50vh] sm:h-[80vh] w-full flex flex-col justify-center items-center border-b'>
         <div className='h-1/2 w-4/5 flex flex-col justify-center items-center'>
-          <div className='sm:text-5xl text-3xl flex flex-col p-0 gap-4 m-0'>
+          <div className='sm:text-5xl text-3xl flex flex-col p-0  m-0'>
             <h1 className='text-center font-bold'>Szkoły ponadpodstawowe w</h1>
             <h1 className='text-center font-bold mmz-heading '>Mińsku Mazowieckim</h1>
           </div>

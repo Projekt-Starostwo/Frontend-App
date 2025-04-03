@@ -20,14 +20,13 @@ export default async function KierunekPage({ params }) {
 
   return (
     <div className='h-auto w-full flex flex-col justify-start items-center p-5'>
-      {kierunekData.error ||
-        (schoolData.error && (
-          <ErrorPage errorMessage={error.message} statusCode={error.statusCode}>
-            <LinkButton buttonStyle={'p-0'} linkHref={`/${param.skrot_szkoly}`} linkIcon={<Link2 />}>
-              Wróć do strony szkoły
-            </LinkButton>
-          </ErrorPage>
-        ))}
+      {(kierunekData.error || schoolData.error) && (
+        <ErrorPage errorMessage={kierunekData.error.message} statusCode={kierunekData.error.statusCode}>
+          <LinkButton buttonStyle={'p-0'} linkHref={`/${param.skrot_szkoly}`} linkIcon={<Link2 />}>
+            Wróć do strony szkoły
+          </LinkButton>
+        </ErrorPage>
+      )}
 
       {!kierunekData.error && kierunek && (
         <div className='h-full sm:w-2/3 flex flex-col justify-start items-start  gap-10'>
@@ -75,11 +74,10 @@ function Slogan({ slogan }) {
   )
 }
 function Przedmioty({ kierunek }) {
-  if (!kierunek.rozszerzone_przedmioty.length && !kierunek.punktowane_przedmioty.length) return null
-
+  if (!kierunek) return null
   return (
     <div className='flex flex-col gap-2'>
-      {kierunek.rozszerzone_przedmioty.length > 0 && (
+      {kierunek.rozszerzone_przedmioty && kierunek.rozszerzone_przedmioty.length > 0 && (
         <div className='flex flex-col gap-2'>
           <h1 className='text-2xl font-bold '>Przedmioty rozszerzone</h1>
           <div>
@@ -87,7 +85,7 @@ function Przedmioty({ kierunek }) {
           </div>
         </div>
       )}
-      {kierunek.punktowane_przedmioty.length > 0 && (
+      {kierunek.punktowane_przedmioty && kierunek.punktowane_przedmioty.length > 0 && (
         <div className='flex flex-col gap-2'>
           <h1 className='text-2xl font-bold '>Przedmioty punktowane</h1>
           <div>
@@ -101,14 +99,16 @@ function Przedmioty({ kierunek }) {
 function Stats({ kierunek }) {
   return (
     <div className='text-md flex flex-col justify-start items-start w-full gap-2 flex-wrap'>
-      <h1 className='font-bold text-2xl'>Szczegóły</h1>
       {kierunek.liczba_oddzialow > 0 && (
-        <div className='flex flex-row gap-4 items-center'>
-          <div>
-            <Users size={20} />
+        <>
+          <h1 className='font-bold text-2xl'>Szczegóły</h1>
+          <div className='flex flex-row gap-4 items-center'>
+            <div>
+              <Users size={20} />
+            </div>
+            <p>Oddziały - {kierunek.liczba_oddzialow}</p>
           </div>
-          <p>Oddziały - {kierunek.liczba_oddzialow}</p>
-        </div>
+        </>
       )}
 
       {kierunek.liczba_oddzialow > 0 && (
@@ -152,7 +152,7 @@ function RenderAccordionOfListedInfo({ kierunek }) {
     <Accordion type='single' collapsible className='w-full'>
       {kierunek.umiejetnosci.length > 0 && (
         <AccordionItem value='item-1'>
-          <AccordionTrigger className='text-lg'>Jakie umiejętnosci zdobęde?</AccordionTrigger>
+          <AccordionTrigger className='text-lg'>Jakie umiejętności zdobędę?</AccordionTrigger>
           <AccordionContent>
             <RenderListedInfo list={kierunek.umiejetnosci} itemLabel={'umiejetnosc'} />
           </AccordionContent>
@@ -160,7 +160,7 @@ function RenderAccordionOfListedInfo({ kierunek }) {
       )}
       {kierunek.praca.length > 0 && (
         <AccordionItem value='item-2'>
-          <AccordionTrigger className='text-lg'>Jaką prace mogę zdobyć?</AccordionTrigger>
+          <AccordionTrigger className='text-lg'>Jaką pracę mogę zdobyć?</AccordionTrigger>
           <AccordionContent>
             <RenderListedInfo list={kierunek.praca} itemLabel={'praca'} />
           </AccordionContent>

@@ -263,12 +263,7 @@ export async function getSchoolDetails(skrot_szkoly) {
   }
   console.log('jsonResponse', jsonResponse.data)
   const school = jsonResponse.data.data[0]
-  // await sleep(2000)
-  console.log('school', school)
-  // optional formating md file from db, (needs improvments)
-  if (school.rodzaje_szkoly.liceum && school.rodzaje_szkoly.liceum.opis_typu_szkoly) {
-    school.rodzaje_szkoly.liceum.opis_typu_szkoly = marked.parse(school.rodzaje_szkoly.liceum.opis_typu_szkoly)
-  }
+
   console.log('school', school)
   return school
 }
@@ -343,10 +338,10 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
   const url = `${base_api_url}/api/lista-szkols?${queryParams}`
 
   const headers = {
-    method: 'GET', // or "POST", "PUT", etc., depending on the API method
+    method: 'GET',
     headers: {
-      Authorization: `Bearer ${token}`, // Include the Bearer token
-      'Content-Type': 'application/json', // Set the content type to JSON (optional)
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     },
   }
 
@@ -385,7 +380,6 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
     error.statusCode = 404
     throw error
   }
-  foundKierunek.kierunek.opis_kierunku = marked.parse(foundKierunek.kierunek.opis_kierunku)
 
   return foundKierunek.kierunek
 }
