@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <>
       <section className='w-full flex flex-row justify-center items-center lg:border-b'>
-        <div className='hidden lg:h-[50vh] lg:w-[70%] lg:flex lg:flex-row lg:justify-center lg:flex-wrap lg:items-center '>
+        <div className='hidden lg:h-[25vh] lg:w-[70%] lg:flex lg:flex-row lg:justify-center lg:flex-wrap lg:items-center '>
           <div className='h-full w-3/5 flex flex-col justify-center items-center'>
             <div className='text-5xl text-center flex flex-col p-0 gap-4 m-0'>
               <h1 className=' font-bold'>Szkoły ponadpodstawowe</h1>
@@ -18,31 +18,31 @@ export default function Hero() {
             <Image
               priority={true}
               alt='Herb miasta Mińsk Mazowiecki'
-              src={'/herb-powiatu.png'}
+              src={'/hero-image.png'}
               width={300}
               height={300}
-              className='w-64 heading-pic'
+              className='w-64 '
             />
           </div>
         </div>
       </section>
 
       {/* mobile */}
-      <div className='lg:hidden h-[50vh] sm:h-[80vh] w-full flex flex-col justify-center items-center border-b'>
+      <div className='lg:hidden h-[50vh] sm:h-[80vh] w-full flex flex-col justify-start items-center border-b'>
         <div className='h-1/2 w-4/5 flex flex-col justify-center items-center'>
           <div className='sm:text-5xl text-3xl flex flex-col p-0  m-0'>
             <h1 className='text-center font-bold'>Szkoły ponadpodstawowe w</h1>
             <h1 className='text-center font-bold mmz-heading '>Mińsku Mazowieckim</h1>
           </div>
         </div>
-        <div className='h-full w-3/5 flex flex-col justify-center items-center'>
+        <div className='h-1/3 w-3/5 flex flex-col justify-center items-center'>
           <Image
             priority={true}
             alt='Herb miasta Mińsk Mazowiecki'
-            src={'/herb-powiatu.png'}
+            src={'/hero-image.png'}
             width={300}
             height={300}
-            className='w-28 sm:w-64 heading-pic'
+            className=' sm:w-64 '
           />
           {/* W MOZNA TEZ DAC 32 */}
         </div>

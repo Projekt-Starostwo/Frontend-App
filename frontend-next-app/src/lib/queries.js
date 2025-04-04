@@ -4,7 +4,7 @@ const token = process.env.TOKEN
 const base_api_url = process.env.CMS_URL
 
 import qs from 'qs'
-import { normalizeString, tryCatch } from './utils'
+import { findKierunekByName, normalizeString, tryCatch } from './utils'
 import { marked } from 'marked'
 import { polylines } from './polylines'
 
@@ -382,31 +382,6 @@ export default async function getKierunekInfo(skrot_szkoly, nazwa_kierunku) {
   }
 
   return foundKierunek.kierunek
-}
-
-function findKierunekByName(rodzajeSzkoly, nazwa_kierunku) {
-  const possibleKeys = ['liceum', 'technikum', 'szkola_zawodowa']
-
-  // Normalize the search term
-  const cleanSearchTerm = normalizeString(nazwa_kierunku)
-  // console.log('clean search', cleanSearchTerm)
-
-  for (const key of possibleKeys) {
-    if (rodzajeSzkoly[key]?.lista_kierunkow?.length) {
-      const kierunek = rodzajeSzkoly[key].lista_kierunkow.find((item) => {
-        const itemNazwaKierunku = item.kierunek?.nazwa_kierunku
-        // console.log('item nazwa', normalizeString(itemNazwaKierunku))
-        // console.log(cleanSearchTerm)
-        // console.log(normalizeString(itemNazwaKierunku) === cleanSearchTerm)
-        return itemNazwaKierunku && normalizeString(itemNazwaKierunku) === cleanSearchTerm
-      })
-      if (kierunek) {
-        return kierunek
-      }
-    }
-  }
-
-  return null
 }
 
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))

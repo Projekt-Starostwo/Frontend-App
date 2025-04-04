@@ -1,7 +1,7 @@
 import ErrorPage from '@/components/ErrorPage'
 import LinkButton from '@/components/LinkButton'
 import getKierunekInfo, { getCmsUrl, getSchoolDetails } from '@/lib/queries'
-import { deslugify, tryCatch } from '@/lib/utils'
+import { deslugify, findKierunekByName, tryCatch } from '@/lib/utils'
 import { Link2, User, Users } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { BigSchoolCard } from '../SchoolInfoPage'
@@ -40,7 +40,7 @@ export default async function KierunekPage({ params }) {
 
           <Przedmioty kierunek={kierunek} />
 
-          <Stats kierunek={kierunek} />
+          <Stats kierunek={kierunek} school={school} />
 
           <Slogan slogan={kierunek.slogan_koniec} />
         </div>
@@ -48,10 +48,23 @@ export default async function KierunekPage({ params }) {
     </div>
   )
 }
-function HeadingAndDescription({ kierunek }) {
+function HeadingAndDescription({ kierunek, school }) {
+  console.log(school.rodzaje_szkoly)
+  const result = findKierunekByName(school.rodzaje_szkoly, kierunek.nazwa_kierunku)
+  console.log(result)
   return (
     <div className='flex flex-col w-full justify-center items-center'>
       <h1 className='text-4xl font-bold text-center'>{kierunek.nazwa_kierunku}</h1>
+      {result.type === 'szkola_zawodowa' && school.skrot_szkoly === 'chemik' && (
+        <p className='pt-2 text-center'>(kierunek należy do oddziału wielozawodowego)</p>
+      )}
+      {result.type === 'szkola_zawodowa' &&
+        school.skrot_szkoly === 'mechanik' &&
+        kierunek.nazwa_kierunku !== 'Mechanik pojazdów samochodowych z zajęciami praktycznymi w CKZIU' && (
+          <p className='pt-2 text-center'>
+            (kierunek należy do oddziału wielozawodowego z zajęciami praktycznymi u pracodawcy)
+          </p>
+        )}
       {kierunek.opis_kierunku && (
         <div className='h-1/2 pt-10'>
           <p className='' dangerouslySetInnerHTML={{ __html: kierunek.opis_kierunku }}></p>
@@ -96,7 +109,14 @@ function Przedmioty({ kierunek }) {
     </div>
   )
 }
-function Stats({ kierunek }) {
+function Stats({ kierunek, school }) {
+  const result = findKierunekByName(school.rodzaje_szkoly, kierunek.nazwa_kierunku)
+  if (school.skrot_szkoly === 'chemik' && result.type === 'szkola_zawodowa') {
+    return null
+  }
+  if (school.skrot_szkoly === 'mechan' && result.type === 'szkola_zawodowa') {
+    return null
+  }
   return (
     <div className='text-md flex flex-col justify-start items-start w-full gap-2 flex-wrap'>
       {kierunek.liczba_oddzialow > 0 && (
@@ -108,16 +128,13 @@ function Stats({ kierunek }) {
             </div>
             <p>Oddziały - {kierunek.liczba_oddzialow}</p>
           </div>
-        </>
-      )}
-
-      {kierunek.liczba_oddzialow > 0 && (
-        <div className='flex flex-row gap-4 items-center'>
-          <div>
-            <User size={20} />
+          <div className='flex flex-row gap-4 items-center'>
+            <div>
+              <User size={20} />
+            </div>
+            <p>Uczniowie - {kierunek.liczba_uczniow}</p>
           </div>
-          <p>Uczniowie - {kierunek.liczba_uczniow}</p>
-        </div>
+        </>
       )}
     </div>
   )

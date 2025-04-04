@@ -114,7 +114,7 @@ export function BigSchoolCard({ school, cmsUrl }) {
   return (
     <div className='w-full'>
       {cmsUrl && (
-        <div className='flex justify-center items-cente pb-4'>
+        <div className='flex justify-center items-cente '>
           <Image
             src={`${cmsUrl}${school.glowne_zdjecie_szkoly.url}`}
             width={100}

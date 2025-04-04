@@ -82,3 +82,54 @@ const transliterationMap = {
   Ź: 'Z',
   Ż: 'Z',
 }
+// export function findKierunekByName(rodzajeSzkoly, nazwa_kierunku) {
+//   const possibleKeys = ['liceum', 'technikum', 'szkola_zawodowa']
+
+//   // Normalize the search term
+//   const cleanSearchTerm = normalizeString(nazwa_kierunku)
+//   // console.log('clean search', cleanSearchTerm)
+
+//   for (const key of possibleKeys) {
+//     if (rodzajeSzkoly[key]?.lista_kierunkow?.length) {
+//       const kierunek = rodzajeSzkoly[key].lista_kierunkow.find((item) => {
+//         const itemNazwaKierunku = item.kierunek?.nazwa_kierunku
+//         // console.log('item nazwa', normalizeString(itemNazwaKierunku))
+//         // console.log(cleanSearchTerm)
+//         // console.log(normalizeString(itemNazwaKierunku) === cleanSearchTerm)
+//         return itemNazwaKierunku && normalizeString(itemNazwaKierunku) === cleanSearchTerm
+//       })
+//       if (kierunek) {
+//         return kierunek
+//       }
+//     }
+//   }
+
+//   return null
+// }
+export function findKierunekByName(rodzajeSzkoly, nazwa_kierunku) {
+  const possibleKeys = ['liceum', 'technikum', 'szkola_zawodowa']
+
+  // Normalize the search term
+  const cleanSearchTerm = normalizeString(nazwa_kierunku)
+  // console.log('clean search', cleanSearchTerm)
+
+  for (const key of possibleKeys) {
+    if (rodzajeSzkoly[key]?.lista_kierunkow?.length) {
+      const kierunek = rodzajeSzkoly[key].lista_kierunkow.find((item) => {
+        const itemNazwaKierunku = item.kierunek?.nazwa_kierunku
+        // console.log('item nazwa', normalizeString(itemNazwaKierunku))
+        // console.log(cleanSearchTerm)
+        // console.log(normalizeString(itemNazwaKierunku) === cleanSearchTerm)
+        return itemNazwaKierunku && normalizeString(itemNazwaKierunku) === cleanSearchTerm
+      })
+      if (kierunek) {
+        return {
+          ...kierunek,
+          type: key, // Add the key indicating which type was hit
+        }
+      }
+    }
+  }
+
+  return null
+}

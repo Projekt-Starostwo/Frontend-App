@@ -1,9 +1,8 @@
 'use client'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import { Link2 } from 'lucide-react'
 import Link from 'next/link'
-import { appedDomain, slugify } from '@/lib/utils'
+import { slugify } from '@/lib/utils'
 import { useState } from 'react'
 
 export default function OfertaEdukacyjna({ school }) {
@@ -65,7 +64,7 @@ function SchoolType({ school, listaKierunkow, typ, schoolDescription }) {
                 __html: `${schoolDescription.slice(0, 100)}...`,
               }}
             ></p>
-          )}{' '}
+          )}
           <p onClick={() => setShowFullDescription((prev) => !prev)} className='underline cursor-pointer pt-4'>
             {showFullDescription ? 'Schowaj opis' : 'Rozwiń opis'}
           </p>
@@ -82,8 +81,18 @@ function SchoolType({ school, listaKierunkow, typ, schoolDescription }) {
               const { kierunek } = kierunekValue
               return (
                 <Link key={index} href={`/${school.skrot_szkoly}/${slugify(kierunek.nazwa_kierunku)}`}>
-                  <Button variant='link' className='flex items-start h-fit '>
+                  <Button variant='link' className='flex flex-col items-start h-fit gap-0'>
                     <p className='text-lg text-left  text-wrap '>{kierunek.nazwa_kierunku}</p>
+                    {typ === 'Branżowa Szkoła I Stopnia' && school.skrot_szkoly === 'chemik' && (
+                      <p className='text-left  text-wrap '>(kierunek należy do oddziału wielozawodowego)</p>
+                    )}
+                    {typ === 'Branżowa Szkoła I Stopnia' &&
+                      school.skrot_szkoly === 'mechanik' &&
+                      kierunek.nazwa_kierunku !== 'Mechanik pojazdów samochodowych z zajęciami praktycznymi w CKZIU' && (
+                        <p className='text-left  text-wrap '>
+                          (kierunek należy do oddziału wielozawodowego z zajęciami praktycznymi u pracodawcy)
+                        </p>
+                      )}
                   </Button>
                 </Link>
               )
