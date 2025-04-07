@@ -17,7 +17,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang='pl' suppressHydrationWarning>
       <head>
         <link rel='icon' type='image/png' href='/Herb-miasta.png' />
       </head>
