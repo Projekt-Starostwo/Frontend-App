@@ -11,7 +11,7 @@ export default async function Page() {
 
         <p>Poniższy link przekieruje cię na stronę vulcan, ktora służy do wypełnienia wniosku o przyjęcie do szkół.</p>
         <LinkButton
-          linkHref={'https://www.vulcan.edu.pl/samorzady/oprogramowanie/systemy-naborowe'}
+          linkHref={'https://minskmazowiecki.edu.com.pl/kandydat'}
           linkTarget={'_blank'}
           buttonStyle={'p-0'}
           linkIcon={<ExternalLink />}
