@@ -71,7 +71,7 @@ export default function E8({
             }
             value={examScores[subject] || ""}
             onChange={handleInputChange}
-            className="block w-1/4 p-2 sm:p-3 border-2 rounded bg-transparent text-base sm:text-lg"
+            className="block w-1/2 p-2 sm:p-3 border-2 rounded bg-transparent text-base sm:text-lg"
           />
 
           <label className="flex items-center space-x-2 mt-2">
