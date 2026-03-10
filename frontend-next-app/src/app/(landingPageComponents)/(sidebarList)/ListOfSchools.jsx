@@ -50,7 +50,7 @@ export function SchoolListItem({
   const { cmsUrl } = useEnv();
   return (
     <div
-      className={`group flex gap-3 p-2.5 rounded-xl border bg-card hover:shadow-md hover:border-foreground/10 transition-all  ${
+      className={`group flex gap-3 p-2.5 rounded-xl border  hover:shadow-md hover:border-foreground/10 transition-all  ${
         school.isActive ? "" : "opacity-50 pointer-events-none grayscale"
       }`}
     >
