@@ -36,7 +36,7 @@ export default function Swiadectwo({ grades, setGrades }) {
               placeholder={`Ocena ${subjectNamesGrades[subject]}`}
               value={grades[subject] || ""}
               onChange={handleGradeChange}
-              className="w-full p-2 border-2 rounded bg-transparent text-base sm:text-lg"
+              className="w-1/4 p-2 border-2 rounded bg-transparent text-base sm:text-lg"
             />
           </div>
         ))}
