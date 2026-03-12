@@ -43,7 +43,7 @@ body {
     --radius: 0.5rem;
   }
   .dark {
-    --background: 240 10% 3.9%;
+    --background: hsl(360 0% 12.3%);
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
@@ -88,7 +88,11 @@ body {
   filter: drop-shadow(var(--main-mmz-blue) 0 0 25px);
 }
 .mmz-heading {
-  background: -webkit-linear-gradient(180deg, var(--main-mmz-blue), var(--main-mmz-secondary));
+  background: -webkit-linear-gradient(
+    180deg,
+    var(--main-mmz-blue),
+    var(--main-mmz-secondary)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -177,7 +181,7 @@ body {
   transform: translateX(-50%);
   width: 18px;
   height: 18px;
-  background-image: url('/bus-icon.png');
+  background-image: url("/bus-icon.png");
   background-size: contain;
   background-repeat: no-repeat;
 }
