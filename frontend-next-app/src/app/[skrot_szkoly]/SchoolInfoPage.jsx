@@ -23,7 +23,7 @@ export default async function SchoolPageInfo({ params }) {
 
   const cmsUrl = await getCmsUrl();
   return (
-    <div className="min-h-screen p-6">
+    <div className="min-h-screen p-2 sm:p-4 md:p-6">
       {error && (
         <ErrorPage errorMessage={"Nie znaleziono szkoły"} statusCode={404}>
           <LinkButton buttonStyle={"p-0"} linkHref={"/"} linkIcon={<Link2 />}>
@@ -36,7 +36,7 @@ export default async function SchoolPageInfo({ params }) {
         <div className="max-w-7xl mx-auto bg-background rounded-3xl shadow-sm overflow-hidden">
           <Header school={school} cmsUrl={cmsUrl} />
           <ContactInfoBar school={school} />
-          <div className="p-10">
+          <div className="p-4 md:p-10">
             <OfertaEdukacyjna school={school} />
             <section className="flex flex-col gap-8">
               <MapSection school={school} />
@@ -59,10 +59,10 @@ function FacebookIcon({ className }) {
 
 function Header({ school, cmsUrl }) {
   return (
-    <div className="bg-zinc-900 p-10 text-white">
-      <div className="flex items-center gap-8">
+    <div className="bg-zinc-900 p-6 md:p-10 text-white">
+      <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
         {cmsUrl && (
-          <div className="w-28 h-28 bg-background rounded-2xl p-3 flex items-center justify-center">
+          <div className="w-20 h-20 md:w-28 md:h-28 bg-background rounded-2xl p-3 flex items-center justify-center shrink-0 mx-auto md:mx-0">
             <Image
               src={`${cmsUrl}${school.glowne_zdjecie_szkoly.url}`}
               alt="Logo"
@@ -72,14 +72,16 @@ function Header({ school, cmsUrl }) {
             />
           </div>
         )}
-        <div className="flex-1">
-          <h1 className="text-3xl font-bold mb-2">{school.nazwa_szkoly}</h1>
-          <p className="text-zinc-400 flex items-center gap-2">
+        <div className="flex-1 text-center md:text-left">
+          <h1 className="text-xl md:text-3xl font-bold mb-2">
+            {school.nazwa_szkoly}
+          </h1>
+          <p className="text-zinc-400 flex items-center justify-center md:justify-start gap-2 text-sm md:text-base">
             <MapPin className="w-4 h-4" />
             {school.adres_szkoly}
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 justify-center md:justify-start">
           <a
             href={school.adres_strony_szkoly}
             target="_blank"
@@ -104,7 +106,7 @@ function Header({ school, cmsUrl }) {
 
 function ContactInfoBar({ school }) {
   return (
-    <div className="border-b px-10 py-4 bg-muted flex items-center gap-8 text-sm text-muted-foreground">
+    <div className="border-b px-6 md:px-10 py-4 bg-muted flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-8 text-sm text-muted-foreground">
       <span className="flex items-center gap-2">
         <Phone className="w-4 h-4" />
         {school.numer_telefonu}
@@ -120,13 +122,13 @@ function ContactInfoBar({ school }) {
 function GallerySection({ school }) {
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-        <ImageIcon className="w-6 h-6 text-muted-foreground" />
+      <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-2 md:gap-3">
+        <ImageIcon className="w-5 h-5 md:w-6 md:h-6 text-muted-foreground" />
         Galeria
       </h2>
       <PhotoGallery
         photos={school.glowna_galeria_zdjec_szkoly}
-        containerDivStyles="h-[50vh] w-full flex flex-col justify-center items-center"
+        containerDivStyles="h-[20vh] md:h-[40vh] w-full flex flex-col justify-center items-center"
       />
     </div>
   );
@@ -134,16 +136,14 @@ function GallerySection({ school }) {
 
 function MapSection({ school }) {
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-        <MapPin className="w-6 h-6 text-muted-foreground" />
+    <div className="">
+      <h2 className="text-xl md:text-2xl font-bold mb-4  flex items-center gap-2 md:gap-3">
+        <MapPin className="w-5 h-5 md:w-6 md:h-6 text-muted-foreground" />
         Tu nas znajdziesz
       </h2>
-      <div className="bg-muted rounded-2xl p-6">
-        <p className="text-sm text-muted-foreground mb-4">
-          {school.adres_szkoly}
-        </p>
-        <div className="aspect-video rounded-xl overflow-hidden">
+      <div className="bg-muted rounded-2xl p-4 ">
+        <p className="text-sm text-muted-foreground ">{school.adres_szkoly}</p>
+        <div className="aspect-[3/4] md:aspect-video rounded-xl overflow-hidden">
           <SingleSchoolMap school={school} />
         </div>
       </div>
