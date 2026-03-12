@@ -137,6 +137,23 @@ export function findKierunekByName(rodzajeSzkoly, nazwa_kierunku) {
   return null;
 }
 
+export function getPolishPlural(number, singular, plural1, plural2) {
+  if (number === 1) return singular;
+  
+  const lastTwoDigits = number % 100;
+  const lastDigit = number % 10;
+  
+  if (lastTwoDigits >= 12 && lastTwoDigits <= 14) {
+    return plural2;
+  }
+  
+  if (lastDigit >= 2 && lastDigit <= 4) {
+    return plural1;
+  }
+  
+  return plural2;
+}
+
 export function extractAndRemoveSchoolLinks(text) {
   // Regex:
   // Dowiedź się więcej - matches the literal phrase

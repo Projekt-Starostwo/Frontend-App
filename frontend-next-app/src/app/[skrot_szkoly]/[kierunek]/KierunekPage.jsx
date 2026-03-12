@@ -80,14 +80,6 @@ export default async function KierunekPage({ params }) {
     });
   }
 
-  const showStats =
-    kierunek?.liczba_oddzialow > 0 &&
-    !(
-      (school?.skrot_szkoly === "chemik" &&
-        result?.type === "szkola_zawodowa") ||
-      (school?.skrot_szkoly === "mechan" && result?.type === "szkola_zawodowa")
-    );
-
   const hasSidebarContent =
     (kierunek?.rozszerzone_przedmioty &&
       kierunek.rozszerzone_przedmioty.length > 0) ||
@@ -100,7 +92,7 @@ export default async function KierunekPage({ params }) {
       <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link
           href={`/${param.skrot_szkoly}`}
-          className="flex items-center gap-2 text-sm  hover:text-slate-900 transition-colors"
+          className="flex items-center gap-2 text-sm   transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Powrót do listy
@@ -130,7 +122,7 @@ export default async function KierunekPage({ params }) {
         {!kierunekData.error && kierunek && (
           <>
             <div className="border rounded-2xl p-8  mb-6">
-              <div className="flex items-start gap-6">
+              <div className="flex flex-col  sm:flex-row items-start gap-6 ">
                 <div className="w-24 h-24 rounded-2xl    flex items-center justify-center flex-shrink-0 overflow-hidden">
                   {cmsUrl && school?.glowne_zdjecie_szkoly?.url ? (
                     <Image
@@ -178,38 +170,46 @@ export default async function KierunekPage({ params }) {
                     </h2>
                   </div>
 
-                  {showStats && (
-                    <>
-                      <div className=" rounded-2xl p-6 border  flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-[color-mix(in_srgb,var(--main-mmz-blue)_15%,white)] flex items-center justify-center">
-                          <Users className="w-6 h-6 text-[var(--main-mmz-blue)]" />
-                        </div>
-                        <div>
-                          <p className="text-3xl font-bold ">
-                            {kierunek?.liczba_uczniow}
-                          </p>
-                          <p className="text-sm ">Uczniów</p>
-                        </div>
+                  <>
+                    <div className=" rounded-2xl p-6 border  flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-[color-mix(in_srgb,var(--main-mmz-blue)_15%,white)] flex items-center justify-center">
+                        <Users className="w-6 h-6 text-black" />
                       </div>
+                      <div>
+                        <p className="text-3xl font-bold ">
+                          {kierunek?.liczba_uczniow !== 0 &&
+                            kierunek?.liczba_uczniow}
+                        </p>
+                        <p className="text-sm ">
+                          {kierunek?.liczba_uczniow === 0
+                            ? "Brak danych"
+                            : "Uczniowie"}
+                        </p>
+                      </div>
+                    </div>
 
-                      <div className=" rounded-2xl p-6 border  flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-[color-mix(in_srgb,var(--main-mmz-blue)_15%,white)] flex items-center justify-center">
-                          <Layers className="w-6 h-6 text-[var(--main-mmz-blue)]" />
-                        </div>
-                        <div>
-                          <p className="text-3xl font-bold ">
-                            {kierunek?.liczba_oddzialow}
-                          </p>
-                          <p className="text-sm ">Oddziałów</p>
-                        </div>
+                    <div className=" rounded-2xl p-6 border  flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-[color-mix(in_srgb,var(--main-mmz-blue)_15%,white)] flex items-center justify-center">
+                        <Layers className="w-6 h-6 text-black " />
                       </div>
-                    </>
-                  )}
+                      <div>
+                        <p className="text-3xl font-bold ">
+                          {kierunek?.liczba_oddzialow != 0 &&
+                            kierunek?.liczba_oddzialow}
+                        </p>
+                        <p className="text-sm ">
+                          {kierunek?.liczba_oddzialow === 0
+                            ? "Brak danych"
+                            : "Oddziały"}
+                        </p>
+                      </div>
+                    </div>
+                  </>
                 </div>
 
                 {result?.type === "szkola_zawodowa" &&
                   school?.skrot_szkoly === "chemik" && (
-                    <div className="bg-[color-mix(in_srgb,var(--main-mmz-secondary)_10%,white)] border  rounded-xl p-4 text-sm text-[var(--main-mmz-secondary)]">
+                    <div className="bg-[color-mix(in_srgb,var(--main-mmz-secondary)_10%,white)] border  rounded-xl p-4 text-sm ">
                       Kierunek należy do oddziału wielozawodowego
                     </div>
                   )}
@@ -218,7 +218,7 @@ export default async function KierunekPage({ params }) {
                   school?.skrot_szkoly === "mechanik" &&
                   kierunek?.nazwa_kierunku !==
                     "Mechanik pojazdów samochodowych z zajęciami praktycznymi w CKZIU" && (
-                    <div className="bg-[color-mix(in_srgb,var(--main-mmz-secondary)_10%,white)] border  rounded-xl p-4 text-sm text-[var(--main-mmz-secondary)]">
+                    <div className="bg-[color-mix(in_srgb,var(--main-mmz-secondary)_10%,white)] border  rounded-xl p-4 text-sm ">
                       Kierunek należy do oddziału wielozawodowego z zajęciami
                       praktycznymi u pracodawcy
                     </div>
@@ -227,7 +227,7 @@ export default async function KierunekPage({ params }) {
                 {kierunek?.opis_kierunku && (
                   <div className="white rounded-2xl p-6 border ">
                     <div
-                      className="text-sm text-slate-600 leading-relaxed"
+                      className="text-sm  leading-relaxed"
                       dangerouslySetInnerHTML={{
                         __html: kierunek.opis_kierunku,
                       }}
