@@ -20,17 +20,17 @@ export default function Navbar() {
     <div className="sticky top-0 navbar bg-card">
       <div className="w-full flex justify-between items-center h-[7vh] border-b bg-background px-4 py-2">
         <button
-          className="sm:hidden"
+          className="xl:hidden"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle Menu"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-        <div className="hidden sm:flex items-center space-x-4">
+        <div className="hidden xl:flex items-center space-x-4">
           <Link href="/" legacyBehavior passHref>
             <a
               onClick={handleLinkClick}
-              className={`${navigationMenuTriggerStyle()} text-lg sm:text-2xl font-bold`}
+              className={`${navigationMenuTriggerStyle()} text-lg xl:text-2xl font-bold`}
             >
               Nasze szkoły
             </a>
@@ -38,7 +38,7 @@ export default function Navbar() {
           <Link href="/kalkulator" legacyBehavior passHref>
             <a
               onClick={handleLinkClick}
-              className={`${navigationMenuTriggerStyle()} text-lg sm:text-2xl font-bold`}
+              className={`${navigationMenuTriggerStyle()} text-lg xl:text-2xl font-bold`}
             >
               Kalkulator punktów
             </a>
@@ -46,7 +46,7 @@ export default function Navbar() {
           <Link href="/rekrutacja-vulcan" legacyBehavior passHref>
             <a
               onClick={handleLinkClick}
-              className={`${navigationMenuTriggerStyle()} text-lg sm:text-2xl font-bold`}
+              className={`${navigationMenuTriggerStyle()} text-lg xl:text-2xl font-bold`}
             >
               Rekrutacja Vulcan
             </a>
@@ -58,12 +58,12 @@ export default function Navbar() {
         </div>
       </div>
       <div
-        className={`${isOpen ? "block" : "hidden"} sm:hidden border-b bg-background px-4 py-2`}
+        className={`${isOpen ? "block" : "hidden"} xl:hidden border-b bg-background px-4 py-2`}
       >
         <Link href="/" legacyBehavior passHref>
           <a
             onClick={handleLinkClick}
-            className="block py-2 text-lg sm:text-xl font-bold"
+            className="block py-2 text-lg xl:text-xl font-bold"
           >
             Nasze szkoły
           </a>
@@ -71,7 +71,7 @@ export default function Navbar() {
         <Link href="/kalkulator" legacyBehavior passHref>
           <a
             onClick={handleLinkClick}
-            className="block py-2 text-lg sm:text-xl font-bold"
+            className="block py-2 text-lg xl:text-xl font-bold"
           >
             Kalkulator
           </a>
@@ -79,7 +79,7 @@ export default function Navbar() {
         <Link href="/rekrutacja-vulcan" legacyBehavior passHref>
           <a
             onClick={handleLinkClick}
-            className="block py-2 text-lg sm:text-xl font-bold"
+            className="block py-2 text-lg xl:text-xl font-bold"
           >
             Rekrutacja Vulcan
           </a>
@@ -98,13 +98,13 @@ const ListItem = React.forwardRef(
           href={href}
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none space-y-1 rounded-xl p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             className,
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <div className="text-xl font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-xl leading-snug text-muted-foreground">
             {children}
           </p>
         </Link>
