@@ -59,8 +59,8 @@ export default function Footer() {
         <div className="text-muted-foreground  text-sm flex-col justify-start items-start  xl:flex-row xl:gap-1 flex">
           <p>Autorzy: </p>
           <ShoutoutLink name="Antoni Ostrowski, " url="https://github.com/antoni-ostrowski" />
-          <ShoutoutLink name="Dawid Trynkiewicz, " url="https://github.com/Tryniu88" />
-          <ShoutoutLink name="Matuesz Pogoda" url="https://github.com/MatheWeather2137" />
+          <ShoutoutLink name="Dawid Trynkiewicz, " url="https://linktr.ee/dawid.trynkiewicz" />
+          <ShoutoutLink name="Matuesz Pogoda" url="http://www.linkedin.com/in/mateusz-pogoda" />
         </div>
         <div className="text-muted-foreground text-sm">
           Koordynacja: <ShoutoutLink name="Kamil Koseski" url={"https://koseski.pl/"} />
