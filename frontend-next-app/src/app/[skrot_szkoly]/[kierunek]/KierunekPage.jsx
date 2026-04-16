@@ -1,12 +1,7 @@
 import ErrorPage from "@/components/ErrorPage";
 import LinkButton from "@/components/LinkButton";
 import getKierunekInfo, { getCmsUrl, getSchoolDetails } from "@/lib/queries";
-import {
-  deslugify,
-  extractAndRemoveSchoolLinks,
-  findKierunekByName,
-  tryCatch,
-} from "@/lib/utils";
+import { deslugify, extractAndRemoveSchoolLinks, findKierunekByName, tryCatch } from "@/lib/utils";
 import {
   ArrowLeft,
   GraduationCap,
@@ -19,11 +14,13 @@ import {
   Sparkles,
   Link2,
   Glasses,
+  ImageIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import Image from "next/image";
 import { FAQSection } from "./FAQSection";
+import PhotoGallery from "@/components/PhotoGallery";
 
 export default async function KierunekPage({ params }) {
   const param = await params;
@@ -34,15 +31,12 @@ export default async function KierunekPage({ params }) {
   const schoolData = await tryCatch(getSchoolDetails(param.skrot_szkoly));
   const school = schoolData.data;
   const cmsUrl = await getCmsUrl();
+  console.log({ kierunek });
 
-  const { justTheUrl, modifiedText } = extractAndRemoveSchoolLinks(
-    kierunek?.slogan_start || "",
-  );
+  const { justTheUrl, modifiedText } = extractAndRemoveSchoolLinks(kierunek?.slogan_start || "");
 
   const result =
-    kierunek && school
-      ? findKierunekByName(school.rodzaje_szkoly, kierunek.nazwa_kierunku)
-      : null;
+    kierunek && school ? findKierunekByName(school.rodzaje_szkoly, kierunek.nazwa_kierunku) : null;
 
   const faqs = [];
   if (kierunek?.umiejetnosci?.length > 0) {
@@ -74,22 +68,19 @@ export default async function KierunekPage({ params }) {
   if (kierunek?.mozliwosci_rozwoju?.length > 0) {
     faqs.push({
       question: "Dodatkowe możliwości rozwoju",
-      answer: kierunek.mozliwosci_rozwoju
-        .map((item) => item.mozliwosci_rozwoju)
-        .join(", "),
+      answer: kierunek.mozliwosci_rozwoju.map((item) => item.mozliwosci_rozwoju).join(", "),
     });
   }
 
   const hasSidebarContent =
-    (kierunek?.rozszerzone_przedmioty &&
-      kierunek.rozszerzone_przedmioty.length > 0) ||
-    (kierunek?.punktowane_przedmioty &&
-      kierunek.punktowane_przedmioty.length > 0) ||
+    (kierunek?.rozszerzone_przedmioty && kierunek.rozszerzone_przedmioty.length > 0) ||
+    (kierunek?.punktowane_przedmioty && kierunek.punktowane_przedmioty.length > 0) ||
     justTheUrl;
+  console.log({ kierunekData });
 
   return (
     <div className="min-h-screen ">
-      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link
           href={`/${param.skrot_szkoly}`}
           className="flex items-center gap-2 text-sm   transition-colors"
@@ -99,15 +90,11 @@ export default async function KierunekPage({ params }) {
         </Link>
       </div>
 
-      <div className="max-w-5xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-6 py-8">
         {(kierunekData.error || schoolData.error) && (
           <ErrorPage
-            errorMessage={
-              kierunekData.error?.message || schoolData.error?.message
-            }
-            statusCode={
-              kierunekData.error?.statusCode || schoolData.error?.statusCode
-            }
+            errorMessage={kierunekData.error?.message || schoolData.error?.message}
+            statusCode={kierunekData.error?.statusCode || schoolData.error?.statusCode}
           >
             <LinkButton
               buttonStyle={"p-0"}
@@ -137,9 +124,7 @@ export default async function KierunekPage({ params }) {
                   )}
                 </div>
                 <div className="flex-1">
-                  <h1 className="text-2xl font-bold mb-3 leading-tight">
-                    {school?.nazwa_szkoly}
-                  </h1>
+                  <h1 className="text-2xl font-bold mb-3 leading-tight">{school?.nazwa_szkoly}</h1>
                   <p className=" leading-relaxed max-w-2xl">
                     {modifiedText || school?.opis_szkoly}
                   </p>
@@ -147,14 +132,8 @@ export default async function KierunekPage({ params }) {
               </div>
             </div>
 
-            <div
-              className={`grid grid-cols-1 gap-6 ${hasSidebarContent ? "lg:grid-cols-3" : ""}`}
-            >
-              <div
-                className={
-                  hasSidebarContent ? "lg:col-span-2 space-y-6" : "space-y-6"
-                }
-              >
+            <div className={`grid grid-cols-1 gap-6 ${hasSidebarContent ? "lg:grid-cols-3" : ""}`}>
+              <div className={hasSidebarContent ? "lg:col-span-2 space-y-6" : "space-y-6"}>
                 <div
                   className={`grid grid-cols-1 gap-4 ${hasSidebarContent ? "sm:grid-cols-3" : "sm:grid-cols-1 md:grid-cols-3"}`}
                 >
@@ -162,10 +141,10 @@ export default async function KierunekPage({ params }) {
                     className={`${hasSidebarContent ? "sm:col-span-1" : "sm:col-span-1 md:col-span-1"} border rounded-2xl p-6 `}
                   >
                     <Code className="w-8 h-8 mb-4 opacity-80" />
-                    <p className="text-xs opacity-70 uppercase tracking-wider mb-1">
-                      Kierunek
-                    </p>
-                    <h2 className="text-lg font-bold leading-tight">
+                    <p className="text-xs opacity-70 uppercase tracking-wider mb-1">Kierunek</p>
+                    <h2
+                      className={`text-lg font-bold leading-tight ${kierunek?.nazwa_kierunku?.length > 30 ? "text-sm" : ""}`}
+                    >
                       {kierunek?.nazwa_kierunku}
                     </h2>
                   </div>
@@ -177,13 +156,10 @@ export default async function KierunekPage({ params }) {
                       </div>
                       <div>
                         <p className="text-3xl font-bold ">
-                          {kierunek?.liczba_uczniow !== 0 &&
-                            kierunek?.liczba_uczniow}
+                          {kierunek?.liczba_uczniow !== 0 && kierunek?.liczba_uczniow}
                         </p>
                         <p className="text-sm ">
-                          {kierunek?.liczba_uczniow === 0
-                            ? "Brak danych"
-                            : "Uczniowie"}
+                          {kierunek?.liczba_uczniow === 0 ? "Brak danych" : "Uczniowie"}
                         </p>
                       </div>
                     </div>
@@ -194,33 +170,29 @@ export default async function KierunekPage({ params }) {
                       </div>
                       <div>
                         <p className="text-3xl font-bold ">
-                          {kierunek?.liczba_oddzialow != 0 &&
-                            kierunek?.liczba_oddzialow}
+                          {kierunek?.liczba_oddzialow != 0 && kierunek?.liczba_oddzialow}
                         </p>
                         <p className="text-sm ">
-                          {kierunek?.liczba_oddzialow === 0
-                            ? "Brak danych"
-                            : "Oddziały"}
+                          {kierunek?.liczba_oddzialow === 0 ? "Brak danych" : "Oddziały"}
                         </p>
                       </div>
                     </div>
                   </>
                 </div>
 
-                {result?.type === "szkola_zawodowa" &&
-                  school?.skrot_szkoly === "chemik" && (
-                    <div className="bg-[color-mix(in_srgb,var(--main-mmz-secondary)_10%,white)] border  rounded-xl p-4 text-sm ">
-                      Kierunek należy do oddziału wielozawodowego
-                    </div>
-                  )}
+                {result?.type === "szkola_zawodowa" && school?.skrot_szkoly === "chemik" && (
+                  <div className="bg-[color-mix(in_srgb,var(--main-mmz-secondary)_10%,white)] border  rounded-xl p-4 text-sm ">
+                    Kierunek należy do oddziału wielozawodowego
+                  </div>
+                )}
 
                 {result?.type === "szkola_zawodowa" &&
                   school?.skrot_szkoly === "mechanik" &&
                   kierunek?.nazwa_kierunku !==
                     "Mechanik pojazdów samochodowych z zajęciami praktycznymi w CKZIU" && (
                     <div className="bg-[color-mix(in_srgb,var(--main-mmz-secondary)_10%,white)] border  rounded-xl p-4 text-sm ">
-                      Kierunek należy do oddziału wielozawodowego z zajęciami
-                      praktycznymi u pracodawcy
+                      Kierunek należy do oddziału wielozawodowego z zajęciami praktycznymi u
+                      pracodawcy
                     </div>
                   )}
 
@@ -248,39 +220,30 @@ export default async function KierunekPage({ params }) {
                           Przedmioty rozszerzone
                         </h3>
                         <div className="flex flex-wrap gap-2">
-                          {kierunek.rozszerzone_przedmioty
-                            .split(",")
-                            .map((subject, idx) => (
-                              <Badge key={idx} className=" px-3 py-1.5">
-                                {subject.trim()}
-                              </Badge>
-                            ))}
+                          {kierunek.rozszerzone_przedmioty.split(",").map((subject, idx) => (
+                            <Badge key={idx} className=" px-3 py-1.5">
+                              {subject.trim()}
+                            </Badge>
+                          ))}
                         </div>
                       </div>
                     )}
 
-                  {kierunek?.punktowane_przedmioty &&
-                    kierunek.punktowane_przedmioty.length > 0 && (
-                      <div className=" rounded-2xl p-6 border ">
-                        <h3 className="text-sm font-semibold  mb-4 flex items-center gap-2">
-                          <Briefcase className="w-4 h-4 text-slate-500" />
-                          Przedmioty punktowane
-                        </h3>
-                        <div className="flex flex-wrap gap-2">
-                          {kierunek.punktowane_przedmioty
-                            .split(",")
-                            .map((subject, idx) => (
-                              <Badge
-                                key={idx}
-                                variant="outline"
-                                className="border  px-3 py-1.5"
-                              >
-                                {subject.trim()}
-                              </Badge>
-                            ))}
-                        </div>
+                  {kierunek?.punktowane_przedmioty && kierunek.punktowane_przedmioty.length > 0 && (
+                    <div className=" rounded-2xl p-6 border ">
+                      <h3 className="text-sm font-semibold  mb-4 flex items-center gap-2">
+                        <Briefcase className="w-4 h-4 text-slate-500" />
+                        Przedmioty punktowane
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {kierunek.punktowane_przedmioty.split(",").map((subject, idx) => (
+                          <Badge key={idx} variant="outline" className="border  px-3 py-1.5">
+                            {subject.trim()}
+                          </Badge>
+                        ))}
                       </div>
-                    )}
+                    </div>
+                  )}
 
                   {justTheUrl && (
                     <div className=" rounded-2xl p-6 border ">
@@ -299,12 +262,8 @@ export default async function KierunekPage({ params }) {
                             <ExternalLink className="w-4 h-4  group-hover:text-[var(--main-mmz-blue)]" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium ">
-                              Dowiedź się więcej
-                            </p>
-                            <p className="text-xs text-slate-500 truncate">
-                              {justTheUrl}
-                            </p>
+                            <p className="text-sm font-medium ">Dowiedź się więcej</p>
+                            <p className="text-xs text-slate-500 truncate">{justTheUrl}</p>
                           </div>
                         </a>
                       </div>
@@ -316,9 +275,19 @@ export default async function KierunekPage({ params }) {
 
             {kierunek?.slogan_koniec && (
               <div className="mt-8 border rounded-2xl p-6  text-center">
-                <span className="text-sm font-medium">
-                  {kierunek.slogan_koniec}
-                </span>
+                <span className="text-sm font-medium">{kierunek.slogan_koniec}</span>
+              </div>
+            )}
+            {kierunek.galeria?.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-2 md:gap-3">
+                  <ImageIcon className="w-5 h-5 md:w-6 md:h-6 text-muted-foreground" />
+                  Galeria
+                </h2>
+                <PhotoGallery
+                  photos={kierunek.galeria}
+                  containerDivStyles="h-[20vh] md:h-[40vh] w-full flex flex-col justify-center items-center"
+                />
               </div>
             )}
           </>

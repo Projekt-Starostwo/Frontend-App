@@ -8,9 +8,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useEnv } from "@/lib/EnvProvider";
-import { getCmsUrl } from "@/lib/queries";
-import { appedDomain } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 // works with array of images from strapi
@@ -21,9 +18,8 @@ export default function PhotoGallery({ photos, containerDivStyles }) {
   return (
     <div className={containerDivStyles}>
       <Carousel
-        className="w-3/4"
+        className="w-full p-6"
         opts={{
-          slidesToShow: 3,
           loop: true,
         }}
       >
@@ -34,30 +30,31 @@ export default function PhotoGallery({ photos, containerDivStyles }) {
                 return null;
               }
               return (
-                <CarouselItem key={zdjecie.id}>
+                <CarouselItem key={zdjecie.id} className="basis-1/2 md:basis-1/3">
                   <div
                     className={`${
                       theme === "dark" ? "schoolPhotoDark" : "schoolPhotoLight"
-                    } p-4 px-5 h-full w-full flex flex-row justify-center items-center `}
+                    } p-2 md:p-4`}
                   >
-                    <Image
-                      src={`${cmsUrl}${zdjecie.formats.large.url}`}
-                      alt={"Fdjks"}
-                      // quality={100}
-                      width={540}
-                      height={540}
-                      className="rounded-lg object-cover"
-                      priority={true}
-
-                      // fill
-                    />
+                    <div className="relative aspect-square w-full overflow-hidden rounded-lg">
+                      <Image
+                        src={`${cmsUrl}${zdjecie.formats.large.url}`}
+                        alt={"Fdjks"}
+                        fill
+                        className="rounded-lg object-cover"
+                        priority={true}
+                        sizes="(max-width: 768px) 50vw, 33vw"
+                      />
+                    </div>
                   </div>
                 </CarouselItem>
               );
             })}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <div className="flex items-center justify-center gap-4 mt-4 ">
+          <CarouselPrevious className="static translate-x-0 translate-y-0" />
+          <CarouselNext className="static translate-x-0 translate-y-0" />
+        </div>
       </Carousel>
     </div>
   );
